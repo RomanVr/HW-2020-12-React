@@ -76,36 +76,92 @@ const levelOper: Map<string, number> = new Map([
 const evalExpression = (mathSymbols: string[]): number => {
   const stackRPN: string[] = [];
   let lastElemInStack = "";
+
   const output: string[] = mathSymbols.reduce(
     (acc: string[], item: string, index: number): string[] => {
-      //Если последний элемент то положить в output и stackRPN высвободить в output
+      console.log(`!!!index item: ${index}`);
       if (index === mathSymbols.length - 1) {
+        //Если последний элемент то положить в output и stackRPN высвободить в output
+        console.log(`Last elem: ${item}`);
         acc.push(item);
-        if (stackRPN.length !== 0) {
-          stackRPN.reverse().map((elem: string) => acc.push(elem));
+        console.log(`stackRPN: ${stackRPN}`);
+        let elem = stackRPN.pop();
+        while (elem) {
+          console.log(`elem: ${elem}`);
+          acc.push(elem);
+          elem = stackRPN.pop();
         }
-      } else if (typeof Number(item) === "number") {
-        acc.push(item);
-      } else if (lastElemInStack === "") {
-        stackRPN.push(item);
-        lastElemInStack = item;
-      } else {
-        const levelLastElem: number = levelOper.get(lastElemInStack) as number;
-        const levelCurrentOper: number = levelOper.get(item) as number;
-        if (levelCurrentOper < levelLastElem) {
+      } else if (operands.has(item)) {
+        console.log(`item: ${item} has operands: ${operands.has(item)}`);
+        if (lastElemInStack === "") {
           stackRPN.push(item);
+          lastElemInStack = item;
         } else {
-          acc.push(stackRPN.pop() as string);
-          stackRPN.push(item);
+          const levelLastOper: number = levelOper.get(
+            lastElemInStack
+          ) as number;
+          const levelCurrentOper: number = levelOper.get(item) as number;
+          if (levelCurrentOper < levelLastOper) {
+            stackRPN.push(item);
+            lastElemInStack = item;
+          } else {
+            //выталкиваем все операции уровень которых меньше текущей
+            let elem: string = _.last(stackRPN) as string;
+            let levelElem: number = levelOper.get(elem) as number;
+            while (elem && levelElem < levelCurrentOper) {
+              acc.push(stackRPN.pop() as string);
+              elem = _.last(stackRPN) as string;
+              levelElem = levelOper.get(elem) as number;
+            }
+            stackRPN.push(item);
+            lastElemInStack = item;
+          }
         }
+        console.log(`lastElemInStack: ${lastElemInStack}`);
+        console.log(`stackRPN: ${stackRPN}`);
+      } else {
+        //(typeof Number(item) === "number")
+        console.log(`item: ${item} typeof Number: ${typeof Number(item)}`);
+        acc.push(item);
+        console.log(`output: ${acc}`);
       }
       return acc;
     },
     []
   );
-  const stackEval: string[] = [];
 
-  return 0;
+  console.log(`output finish: ${output}`);
+  console.log(`stackRPN finish: ${stackRPN}`);
+
+  //Вычисление выражения----------------------------------------
+  const stackEval: string[] = [];
+  const mathOper: Map<string, (arg1: number, arg2: number) => number> = new Map(
+    [
+      ["*", (a: number, b: number): number => a * b],
+      ["/", (a: number, b: number): number => a / b],
+      ["+", (a: number, b: number): number => a + b],
+      ["-", (a: number, b: number): number => a - b],
+    ]
+  );
+  output.map((item: string): void => {
+    if (operands.has(item)) {
+      //операция
+      console.log(`item: ${item} has operands: ${operands.has(item)}`);
+      const firstArg: number = Number(stackEval.pop()) as number;
+      const secondArg: number = Number(stackEval.pop()) as number;
+      const result: string = (mathOper.get(item) as (
+        arg1: number,
+        arg2: number
+      ) => number)(firstArg, secondArg).toString();
+      stackEval.push(result);
+    } else {
+      //операнд
+      console.log(`item: ${item} typeof Number: ${typeof Number(item)}`);
+      stackEval.push(item);
+    }
+  });
+
+  return Number(stackEval.pop());
 };
 
 console.log("Welcome to Calculator!");
