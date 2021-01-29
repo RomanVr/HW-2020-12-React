@@ -1,8 +1,12 @@
 {
   "compilerOptions": {
+    "outDir": "./out",
+    "noImplicitAny": true,
+    "module": "CommonJS",
+    "target": "es5",
     "esModuleInterop": true,
     "allowJs": true,
-    "noEmit": true,
+    "noEmit": false,
     "moduleResolution": "node",
     "strict": true
   },
