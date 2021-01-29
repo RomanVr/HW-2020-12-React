@@ -1,5 +1,7 @@
-import { sum } from "../src/index";
-
-test("adds 1 + 2 to equal 3", () => {
-  expect(sum(1, 2)).toBe(3);
+import { isValidExpression } from "../src/checks";
+describe("Tests validation module", () => {
+  test("expression is valid '2 + 2 * 3'", () => {
+    const str = "2+2*3";
+    expect(isValidExpression(str)).toBeTruthy();
+  });
 });

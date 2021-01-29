@@ -1,12 +1,22 @@
 {
   "compilerOptions": {
+    "lib": ["es2015", "DOM"],
+    "outDir": "./out",
+    "noImplicitAny": true,
+    "module": "CommonJS",
+    "target": "es5",
     "esModuleInterop": true,
     "allowJs": true,
-    "noEmit": true,
+    "noEmit": false,
     "moduleResolution": "node",
-    "strict": true
+    "strict": true,
+    "types": ["node", "jest"],
+    "typeRoots": [
+      "./node_modules/@types"
+    ],
   },
   "include": [
+    "./__tests__/**/*",
     "./src/**/*"
   ]
 }
