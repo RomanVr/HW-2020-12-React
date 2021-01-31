@@ -17,12 +17,10 @@ export const isValidExpression = (str: string): boolean => {
   if (wordsInExpression.length === 0) return false;
 
   for (const sign of wordsInExpression) {
-    if (
-      typeof Number(sign) === "number" ||
-      operands.has(sign) ||
-      sign === dot
-    ) {
-      // console.log(`Has ${sign} in exp`);
+    if (isNaN(Number(sign)) && (operands.has(sign) || sign === dot)) {
+      // console.log(`1-- sign: ${sign} is number: ${Number(sign)}`);
+    } else if (!isNaN(Number(sign))) {
+      // console.log(`2-- sign: ${sign} is number: ${Number(sign)}`);
     } else {
       return false;
     }
