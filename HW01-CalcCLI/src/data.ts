@@ -6,6 +6,8 @@ export const operands: Set<string> = new Set([
   "-",
   "*",
   "/",
+  "(",
+  ")",
 ]);
 
 export const dot = ".";

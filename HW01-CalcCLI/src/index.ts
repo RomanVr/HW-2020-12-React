@@ -37,10 +37,10 @@ export const getMathSymbols = (str: string): string[] => {
         mathSymbols.push(operandCurrent.join(""));
         operandCurrent.length = 0;
         operandCurrent.push(sing);
-      } else {
-        // Остался вариант - положить в стек
-        operandCurrent.push(sing);
-      }
+      } //else {
+      // Остался вариант - положить в стек
+      //operandCurrent.push(sing);
+      //}
     } else {
       if (!_.isEmpty(operandCurrent)) {
         mathSymbols.push(operandCurrent.join(""));
@@ -75,6 +75,15 @@ export const getOuputRPN = (mathSymbols: string[]): string[] => {
           // console.log(`elem: ${elem}`);
           acc.push(elem);
           elem = stackRPN.pop();
+        }
+      } else if (item === "(") {
+        stackRPN.push(item);
+      } else if (item === ")") {
+        // Выталкиваем из стека операции до достижения (
+        let elem: string = stackRPN.pop() as string;
+        while (elem !== "(") {
+          acc.push(elem);
+          elem = stackRPN.pop() as string;
         }
       } else if (operands.has(item)) {
         // console.log(`item: ${item} has operands: ${operands.has(item)}`);
@@ -165,6 +174,6 @@ export default (expression: string): number => {
     return result;
   } else {
     // console.log("Our expression is not valid!");
-    throw "Our expression is not valid!";
+    throw new TypeError("Our expression is not valid!");
   }
 };
