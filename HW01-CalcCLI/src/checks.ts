@@ -11,7 +11,7 @@ export const isValidExpression = (str: string): boolean => {
       }
       return acc;
     }, []); // массив символов
-  // console.log(wordsInExpression);
+  // console.log(`input symbols: ${wordsInExpression}`);
 
   //символов>0
   if (wordsInExpression.length === 0) return false;
@@ -22,6 +22,7 @@ export const isValidExpression = (str: string): boolean => {
     } else if (!isNaN(Number(sign))) {
       // console.log(`2-- sign: ${sign} is number: ${Number(sign)}`);
     } else {
+      // console.log(`3-- sign: ${sign} false`);
       return false;
     }
   }

@@ -1,4 +1,4 @@
 import execute from "../";
 import greeting from "../greeting";
 
-execute(greeting());
+console.log(`Result: ${execute(greeting())}`);

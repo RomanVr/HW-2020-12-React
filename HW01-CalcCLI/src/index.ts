@@ -15,24 +15,48 @@ export const getMathSymbols = (str: string): string[] => {
       return acc;
     }, []); // массив символов
 
-  //получаем массив операндов и аргументов
-  const word: string[] = [];
+  //получаем массив операндов и чисел
+  const numberCurrent: string[] = [];
+  const operandCurrent: string[] = [];
   const mathSymbols: string[] = [];
   for (const sing of wordsInExpression) {
     if (operands.has(sing)) {
-      if (!_.isEmpty(word)) {
-        mathSymbols.push(word.join(""));
-        word.length = 0;
+      if (!_.isEmpty(numberCurrent)) {
+        mathSymbols.push(numberCurrent.join(""));
+        numberCurrent.length = 0;
       }
-      mathSymbols.push(sing);
+      const operandPrevios = operandCurrent.join("");
+      const operandUnion = operandCurrent.join("") + sing;
+      if (!operands.has(operandPrevios)) {
+        // Если предыдущий символ отсутствует - положить в стек
+        operandCurrent.push(sing);
+      } else if (operands.has(operandUnion)) {
+        // Если предыдущий + текущий есть - положить в стек
+        operandCurrent.push(sing);
+      } else if (!operands.has(operandUnion)) {
+        // Если предыдущий + текущий отсутствует - предыдущий выложить а текущий положить в стек
+        mathSymbols.push(operandCurrent.join(""));
+        operandCurrent.length = 0;
+        operandCurrent.push(sing);
+      } else {
+        // Остался вариант - положить в стек
+        operandCurrent.push(sing);
+      }
     } else {
-      word.push(sing);
+      if (!_.isEmpty(operandCurrent)) {
+        mathSymbols.push(operandCurrent.join(""));
+        operandCurrent.length = 0;
+      }
+      numberCurrent.push(sing);
     }
   }
-  if (!_.isEmpty(word)) {
-    mathSymbols.push(word.join(""));
+  if (!_.isEmpty(numberCurrent)) {
+    mathSymbols.push(numberCurrent.join(""));
   }
-  // console.log(`mathSymbols: ${mathSymbols}`);
+  if (!_.isEmpty(operandCurrent)) {
+    mathSymbols.push(operandCurrent.join(""));
+  }
+  console.log(`mathSymbols: ${mathSymbols}`);
   return mathSymbols;
 };
 
@@ -92,8 +116,8 @@ export const getOuputRPN = (mathSymbols: string[]): string[] => {
     },
     []
   );
-  // console.log(`output finish: ${output}`);
-  // console.log(`stackRPN finish: ${stackRPN}`);
+  console.log(`output finish: ${output}`);
+  console.log(`stackRPN finish: ${stackRPN}`);
   return output;
 };
 
@@ -133,7 +157,7 @@ export default (expression: string): number => {
     // console.log(`result: ${result}`);
     return result;
   } else {
-    console.log("Our expression is not valid!");
-    throw new Error("Our expression is not valid!");
+    // console.log("Our expression is not valid!");
+    throw "Our expression is not valid!";
   }
 };
