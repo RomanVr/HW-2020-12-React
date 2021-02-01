@@ -1,8 +1,7 @@
 import _ from "lodash";
+
 import { isValidExpression } from "./checks";
-import { operands } from "./data";
-import { levelOper } from "./data";
-import { mathOper } from "./data";
+import { operands, levelOper, mathOper, argumentFunctions } from "./data";
 
 export const getMathSymbols = (str: string): string[] => {
   const wordsInExpression: string[] = str
@@ -56,14 +55,13 @@ export const getMathSymbols = (str: string): string[] => {
   if (!_.isEmpty(operandCurrent)) {
     mathSymbols.push(operandCurrent.join(""));
   }
-  console.log(`mathSymbols: ${mathSymbols}`);
+  // console.log(`mathSymbols: ${mathSymbols}`);
   return mathSymbols;
 };
 
 export const getOuputRPN = (mathSymbols: string[]): string[] => {
   const stackRPN: string[] = [];
   let lastElemInStack = "";
-
   const output: string[] = mathSymbols.reduce(
     (acc: string[], item: string, index: number): string[] => {
       // console.log(`!!!index item: ${index}`);
@@ -116,8 +114,8 @@ export const getOuputRPN = (mathSymbols: string[]): string[] => {
     },
     []
   );
-  console.log(`output finish: ${output}`);
-  console.log(`stackRPN finish: ${stackRPN}`);
+  // console.log(`output finish: ${output}`);
+  // console.log(`stackRPN finish: ${stackRPN}`);
   return output;
 };
 
@@ -128,13 +126,22 @@ export const evalExpressionRPN = (outputRPN: string[]): number => {
     if (operands.has(item)) {
       //операция
       // console.log(`item: ${item} has operands: ${operands.has(item)}`);
+      // Определяем аргументы функции
+      const countArgument: number = argumentFunctions.get(item) as number;
       const secondArg: number = Number(stackEval.pop()) as number;
-      const firstArg: number = Number(stackEval.pop()) as number;
-      const result: string = (mathOper.get(item) as (
-        arg1: number,
-        arg2: number
-      ) => number)(firstArg, secondArg).toString();
-      stackEval.push(result);
+      if (countArgument > 1) {
+        const firstArg: number = Number(stackEval.pop()) as number;
+        const result: string = (mathOper.get(item) as (
+          arg1: number,
+          arg2: number
+        ) => number)(firstArg, secondArg).toString();
+        stackEval.push(result);
+      } else {
+        const result: string = (mathOper.get(item) as (arg1: number) => number)(
+          secondArg
+        ).toString();
+        stackEval.push(result);
+      }
     } else {
       //операнд
       // console.log(`item: ${item} typeof Number: ${typeof Number(item)}`);
