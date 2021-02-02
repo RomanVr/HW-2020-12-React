@@ -8,6 +8,7 @@ export const operands: Set<string> = new Set([
   "/",
   "(",
   ")",
+  "sin",
 ]);
 
 export const dot = ".";
@@ -16,6 +17,7 @@ export const levelOper: Map<string, number> = new Map([
   ["^", 1],
   ["!", 1],
   ["**", 1],
+  ["sin", 1],
   ["*", 2],
   ["/", 2],
   ["+", 4],
@@ -24,6 +26,7 @@ export const levelOper: Map<string, number> = new Map([
 export const argumentFunctions: Map<string, number> = new Map([
   ["**", 1],
   ["!", 1],
+  ["sin", 1],
   ["^", 2],
   ["*", 2],
   ["/", 2],
@@ -36,6 +39,7 @@ export const mathOper: Map<
 > = new Map([
   ["**", (a: number): number => a * a],
   ["!", factorial],
+  ["sin", Math.sin],
   ["^", (a: number, b: number): number => a ** b],
   ["*", (a: number, b: number): number => a * b],
   ["/", (a: number, b: number): number => a / b],

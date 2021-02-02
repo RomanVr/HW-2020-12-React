@@ -18,4 +18,10 @@ describe("Testing application", () => {
     const result = 98;
     expect(execute(expression)).toBe(result);
   });
+
+  it("Test level 4 expression '2 * sin(2 + 3) + 2'", () => {
+    const expression = "2 * sin(2 + 3) + 2";
+    const result = 98;
+    expect(execute(expression)).toBe(result);
+  });
 });
