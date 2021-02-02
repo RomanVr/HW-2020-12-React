@@ -8,7 +8,15 @@ export const operands: Set<string> = new Set([
   "/",
   "(",
   ")",
-  "sin",
+  "s",
+  "i",
+  "n",
+  "o",
+  "c",
+  "t",
+  "a",
+  "f",
+  "b",
 ]);
 
 export const dot = ".";
@@ -18,6 +26,9 @@ export const levelOper: Map<string, number> = new Map([
   ["!", 1],
   ["**", 1],
   ["sin", 1],
+  ["cos", 1],
+  ["tan", 1],
+  ["fib", 1],
   ["*", 2],
   ["/", 2],
   ["+", 4],
@@ -27,6 +38,9 @@ export const argumentFunctions: Map<string, number> = new Map([
   ["**", 1],
   ["!", 1],
   ["sin", 1],
+  ["cos", 1],
+  ["tan", 1],
+  ["fib", 1],
   ["^", 2],
   ["*", 2],
   ["/", 2],
@@ -40,6 +54,9 @@ export const mathOper: Map<
   ["**", (a: number): number => a * a],
   ["!", factorial],
   ["sin", Math.sin],
+  ["cos", Math.cos],
+  ["tan", Math.tan],
+  ["fib", fib],
   ["^", (a: number, b: number): number => a ** b],
   ["*", (a: number, b: number): number => a * b],
   ["/", (a: number, b: number): number => a / b],
@@ -55,4 +72,17 @@ function factorial(n: number): number {
     return Number.POSITIVE_INFINITY;
   }
   return factorial(n - 1) * n;
+}
+
+const fib2 = (n: number): number[] => {
+  if (n == 0) {
+    return [0, 1];
+  } else {
+    const [prev, next] = fib2(n - 1);
+    return [next, prev + next];
+  }
+};
+
+function fib(n: number): number {
+  return fib2(n)[0];
 }

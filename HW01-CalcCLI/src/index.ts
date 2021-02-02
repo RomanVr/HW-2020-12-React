@@ -1,7 +1,9 @@
 import _ from "lodash";
 
 import { isValidExpression } from "./checks";
-import { operands, levelOper, mathOper, argumentFunctions } from "./data";
+import { levelOper, mathOper, argumentFunctions } from "./data";
+
+const operands = new Map(levelOper);
 
 export const getMathSymbols = (str: string): string[] => {
   const wordsInExpression: string[] = str
@@ -19,30 +21,52 @@ export const getMathSymbols = (str: string): string[] => {
   const operandCurrent: string[] = [];
   const mathSymbols: string[] = [];
   for (const sing of wordsInExpression) {
-    if (operands.has(sing)) {
+    if (sing === "(" || sing === ")") {
+      // console.log(`operand ( || )`);
+      if (!_.isEmpty(numberCurrent)) {
+        mathSymbols.push(numberCurrent.join(""));
+        numberCurrent.length = 0;
+      }
+      if (!_.isEmpty(operandCurrent)) {
+        // console.log(`operandCurrent: ${operandCurrent.join()}`);
+        mathSymbols.push(operandCurrent.join(""));
+        operandCurrent.length = 0;
+      }
+      mathSymbols.push(sing);
+    } else if (operands.has(sing)) {
+      // console.log(`operand ${sing}`);
       if (!_.isEmpty(numberCurrent)) {
         mathSymbols.push(numberCurrent.join(""));
         numberCurrent.length = 0;
       }
       const operandPrevios = operandCurrent.join("");
       const operandUnion = operandCurrent.join("") + sing;
-      if (!operands.has(operandPrevios)) {
+      if (operandPrevios.length === 0) {
         // Если предыдущий символ отсутствует - положить в стек
+        // console.log(`1 -- operandPrevios ${operandPrevios} is Empty`);
         operandCurrent.push(sing);
       } else if (operands.has(operandUnion)) {
-        // Если предыдущий + текущий есть - положить в стек
-        operandCurrent.push(sing);
-      } else if (!operands.has(operandUnion)) {
-        // Если предыдущий + текущий отсутствует - предыдущий выложить а текущий положить в стек
-        mathSymbols.push(operandCurrent.join(""));
+        // Если предыдущий + текущий есть - положить в символы
+        // console.log(`2 -- operandUnion ${operandUnion} is operands`);
+        mathSymbols.push(operandUnion);
+        operandCurrent.length = 0;
+      } else if (!operands.has(operandUnion) && operands.has(operandPrevios)) {
+        // Если предыдущий + текущий отсутствует, а предыдущий есть - предыдущий положить в символы текущий положить в стек
+        // console.log(
+        //   `3 -- operandUnion: ${operandUnion} is not operands; operandPrevios: ${operandPrevios} is operands`
+        // );
+        mathSymbols.push(operandPrevios);
         operandCurrent.length = 0;
         operandCurrent.push(sing);
-      } //else {
-      // Остался вариант - положить в стек
-      //operandCurrent.push(sing);
-      //}
+      } else {
+        // Остался вариант предыдущий + текущий отсутствует - текущий положить в стек
+        // console.log(`4 -- operandUnion: ${operandUnion} is not operands`);
+        operandCurrent.push(sing);
+      }
     } else {
+      // console.log(`number ${sing}`);
       if (!_.isEmpty(operandCurrent)) {
+        // console.log(`operandCurrent: ${operandCurrent.join()}`);
         mathSymbols.push(operandCurrent.join(""));
         operandCurrent.length = 0;
       }
@@ -65,18 +89,7 @@ export const getOuputRPN = (mathSymbols: string[]): string[] => {
   const output: string[] = mathSymbols.reduce(
     (acc: string[], item: string, index: number): string[] => {
       // console.log(`!!!index item: ${index}`);
-      if (index === mathSymbols.length - 1) {
-        //Если последний элемент то положить в output и stackRPN высвободить в output
-        // console.log(`Last elem: ${item}`);
-        acc.push(item);
-        // console.log(`stackRPN: ${stackRPN}`);
-        let elem = stackRPN.pop();
-        while (elem) {
-          // console.log(`elem: ${elem}`);
-          acc.push(elem);
-          elem = stackRPN.pop();
-        }
-      } else if (item === "(") {
+      if (item === "(") {
         stackRPN.push(item);
       } else if (item === ")") {
         // Выталкиваем из стека операции до достижения (
@@ -118,6 +131,16 @@ export const getOuputRPN = (mathSymbols: string[]): string[] => {
         // console.log(`item: ${item} typeof Number: ${typeof Number(item)}`);
         acc.push(item);
         // console.log(`output: ${acc}`);
+      }
+      if (index === mathSymbols.length - 1) {
+        //Если последний элемент то stackRPN высвободить в output
+        // console.log(`stackRPN: ${stackRPN}`);
+        let elem = stackRPN.pop();
+        while (elem) {
+          // console.log(`elem: ${elem}`);
+          acc.push(elem);
+          elem = stackRPN.pop();
+        }
       }
       return acc;
     },
