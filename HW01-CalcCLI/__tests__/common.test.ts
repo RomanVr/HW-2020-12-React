@@ -36,4 +36,16 @@ describe("Testing application", () => {
     const result = 8;
     expect(execute(expression)).toBe(result);
   });
+
+  it("Test wrong expression Empty''", () => {
+    const expression = "";
+    const t = () => execute(expression);
+    expect(t).toThrowError(Error);
+  });
+
+  it("Test too big an argument of factorial expression '180! * (2 - 3*(2-1))'", () => {
+    const expression = "";
+    const result = Number.NEGATIVE_INFINITY;
+    expect(execute(expression)).toBe(result);
+  });
 });

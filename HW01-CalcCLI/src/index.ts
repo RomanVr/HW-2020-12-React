@@ -58,11 +58,11 @@ export const getMathSymbols = (str: string): string[] => {
         mathSymbols.push(operandPrevios);
         operandCurrent.length = 0;
         operandCurrent.push(sing);
-      } else {
+      } /* else {
         // Остался вариант предыдущий + текущий отсутствует - текущий положить в стек
         // console.log(`4 -- operandUnion: ${operandUnion} is not operands`);
-        operandCurrent.push(sing);
-      }
+        // operandCurrent.push(sing);
+      }*/
     } else {
       // console.log(`number ${sing}`);
       if (!_.isEmpty(operandCurrent)) {
@@ -197,6 +197,6 @@ export default (expression: string): number => {
     return result;
   } else {
     // console.log("Our expression is not valid!");
-    throw new TypeError("Our expression is not valid!");
+    throw new Error("Our expression is not valid!");
   }
 };
