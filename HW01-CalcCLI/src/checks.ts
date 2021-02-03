@@ -18,11 +18,11 @@ export const isValidExpression = (str: string): boolean => {
 
   for (const sign of wordsInExpression) {
     if (isNaN(Number(sign)) && (operands.has(sign) || sign === dot)) {
-      console.log(`1-- sign: ${sign} is number: ${Number(sign)}`);
+      // console.log(`1-- sign: ${sign} is number: ${Number(sign)}`);
     } else if (!isNaN(Number(sign))) {
-      console.log(`2-- sign: ${sign} is number: ${Number(sign)}`);
+      // console.log(`2-- sign: ${sign} is number: ${Number(sign)}`);
     } else {
-      console.log(`3-- sign: ${sign} false`);
+      // console.log(`3-- sign: ${sign} false`);
       return false;
     }
   }

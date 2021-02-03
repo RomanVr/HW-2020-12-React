@@ -1,5 +1,4 @@
-import { getMathSymbols } from "../src";
-import { getOuputRPN } from "../src";
+import { getMathSymbols, getOutputRPN } from "../src/rpnMethods";
 
 describe("Testing module executeRPN", () => {
   it("Test getMathSymbols from expression '2.21 + 2 * 3 -8 /9'", () => {
@@ -31,6 +30,6 @@ describe("Testing module executeRPN", () => {
       "-",
       "+",
     ];
-    expect(getOuputRPN(mathSymbols)).toStrictEqual(actualOutput);
+    expect(getOutputRPN(mathSymbols)).toStrictEqual(actualOutput);
   });
 });
