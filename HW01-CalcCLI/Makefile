@@ -18,7 +18,7 @@ lint:
 		npx eslint .
 
 test:
-		symbols,outputRPN,eval npm test
+		DEBUG=symbols,outputRPN,eval npm test
 
 testc:
 		DEBUG=symbols npm test -- --coverage

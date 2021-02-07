@@ -1,12 +1,12 @@
 import _ from "lodash";
 
 import { debugSymbols, debugOutputRPN, debugEval } from "./lib/logger";
-import { levelOper, mathOper, argumentFunctions } from "./data";
+import { LEVEL_OPER, MATH_OPER, ARGUMENT_FUNCTIONS } from "./data";
 
-const operands = new Map(levelOper);
+const OPERANDS = new Map(LEVEL_OPER);
 
 export const getMathSymbols = (str: string): string[] => {
-  const wordsInExpression: string[] = str
+  const WORDS_IN_EXPRESSION: string[] = str
     .trim()
     .split("")
     .reduce((acc: string[], item: string): string[] => {
@@ -14,167 +14,156 @@ export const getMathSymbols = (str: string): string[] => {
         acc.push(item);
       }
       return acc;
-    }, []); // массив символов
+    }, []);
 
-  //получаем массив операндов и чисел
-  const numberCurrent: string[] = [];
-  const operandCurrent: string[] = [];
-  const mathSymbols: string[] = [];
-  for (const sing of wordsInExpression) {
-    if (sing === "(" || sing === ")") {
+  const NUMBER_CURRENT: string[] = [];
+  const OPERAND_CURRENT: string[] = [];
+  const MATH_SYMBOLS: string[] = [];
+  for (const SING of WORDS_IN_EXPRESSION) {
+    if (SING === "(" || SING === ")") {
       debugSymbols("operand '(' || ')'");
-      if (!_.isEmpty(numberCurrent)) {
-        mathSymbols.push(numberCurrent.join(""));
-        numberCurrent.length = 0;
+      if (!_.isEmpty(NUMBER_CURRENT)) {
+        MATH_SYMBOLS.push(NUMBER_CURRENT.join(""));
+        NUMBER_CURRENT.length = 0;
       }
-      if (!_.isEmpty(operandCurrent)) {
-        debugSymbols(`operandCurrent: ${operandCurrent.join()}`);
-        mathSymbols.push(operandCurrent.join(""));
-        operandCurrent.length = 0;
+      if (!_.isEmpty(OPERAND_CURRENT)) {
+        debugSymbols(`OPERAND_CURRENT: ${OPERAND_CURRENT.join()}`);
+        MATH_SYMBOLS.push(OPERAND_CURRENT.join(""));
+        OPERAND_CURRENT.length = 0;
       }
-      mathSymbols.push(sing);
-    } else if (operands.has(sing)) {
-      if (!_.isEmpty(numberCurrent)) {
-        mathSymbols.push(numberCurrent.join(""));
-        numberCurrent.length = 0;
+      MATH_SYMBOLS.push(SING);
+    } else if (OPERANDS.has(SING)) {
+      if (!_.isEmpty(NUMBER_CURRENT)) {
+        MATH_SYMBOLS.push(NUMBER_CURRENT.join(""));
+        NUMBER_CURRENT.length = 0;
       }
-      const operandPrevios = operandCurrent.join("");
-      const operandUnion = operandCurrent.join("") + sing;
-      debugSymbols(`operand ${sing}, current: ${operandCurrent}`);
-      if (operandPrevios.length === 0) {
-        // Если предыдущий символ отсутствует - положить в стек
-        debugSymbols(`1 -- operandPrevios ${operandPrevios} is Empty`);
-        operandCurrent.push(sing);
-      } else if (operands.has(operandUnion)) {
-        // Если предыдущий + текущий есть - положить в символы
-        debugSymbols(`2 -- operandUnion ${operandUnion} is operands`);
-        mathSymbols.push(operandUnion);
-        operandCurrent.length = 0;
+      const OPERAND_PREVIOS = OPERAND_CURRENT.join("");
+      const OPERAND_UNION = OPERAND_CURRENT.join("") + SING;
+      debugSymbols(`operand ${SING}, current: ${OPERAND_CURRENT}`);
+      if (OPERAND_PREVIOS.length === 0) {
+        debugSymbols(`1 -- OPERAND_PREVIOS ${OPERAND_PREVIOS} is Empty`);
+        OPERAND_CURRENT.push(SING);
+      } else if (OPERANDS.has(OPERAND_UNION)) {
+        debugSymbols(`2 -- OPERAND_UNION ${OPERAND_UNION} is OPERSNDS`);
+        MATH_SYMBOLS.push(OPERAND_UNION);
+        OPERAND_CURRENT.length = 0;
       } else {
-        // Если предыдущий + текущий нет - предыдущий положить в символы текущий положить в стек
         debugSymbols(
-          `3 -- operandUnion ${operandUnion} not is operands, sing: ${sing} is operands`
+          `3 -- OPERAND_UNION ${OPERAND_UNION} not is OPERSNDS, SING: ${SING} is OPERSNDS`
         );
-        mathSymbols.push(operandPrevios);
-        operandCurrent.length = 0;
-        operandCurrent.push(sing);
+        MATH_SYMBOLS.push(OPERAND_PREVIOS);
+        OPERAND_CURRENT.length = 0;
+        OPERAND_CURRENT.push(SING);
       }
     } else {
-      debugSymbols(`number ${sing}`);
-      if (!_.isEmpty(operandCurrent)) {
-        debugSymbols(`operandCurrent: ${operandCurrent.join()}`);
-        mathSymbols.push(operandCurrent.join(""));
-        operandCurrent.length = 0;
+      debugSymbols(`number ${SING}`);
+      if (!_.isEmpty(OPERAND_CURRENT)) {
+        debugSymbols(`OPERAND_CURRENT: ${OPERAND_CURRENT.join()}`);
+        MATH_SYMBOLS.push(OPERAND_CURRENT.join(""));
+        OPERAND_CURRENT.length = 0;
       }
-      numberCurrent.push(sing);
+      NUMBER_CURRENT.push(SING);
     }
   }
-  if (!_.isEmpty(numberCurrent)) {
-    mathSymbols.push(numberCurrent.join(""));
+  if (!_.isEmpty(NUMBER_CURRENT)) {
+    MATH_SYMBOLS.push(NUMBER_CURRENT.join(""));
   }
-  if (!_.isEmpty(operandCurrent)) {
-    mathSymbols.push(operandCurrent.join(""));
+  if (!_.isEmpty(OPERAND_CURRENT)) {
+    MATH_SYMBOLS.push(OPERAND_CURRENT.join(""));
   }
-  debugSymbols(`mathSymbols: ${mathSymbols}`);
-  return mathSymbols;
+  debugSymbols(`MATH_SYMBOLS: ${MATH_SYMBOLS}`);
+  return MATH_SYMBOLS;
 };
 
-export const getOutputRPN = (mathSymbols: string[]): string[] => {
-  const stackRPN: string[] = [];
+export const getOutputRPN = (MATH_SYMBOLS: string[]): string[] => {
+  const STACK_RPN: string[] = [];
   let lastElemInStack = "";
-  const output: string[] = mathSymbols.reduce(
+  const OUTPUT: string[] = MATH_SYMBOLS.reduce(
     (acc: string[], item: string, index: number): string[] => {
       debugOutputRPN(`!!!index item: ${index}`);
       if (item === "(") {
-        stackRPN.push(item);
+        STACK_RPN.push(item);
       } else if (item === ")") {
-        // Выталкиваем из стека операции до достижения (
-        let elem: string = stackRPN.pop() as string;
+        let elem: string = STACK_RPN.pop() as string;
         while (elem !== "(") {
           acc.push(elem);
-          elem = stackRPN.pop() as string;
+          elem = STACK_RPN.pop() as string;
         }
-      } else if (operands.has(item)) {
-        debugOutputRPN(`item: ${item} has operands: ${operands.has(item)}`);
+      } else if (OPERANDS.has(item)) {
+        debugOutputRPN(`item: ${item} has OPERSNDS: ${OPERANDS.has(item)}`);
         if (lastElemInStack === "") {
-          stackRPN.push(item);
+          STACK_RPN.push(item);
           lastElemInStack = item;
         } else {
-          const levelLastOper: number = levelOper.get(
+          const LEVEL_LAST_OPER: number = LEVEL_OPER.get(
             lastElemInStack
           ) as number;
-          const levelCurrentOper: number = levelOper.get(item) as number;
-          if (levelCurrentOper < levelLastOper) {
-            stackRPN.push(item);
+          const levelCurrentOper: number = LEVEL_OPER.get(item) as number;
+          if (levelCurrentOper < LEVEL_LAST_OPER) {
+            STACK_RPN.push(item);
             lastElemInStack = item;
           } else {
-            //выталкиваем все операции уровень которых меньше текущей
-            let elem: string = _.last(stackRPN) as string;
-            let levelElem: number = levelOper.get(elem) as number;
+            let elem: string = _.last(STACK_RPN) as string;
+            let levelElem: number = LEVEL_OPER.get(elem) as number;
             while (elem && levelElem < levelCurrentOper) {
-              acc.push(stackRPN.pop() as string);
-              elem = _.last(stackRPN) as string;
-              levelElem = levelOper.get(elem) as number;
+              acc.push(STACK_RPN.pop() as string);
+              elem = _.last(STACK_RPN) as string;
+              levelElem = LEVEL_OPER.get(elem) as number;
             }
-            stackRPN.push(item);
+            STACK_RPN.push(item);
             lastElemInStack = item;
           }
         }
         debugOutputRPN(`lastElemInStack: ${lastElemInStack}`);
-        debugOutputRPN(`stackRPN: ${stackRPN}`);
+        debugOutputRPN(`STACK_RPN: ${STACK_RPN}`);
       } else {
         debugOutputRPN(`item: ${item} typeof Number: ${typeof Number(item)}`);
         acc.push(item);
-        debugOutputRPN(`output: ${acc}`);
+        debugOutputRPN(`OUTPUT: ${acc}`);
       }
-      if (index === mathSymbols.length - 1) {
-        //Если последний элемент то stackRPN высвободить в output
-        debugOutputRPN(`stackRPN: ${stackRPN}`);
-        let elem = stackRPN.pop();
+      if (index === MATH_SYMBOLS.length - 1) {
+        debugOutputRPN(`STACK_RPN: ${STACK_RPN}`);
+        let elem = STACK_RPN.pop();
         while (elem) {
           debugOutputRPN(`elem: ${elem}`);
           acc.push(elem);
-          elem = stackRPN.pop();
+          elem = STACK_RPN.pop();
         }
       }
       return acc;
     },
     []
   );
-  debugOutputRPN(`output finish: ${output}`);
-  debugOutputRPN(`stackRPN finish: ${stackRPN}`);
-  return output;
+  debugOutputRPN(`OUTPUT finish: ${OUTPUT}`);
+  debugOutputRPN(`STACK_RPN finish: ${STACK_RPN}`);
+  return OUTPUT;
 };
 
-export const evalExpressionRPN = (outputRPN: string[]): number => {
-  //Вычисление выражения----------------------------------------
-  const stackEval: string[] = [];
-  outputRPN.map((item: string): void => {
-    if (operands.has(item)) {
-      //операция
-      debugEval(`item: ${item} has operands: ${operands.has(item)}`);
-      // Определяем аргументы функции
-      const countArgument: number = argumentFunctions.get(item) as number;
-      const secondArg: number = Number(stackEval.pop()) as number;
-      if (countArgument > 1) {
-        const firstArg: number = Number(stackEval.pop()) as number;
-        const result: string = (mathOper.get(item) as (
+export const evalExpressionRPN = (OUTPUTRPN: string[]): number => {
+  const STACK_EVAL: string[] = [];
+  OUTPUTRPN.map((item: string): void => {
+    if (OPERANDS.has(item)) {
+      debugEval(`item: ${item} has OPERSNDS: ${OPERANDS.has(item)}`);
+      const COUNT_ARGUMENTS: number = ARGUMENT_FUNCTIONS.get(item) as number;
+      const SECOND_ARG: number = Number(STACK_EVAL.pop()) as number;
+      if (COUNT_ARGUMENTS > 1) {
+        const FIRST_ARG: number = Number(STACK_EVAL.pop()) as number;
+        const RESULT: string = (MATH_OPER.get(item) as (
           arg1: number,
           arg2: number
-        ) => number)(firstArg, secondArg).toString();
-        stackEval.push(result);
+        ) => number)(FIRST_ARG, SECOND_ARG).toString();
+        STACK_EVAL.push(RESULT);
       } else {
-        const result: string = (mathOper.get(item) as (arg1: number) => number)(
-          secondArg
-        ).toString();
-        stackEval.push(result);
+        const RESULT: string = (MATH_OPER.get(item) as (
+          arg1: number
+        ) => number)(SECOND_ARG).toString();
+        STACK_EVAL.push(RESULT);
       }
     } else {
-      //операнд
       debugEval(`item: ${item} typeof Number: ${typeof Number(item)}`);
-      stackEval.push(item);
+      STACK_EVAL.push(item);
     }
   });
-  debugEval(`stackEval: ${stackEval}`);
-  return Number(stackEval.pop());
+  debugEval(`STACK_EVAL: ${STACK_EVAL}`);
+  return Number(STACK_EVAL.pop());
 };

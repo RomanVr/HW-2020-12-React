@@ -1,4 +1,4 @@
-export const operands: Set<string> = new Set([
+export const OPERANDS: Set<string> = new Set([
   "^",
   "!",
   "**",
@@ -19,9 +19,9 @@ export const operands: Set<string> = new Set([
   "b",
 ]);
 
-export const dot = ".";
+export const DOT = ".";
 
-export const levelOper: Map<string, number> = new Map([
+export const LEVEL_OPER: Map<string, number> = new Map([
   ["^", 1],
   ["!", 1],
   ["**", 1],
@@ -34,7 +34,7 @@ export const levelOper: Map<string, number> = new Map([
   ["+", 4],
   ["-", 4],
 ]);
-export const argumentFunctions: Map<string, number> = new Map([
+export const ARGUMENT_FUNCTIONS: Map<string, number> = new Map([
   ["**", 1],
   ["!", 1],
   ["sin", 1],
@@ -47,7 +47,7 @@ export const argumentFunctions: Map<string, number> = new Map([
   ["+", 2],
   ["-", 2],
 ]);
-export const mathOper: Map<
+export const MATH_OPER: Map<
   string,
   (arg1: number, arg2: number) => number
 > = new Map([
@@ -65,7 +65,7 @@ export const mathOper: Map<
 ]);
 
 function factorial(n: number): number {
-  if (n === 0 || n === 1) {
+  if (n == 0 || n == 1) {
     return 1;
   }
   if (n > 170) {

@@ -9,27 +9,19 @@ const strWrong = "4 - g / 8";
 const strEpmtyWrong = "";
 
 describe("Tests validation module", () => {
-  it("expression is valid '2 + 2 * 3'", () => {
-    expect(isValidExpression(str)).toBeTruthy();
-  });
+  it.each([str, strLevel2, strLevel3, strLevel4])(
+    "expression is valid: '%s'",
+    (expr) => {
+      expect(isValidExpression(expr)).toBeTruthy();
+    }
+  );
+});
 
-  it("expression with ** ^ ! is valid '2! + 2 ** - 3 ^ 2'", () => {
-    expect(isValidExpression(strLevel2)).toBeTruthy();
-  });
-
-  it("expression with () is valid '2! * (2 - 3*(2-1)) ^ 2'", () => {
-    expect(isValidExpression(strLevel3)).toBeTruthy();
-  });
-
-  it("expression with 'sin' is valid '2 * sin(2 + 3) + 2'", () => {
-    expect(isValidExpression(strLevel4)).toBeTruthy();
-  });
-
-  it("expression is not valid '4+g*8'", () => {
-    expect(isValidExpression(strWrong)).toBeFalsy();
-  });
-
-  it("expression EMPTY is  not valid ''", () => {
-    expect(isValidExpression(strEpmtyWrong)).toBeFalsy();
-  });
+describe("Tests is not valid", () => {
+  it.each([strWrong, strEpmtyWrong])(
+    "expression is not valid '%s'",
+    (exprWrong) => {
+      expect(isValidExpression(exprWrong)).toBeFalsy();
+    }
+  );
 });
