@@ -1,18 +1,15 @@
-import path from "path";
-import HtmlWebpackPlugin from "html-webpack-plugin";
-
-const APP_DIR = path.resolve(__dirname, "src");
+const path = require("path");
+// const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
   mode: "development",
   devtool: "eval-source-map",
-  entry: ["index.ts"],
+  entry: "./src/index.ts",
   output: {
-    filename: "main.js",
+    filename: "index.js",
     path: path.resolve(__dirname, "out"),
   },
   resolve: {
-    modules: [APP_DIR, "node_modules"],
     extensions: [".js", ".jsx", ".ts", ".tsx"],
   },
   devServer: {
@@ -44,10 +41,12 @@ module.exports = {
       },
     ],
   },
+  /*
   plugins: [
     new HtmlWebpackPlugin({
       template: "./index.html",
       favicon: "./public/assets/favicon.svg",
     }),
   ],
+  */
 };

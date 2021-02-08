@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node dist/bin/executeRPN.js",
-    "webpack": "webpack -w",
+    "startBabel": "node dist/bin/executeRPN.js",
+    "start": "node out/bin/index.js",
+    "webpack": "webpack",
     "startw": "webpack serve",
     "build": "babel src --out-dir dist --extensions .ts,.tsx",
     "lint": "eslint .",
