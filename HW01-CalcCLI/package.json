@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "startBabel": "node dist/bin/executeRPN.js",
-    "start": "node out/bin/index.js",
+    "start": "node dist/bin/executeRPN.js",
+    "startWEbpack": "node out/bin/index.js",
     "webpack": "webpack",
     "startw": "webpack serve",
     "build": "babel src --out-dir dist --extensions .ts,.tsx",
