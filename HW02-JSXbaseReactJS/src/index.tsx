@@ -1,10 +1,8 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import { render } from "react-dom";
 
-import { App } from "./components/App";
+import { ClickCounter } from "./components/ClickCounter";
 
-export const sum = (a: number, b: number): number => a + b;
+console.log('Hello World!!!');
 
-console.log('Hello World');
-
-ReactDOM.render(<App />, document.getElementById("container"));
+render(<ClickCounter start={ 1 }/>, document.getElementById("container"));

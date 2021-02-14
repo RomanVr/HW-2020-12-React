@@ -136,7 +136,7 @@ export default {
 
   // A list of paths to modules that run some code to configure or set up the testin
   // framework before each test
-  // setupFilesAfterEnv: [],
+  setupFilesAfterEnv: ["<rootDir>/internals/jestSettings.js"],
 
   // The number of seconds after which a test is considered as slow and reported as such
   // in the results.
@@ -149,7 +149,7 @@ export default {
   // testEnvironment: "jest-environment-jsdom",
 
   // Options that will be passed to the testEnvironment
-  // testEnvironmentOptions: {},
+  testEnvironment: "jsdom",
 
   // Adds a location field to test results
   // testLocationInResults: false,
@@ -162,9 +162,9 @@ export default {
 
   // An array of regexp pattern strings that are matched against all test paths, matched tests
   // are skipped
-  // testPathIgnorePatterns: [
-  //   "/node_modules/"
-  // ],
+  testPathIgnorePatterns: [
+  "/node_modules/"
+  ],
 
   // The regexp pattern or array of patterns that Jest uses to detect test files
   // testRegex: [],
@@ -183,7 +183,9 @@ export default {
   // timers: "real",
 
   // A map from regular expressions to paths to transformers
-  // transform: undefined,
+  transform: {
+    "^.+\\.(js|jsx|ts|tsx)$": "<rootDir>/node_modules/babel-jest",
+  },
 
   // An array of regexp pattern strings that are matched against all source file paths,
   // matched files will skip transformation

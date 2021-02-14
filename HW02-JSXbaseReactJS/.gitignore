@@ -6,3 +6,4 @@ coverage
 .env
 db.*
 /public/assets/
+storybook-static

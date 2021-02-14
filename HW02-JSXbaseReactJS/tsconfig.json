@@ -1,25 +1,11 @@
 {
   "compilerOptions": {
-    "jsx": "react",
-    "outDir": "./out",
-    "noImplicitAny": true,
-    "module": "commonjs",
-    "lib": [
-      "ES2015",
-      "ES2016",
-      "dom"
-    ],
     "target": "es5",
-    "esModuleInterop": true,
+    "module": "commonjs",
     "allowJs": true,
-    "noEmit": true,
-    "moduleResolution": "node",
-    "strict": true
-  },
-  "include": [
-    "./src/**/*"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+    "jsx": "react",
+    "sourceMap": true,
+    "strict": true,
+    "esModuleInterop": true
+  }
 }
