@@ -3,6 +3,6 @@ import { render } from "react-dom";
 
 import { ClickCounter } from "./components/ClickCounter";
 
-console.log('Hello World!!!');
+console.log("Hello World!!!");
 
-render(<ClickCounter start={ 1 }/>, document.getElementById("container"));
+render(<ClickCounter start={1} />, document.getElementById("container"));

@@ -19,12 +19,12 @@ export class ClickCounter extends Component<Prop, State> {
     this.increment = this.increment.bind(this);
   }
 
-  increment() {
+  increment(): void {
     const { count } = this.state;
-    this.setState({ count: count + 1});
+    this.setState({ count: count + 1 });
   }
 
-  componentDidMount() {
+  componentDidMount(): void {
     console.log("ClickCounter: componentDidMount");
   }
 

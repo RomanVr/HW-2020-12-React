@@ -7,14 +7,14 @@ import { ClickCounterButton } from "./ClickCounterButton";
 export default {
   title: "ClickCounterButton",
   decorators: [withKnobs],
-}
+};
 
-export const ClickCounterButtonStory: React.FC<{}> = () => {
+export const ClickCounterButtonStory: React.FC = () => {
   const count = number("Count", 0);
 
   return (
-    <ClickCounterButton increment = {action("Increment")}>
+    <ClickCounterButton increment={action("Increment")}>
       {count}
     </ClickCounterButton>
-  )
+  );
 };
