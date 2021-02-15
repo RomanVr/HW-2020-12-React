@@ -1,4 +1,4 @@
-import execute from "../src";
+import execute from "../src/";
 
 describe("Testing application", () => {
   it.each([

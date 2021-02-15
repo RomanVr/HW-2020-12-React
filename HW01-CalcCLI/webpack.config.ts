@@ -9,6 +9,7 @@ module.exports = {
     path: path.resolve(__dirname, "out"),
   },
   resolve: {
+    modules: ["node_modules", path.join(__dirname, "src")],
     extensions: [".js", ".jsx", ".ts", ".tsx"],
   },
   devServer: {

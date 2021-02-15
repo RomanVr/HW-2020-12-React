@@ -1,10 +1,12 @@
 start:
-		node dist/bin/executeRPN.js
+	node dist/bin/executeRPN.js
 
 debugEval:
 	DEBUG=eval node dist/bin/executeRPN.js
+
 debugSym:
 	DEBUG=symbols node dist/bin/executeRPN.js
+
 debugOut:
 	DEBUG=outputRPN node dist/bin/executeRPN.js
 
@@ -12,20 +14,23 @@ debug:
 	DEBUG=symbols,outputRPN,eval node dist/bin/executeRPN.js
 
 install:
-		npm install
+	npm install
 
 lint:
-		npx eslint .
+	npx eslint .
 
 test:
-		DEBUG=symbols,outputRPN,eval npm test
+	DEBUG=symbols,outputRPN,eval npm test
 
 testc:
-		DEBUG=symbols npm test -- --coverage
+	DEBUG=symbols npm test -- --coverage
 
 test-coverage:
-		npm test -- --coverage
+	npm test -- --coverage
 
 build:
-		rm -rf dist
-		npx babel src --out-dir dist --extensions .ts,.tsx
+	rm -rf dist
+	npx babel src --out-dir dist --extensions .ts,.tsx
+
+webpack:
+	npm run webpack

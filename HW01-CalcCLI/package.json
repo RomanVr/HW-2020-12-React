@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "node dist/bin/executeRPN.js",
-    "startWEbpack": "node out/bin/index.js",
+    "startWebpack": "node out/bin/index.js",
     "webpack": "webpack",
-    "startw": "webpack serve",
+    "start:dev": "webpack serve",
     "build": "babel src --out-dir dist --extensions .ts,.tsx",
     "lint": "eslint .",
     "test": "jest"
@@ -48,7 +48,6 @@
     "webpack-dev-server": "^3.11.2"
   },
   "dependencies": {
-    "lodash": "^4.17.20",
-    "readline-sync": "^1.4.10"
+    "lodash": "^4.17.20"
   }
 }
