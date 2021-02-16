@@ -1,17 +1,17 @@
 start:
-	node dist/bin/executeRPN.js
+	npm start
 
 debugEval:
-	DEBUG=eval node dist/bin/executeRPN.js
+	DEBUG=eval node out/index.js
 
 debugSym:
-	DEBUG=symbols node dist/bin/executeRPN.js
+	DEBUG=symbols node out/index.js
 
 debugOut:
-	DEBUG=outputRPN node dist/bin/executeRPN.js
+	DEBUG=outputRPN node out/index.js
 
 debug:
-	DEBUG=symbols,outputRPN,eval node dist/bin/executeRPN.js
+	DEBUG=symbols,outputRPN,eval node out/index.js
 
 install:
 	npm install
@@ -29,8 +29,5 @@ test-coverage:
 	npm test -- --coverage
 
 build:
-	rm -rf dist
-	npx babel src --out-dir dist --extensions .ts,.tsx
-
-webpack:
-	npm run webpack
+	rm -rf out
+	npm run build

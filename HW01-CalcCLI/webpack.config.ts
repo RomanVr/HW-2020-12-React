@@ -6,8 +6,9 @@ module.exports = {
   entry: "./src/bin/executeRPN.ts",
   output: {
     filename: "index.js",
-    path: path.resolve(__dirname, "out"),
+    path: path.join(__dirname, "out"),
   },
+  target: "node",
   resolve: {
     modules: ["node_modules", path.join(__dirname, "src")],
     extensions: [".js", ".jsx", ".ts", ".tsx"],
