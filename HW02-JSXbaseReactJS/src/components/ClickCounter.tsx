@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, ReactElement } from "react";
 
 import { ClickCounterButton } from "./ClickCounterButton";
 
@@ -28,7 +28,7 @@ export class ClickCounter extends Component<Prop, State> {
     console.log("ClickCounter: componentDidMount");
   }
 
-  render() {
+  render(): ReactElement {
     const { count } = this.state;
     return (
       <ClickCounterButton increment={this.increment}>
