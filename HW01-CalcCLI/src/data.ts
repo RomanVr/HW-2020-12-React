@@ -1,4 +1,4 @@
-export const OPERANDS: Set<string> = new Set([
+export const operands: Set<string> = new Set([
   "^",
   "!",
   "**",
@@ -21,7 +21,7 @@ export const OPERANDS: Set<string> = new Set([
 
 export const DOT = ".";
 
-export const LEVEL_OPER: Map<string, number> = new Map([
+export const levelOper: Map<string, number> = new Map([
   ["^", 1],
   ["!", 1],
   ["**", 1],
@@ -34,7 +34,7 @@ export const LEVEL_OPER: Map<string, number> = new Map([
   ["+", 4],
   ["-", 4],
 ]);
-export const ARGUMENT_FUNCTIONS: Map<string, number> = new Map([
+export const argumentFunction: Map<string, number> = new Map([
   ["**", 1],
   ["!", 1],
   ["sin", 1],
@@ -47,7 +47,7 @@ export const ARGUMENT_FUNCTIONS: Map<string, number> = new Map([
   ["+", 2],
   ["-", 2],
 ]);
-export const MATH_OPER: Map<
+export const mathOper: Map<
   string,
   (arg1: number, arg2: number) => number
 > = new Map([

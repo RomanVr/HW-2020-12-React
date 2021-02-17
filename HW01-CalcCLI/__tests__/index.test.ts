@@ -23,7 +23,7 @@ describe("Testing application with Errors", () => {
   });
 
   it("Test an argument of factorial expression '180! * (2 - 3*(2-1))'", () => {
-    const result = Number.NEGATIVE_INFINITY;
-    expect(execute(EXPRESSION_TO_BIG)).toBe(result);
+    const RESULT_NEG_INFINITY = Number.NEGATIVE_INFINITY;
+    expect(execute(EXPRESSION_TO_BIG)).toBe(RESULT_NEG_INFINITY);
   });
 });

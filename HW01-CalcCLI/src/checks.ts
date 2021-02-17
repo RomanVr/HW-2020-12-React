@@ -1,4 +1,4 @@
-import { OPERANDS } from "./data";
+import { operands } from "./data";
 import { DOT } from "./data";
 
 export const isValidExpression = (str: string): boolean => {
@@ -14,7 +14,7 @@ export const isValidExpression = (str: string): boolean => {
 
   if (wordsInExpression.length === 0) return false;
   for (const sign of wordsInExpression) {
-    if (isNaN(Number(sign)) && (OPERANDS.has(sign) || sign === DOT)) {
+    if (isNaN(Number(sign)) && (operands.has(sign) || sign === DOT)) {
     } else if (!isNaN(Number(sign))) {
     } else {
       return false;

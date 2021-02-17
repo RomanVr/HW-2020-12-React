@@ -1,15 +1,15 @@
 import { isValidExpression } from "../src/checks";
 
-const str = "2 + 2 * 3";
-const strLevel2 = "2! + 2 ** - 3 ^ 2";
-const strLevel3 = "2! * (2 - 3 * (2 + 1)) ^ 2";
-const strLevel4 = "2 * sin(2 + 3) + 2";
+const STR = "2 + 2 * 3";
+const STR_LEVEL2 = "2! + 2 ** - 3 ^ 2";
+const STR_LEVEL3 = "2! * (2 - 3 * (2 + 1)) ^ 2";
+const STR_LEVEL4 = "2 * sin(2 + 3) + 2";
 
-const strWrong = "4 - g / 8";
-const strEpmtyWrong = "";
+const STR_WRONG = "4 - g / 8";
+const STR_EMPTY_WRONG = "";
 
 describe("Tests validation module", () => {
-  it.each([str, strLevel2, strLevel3, strLevel4])(
+  it.each([STR, STR_LEVEL2, STR_LEVEL3, STR_LEVEL4])(
     "expression is valid: '%s'",
     (expr) => {
       expect(isValidExpression(expr)).toBeTruthy();
@@ -18,7 +18,7 @@ describe("Tests validation module", () => {
 });
 
 describe("Tests is not valid", () => {
-  it.each([strWrong, strEpmtyWrong])(
+  it.each([STR_WRONG, STR_EMPTY_WRONG])(
     "expression is not valid '%s'",
     (exprWrong) => {
       expect(isValidExpression(exprWrong)).toBeFalsy();

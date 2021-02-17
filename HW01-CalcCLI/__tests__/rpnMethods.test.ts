@@ -7,14 +7,14 @@ import {
 describe("Testing getMathSymbols", () => {
   it("Test getMathSymbols from expression '2.21 + 2 * 3 -8 /9'", () => {
     const EXPRESSION = "2.21 + 2 * 3 -8 /9";
-    const ACTUAL_MATH_SYMBOL = ["2.21", "+", "2", "*", "3", "-", "8", "/", "9"];
-    expect(getMathSymbols(EXPRESSION)).toStrictEqual(ACTUAL_MATH_SYMBOL);
+    const actualMathSymbols = ["2.21", "+", "2", "*", "3", "-", "8", "/", "9"];
+    expect(getMathSymbols(EXPRESSION)).toStrictEqual(actualMathSymbols);
   });
 });
 
-describe("Testing getOutputRPN", () => {
+describe("Testing getoutputRPN", () => {
   it("Test getOuputRPN from mathSymbols `['2.21', '+', '2', '*', '3', '-', '8', '/', '9']`", () => {
-    const MATH_SYMBOLS: string[] = [
+    const mathSymbols: string[] = [
       "2.21",
       "+",
       "2",
@@ -25,7 +25,7 @@ describe("Testing getOutputRPN", () => {
       "/",
       "9",
     ];
-    const ACTUAL_OUTPUT: string[] = [
+    const actualOutput: string[] = [
       "2.21",
       "2",
       "3",
@@ -36,14 +36,14 @@ describe("Testing getOutputRPN", () => {
       "-",
       "+",
     ];
-    expect(getOutputRPN(MATH_SYMBOLS)).toStrictEqual(ACTUAL_OUTPUT);
+    expect(getOutputRPN(mathSymbols)).toStrictEqual(actualOutput);
   });
 });
 
 describe("Testing evalExpressionRPN", () => {
-  it("Test evalExpressionRPN from OutputRPN: ['2.21', '2', '3', ' * ', '8', '9,' ' / ', ' - ', ' + ']", () => {
-    const OUTPUT_RPN = ["2.21", "2", "3", "*", "8", "9", "/", "-", "+"];
+  it("Test evalExpressionRPN from outputRPN: ['2.21', '2', '3', ' * ', '8', '9,' ' / ', ' - ', ' + ']", () => {
+    const outputRPN = ["2.21", "2", "3", "*", "8", "9", "/", "-", "+"];
     const ACTUAL_RESULT = 7.321111111111111;
-    expect(evalExpressionRPN(OUTPUT_RPN)).toBe(ACTUAL_RESULT);
+    expect(evalExpressionRPN(outputRPN)).toBe(ACTUAL_RESULT);
   });
 });

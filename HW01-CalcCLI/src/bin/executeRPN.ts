@@ -2,14 +2,14 @@ import readline from "readline";
 
 import execute from "../";
 
-const RL = readline.createInterface({
+const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
 });
 
 console.log("Welcome to Calculator! Enter your expression:");
 
-RL.on("line", (input) => {
+rl.on("line", (input) => {
   try {
     console.log(`Result: ${execute(input)}`);
   } catch (ex) {
@@ -18,11 +18,11 @@ RL.on("line", (input) => {
   }
 });
 
-RL.on("SIGINT", () => {
-  RL.question("Are you sure you want to exit?", (answer) => {
+rl.on("SIGINT", () => {
+  rl.question("Are you sure you want to exit?", (answer) => {
     if (answer.match(/^y(es)?$/i)) {
       console.log("Bye!");
-      RL.close();
+      rl.close();
     } else {
       console.log("Enter your expression:");
     }
