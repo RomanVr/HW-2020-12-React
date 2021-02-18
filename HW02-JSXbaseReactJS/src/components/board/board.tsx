@@ -22,14 +22,26 @@ export class Board extends Component<Prop, State> {
     console.log("Board: componentDidMount");
   }
 
-  render(): ReactElement {
-    const { size } = this.state;
+  initBoard(size: number): Array<ReactNode> {
     const board: Array<ReactNode> = new Array(size);
     let i = 0;
     while (i < size) {
-      board.push(<Cell key={i}>{i}</Cell>);
+      const rowOfBoard: Array<ReactNode> = new Array(size);
+      let j = 0;
+      while (j < size) {
+        rowOfBoard.push(<Cell key={i + j}>{i + j}</Cell>);
+        j += 1;
+      }
+      board.push(<div style={{ float: "none" }}>{rowOfBoard}</div>);
       i += 1;
     }
+
+    return board;
+  }
+
+  render(): ReactElement {
+    const { size } = this.state;
+    const board: Array<ReactNode> = this.initBoard(size);
     return <div>{board}</div>;
   }
 }

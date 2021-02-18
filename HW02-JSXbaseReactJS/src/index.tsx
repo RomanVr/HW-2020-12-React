@@ -5,4 +5,4 @@ import { Board } from "./components/board/board";
 
 console.log("Hello World!!!");
 
-render(<Board start={100} />, document.getElementById("container"));
+render(<Board start={10} />, document.getElementById("container"));
