@@ -1,29 +1,21 @@
 import React from "react";
 
 interface Prop {
-  children: number;
+  dataKey: string;
+  handleClick: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 }
 
-export const Cell: React.FC<Prop> = ({ children }) => (
+export const Cell: React.FC<Prop> = ({ dataKey, handleClick }) => (
   <div
+    data-key={dataKey}
     style={{
       background: "yellow",
-      width: "50px",
-      height: "50px",
-      // outline: "1px solid black",
+      width: "30px",
+      height: "30px",
       border: "1px solid black",
       borderRadius: "5px",
       display: "table-cell",
-      textAlign: "center",
-      verticalAlign: "middle",
     }}
-  >
-    <span
-      style={{
-        margin: "auto",
-      }}
-    >
-      {children}
-    </span>
-  </div>
+    onClick={handleClick}
+  ></div>
 );

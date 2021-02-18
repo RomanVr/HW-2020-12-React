@@ -16,10 +16,12 @@ export class Board extends Component<Prop, State> {
     this.state = {
       size: props.start || 0,
     };
+    this.handleClick = this.handleClick.bind(this);
   }
 
-  componentDidMount(): void {
-    console.log("Board: componentDidMount");
+  handleClick(e: React.MouseEvent): void {
+    const target = e.target as HTMLDivElement;
+    console.log(target.dataset.key);
   }
 
   initBoard(size: number): Array<ReactNode> {
@@ -29,10 +31,17 @@ export class Board extends Component<Prop, State> {
       const rowOfBoard: Array<ReactNode> = new Array(size);
       let j = 0;
       while (j < size) {
-        rowOfBoard.push(<Cell key={i + j}>{i + j}</Cell>);
+        rowOfBoard.push(
+          <Cell
+            handleClick={this.handleClick}
+            dataKey={(i * 10 + j).toString()}
+          >
+            {i * 10 + j}
+          </Cell>
+        );
         j += 1;
       }
-      board.push(<div style={{ float: "none" }}>{rowOfBoard}</div>);
+      board.push(<div style={{ display: "table-row" }}>{rowOfBoard}</div>);
       i += 1;
     }
 
@@ -42,6 +51,14 @@ export class Board extends Component<Prop, State> {
   render(): ReactElement {
     const { size } = this.state;
     const board: Array<ReactNode> = this.initBoard(size);
-    return <div>{board}</div>;
+    return (
+      <div
+        style={{
+          display: "table",
+        }}
+      >
+        {board}
+      </div>
+    );
   }
 }
