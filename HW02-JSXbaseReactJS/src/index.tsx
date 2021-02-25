@@ -1,8 +1,6 @@
 import React from "react";
 import { render } from "react-dom";
 
-import { Board } from "./components/board/board";
+import { Field } from "./components";
 
-console.log("Hello World!!!");
-
-render(<Board start={10} />, document.getElementById("container"));
+render(<Field start={20} />, document.getElementById("container"));
