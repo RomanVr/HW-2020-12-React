@@ -1,6 +1,9 @@
 start:
 	npm start
 
+debugEecute:
+	DEBUG=execute,outputRPN node out/index.js
+
 debugEval:
 	DEBUG=eval node out/index.js
 

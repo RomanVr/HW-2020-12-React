@@ -1,5 +1,10 @@
 import { isValidExpression } from "./checks";
-import { getMathSymbols, getOutputRPN, evalExpressionRPN } from "./rpnMethods";
+import {
+  getMathSymbols,
+  getOutputRPN,
+  getOutputRPNWithSpace,
+  evalExpressionRPN,
+} from "./rpnMethods";
 
 export default (expression: string): number => {
   if (isValidExpression(expression)) {
@@ -13,4 +18,12 @@ export default (expression: string): number => {
   } else {
     throw new Error("Our expression is not valid!");
   }
+};
+
+export const executeRPN = (expressionRPN: string): number => {
+  const ouputRPN: string[] = getOutputRPNWithSpace(expressionRPN);
+
+  const result = evalExpressionRPN(ouputRPN);
+
+  return result;
 };

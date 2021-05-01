@@ -139,6 +139,12 @@ export const getOutputRPN = (mathSymbols: string[]): string[] => {
   return output;
 };
 
+export const getOutputRPNWithSpace = (mathSymbols: string): string[] => {
+  const stackRPN: string[] = mathSymbols.split(" ");
+  debugOutputRPN(`stackRPN finish: ${stackRPN}`);
+  return stackRPN;
+};
+
 export const evalExpressionRPN = (outputRPN: string[]): number => {
   const stackEval: string[] = [];
   outputRPN.map((item: string): void => {
