@@ -2,8 +2,10 @@ import { shallow } from "enzyme";
 import React from "react";
 import { Cell } from "..";
 
-const hanleClickMock = jest.fn();
-const wrapper = shallow(<Cell dataKey={1} handleClick={hanleClickMock}></Cell>);
+const handleClickMock = jest.fn();
+const wrapper = shallow(
+  <Cell dataKey={1} handleClick={handleClickMock}></Cell>
+);
 
 describe("Cell render check", () => {
   it("Default render with prop 'data-key'", () => {
@@ -12,6 +14,6 @@ describe("Cell render check", () => {
 
   it("Click simulation", () => {
     wrapper.find("div").simulate("click");
-    expect(hanleClickMock.mock.calls.length).toBe(1);
+    expect(handleClickMock.mock.calls.length).toBe(1);
   });
 });

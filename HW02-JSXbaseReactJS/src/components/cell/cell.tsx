@@ -1,6 +1,6 @@
 import React from "react";
 
-interface Prop {
+interface CellProp {
   dataKey: number;
   handleClick: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 }
@@ -14,6 +14,6 @@ export const stylesCell = {
   display: "table-cell",
 };
 
-export const Cell: React.FC<Prop> = ({ dataKey, handleClick }) => (
+export const Cell: React.FC<CellProp> = ({ dataKey, handleClick }) => (
   <div data-key={dataKey} style={stylesCell} onClick={handleClick}></div>
 );
