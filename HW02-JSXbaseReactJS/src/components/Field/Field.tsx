@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 
-import { Cell } from "../cell/cell";
+import { Cell } from "../Cell/Cell";
 
 interface FieldProp {
   start?: number;
