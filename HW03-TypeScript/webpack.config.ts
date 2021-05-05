@@ -3,7 +3,7 @@ import path from "path";
 module.exports = {
   mode: "development",
   devtool: "eval-source-map",
-  entry: "./src/bin/executeRPN.ts",
+  entry: "./src/index.ts",
   output: {
     filename: "index.js",
     path: path.join(__dirname, "out"),
