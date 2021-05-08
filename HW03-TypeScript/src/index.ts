@@ -1,7 +1,10 @@
-import "./easy1";
-import "./easy2";
+import "./level1/easy1";
+import "./level1/easy2";
+import { omit } from "./level1/easy3";
 
-import { omit } from "./easy3";
+import "./level2/medium1";
+import "./level2/medium2";
+import "./level2/medium3";
 
 interface Todo {
   title: string;
