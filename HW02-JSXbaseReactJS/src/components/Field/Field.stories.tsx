@@ -1,7 +1,7 @@
 import React from "react";
 
 //import { action } from "@storybook/addon-actions";
-import { withKnobs } from "@storybook/addon-knobs";
+import { withKnobs, number } from "@storybook/addon-knobs";
 
 import { Field } from "./Field";
 
@@ -10,4 +10,7 @@ export default {
   decorators: [withKnobs],
 };
 
-export const storyField = (): React.ReactElement => <Field start={3} />;
+export const StoryField = (): React.ReactElement => {
+  const size = number("size field", 3);
+  return <Field start={size} />;
+};
