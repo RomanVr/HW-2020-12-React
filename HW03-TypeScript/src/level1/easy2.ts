@@ -37,7 +37,6 @@ type Order =
       fullfillmentDate: Date;
     };
 
-type OrderOf = Pick<Order, "state">;
-type OrderState = OrderOf["state"];
+type OrderState = Order["state"];
 
 export const getOrderState = (order: Order): OrderState => order.state;

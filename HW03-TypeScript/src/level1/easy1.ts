@@ -17,7 +17,7 @@ type OrderState = typeof orderStates[number];
 
 export const getUserOrderStates = (orderStates: OrderState[]): FIXME => {
   type NewOrderState = Exclude<OrderState, "buyingSupplies" | "producing">;
-  const filteredStates = ([] as FIXME) as NewOrderState[];
+  const filteredStates = [] as NewOrderState[];
   orderStates.forEach((element) => {
     if (element !== "buyingSupplies" && element !== "producing") {
       filteredStates.push(element);

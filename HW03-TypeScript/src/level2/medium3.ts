@@ -10,9 +10,12 @@ const orderStates = [
 ] as const;
 
 type OrderState = typeof orderStates[number];
+type newOrderState = Omit<OrderState, "buyingSupplies" | "producing">;
 
 // Hint: type guards
-export const getUserOrderStates = (orderStates: OrderState[]): OrderState[] =>
+export const getUserOrderStates = (
+  orderStates: OrderState[]
+): newOrderState[] =>
   orderStates.filter(
     (state) => state !== "buyingSupplies" && state !== "producing"
   );

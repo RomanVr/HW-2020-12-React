@@ -7,10 +7,7 @@
 import React from "react";
 // type FIXME = any;
 
-type getTypeDefaultProps<T> = T extends { defaultProps: unknown }
-  ? T["defaultProps"]
-  : unknown;
-
+type getTypeDefaultProps<T> = T extends { defaultProps: infer U } ? U : unknown;
 // Hint: infer
 export const getDefaultProps = <T>(
   component: React.ComponentType<T>
