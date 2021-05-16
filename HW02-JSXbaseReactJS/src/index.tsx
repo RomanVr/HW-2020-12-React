@@ -1,8 +1,6 @@
 import React from "react";
 import { render } from "react-dom";
 
-import { ClickCounter } from "./components/ClickCounter";
+import { Field } from "./components";
 
-console.log("Hello World!!!");
-
-render(<ClickCounter start={1} />, document.getElementById("container"));
+render(<Field start={20} />, document.getElementById("container"));
