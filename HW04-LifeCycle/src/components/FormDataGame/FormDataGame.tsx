@@ -1,5 +1,5 @@
 import React from "react";
-import { InputSize } from "../InputSize/InputSize";
+import InputSize from "../InputSize/InputSize";
 import InputTime from "../InputTime/InputTime";
 
 const stylesSubmit = {
@@ -55,7 +55,8 @@ export default class FormDataGame extends React.Component<
   }
 
   componentDidUpdate(): void {
-    //контролируем в стейте size
+    // любые сайд-эффекты рекомендуется выполнять именно здесь
+    console.log("Form - DidUpdate!");
   }
 
   handleChangeTime(event: React.ChangeEvent<HTMLInputElement>): void {

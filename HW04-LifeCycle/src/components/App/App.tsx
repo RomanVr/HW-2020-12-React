@@ -23,6 +23,17 @@ export default class App extends React.Component<AppProp, AppState> {
     this.setState({ sizeField });
   }
 
+  shouldComponentUpdate(nextProps: never, nextState: AppState): boolean {
+    //контролируем в стейте size
+    const isUpdate: boolean = this.state.sizeField !== nextState.sizeField;
+    if (isUpdate) {
+      console.log("App shouldUpdate!");
+    } else {
+      console.log("App Not shouldUpdate!");
+    }
+    return isUpdate;
+  }
+
   render(): React.ReactElement {
     return (
       <>
