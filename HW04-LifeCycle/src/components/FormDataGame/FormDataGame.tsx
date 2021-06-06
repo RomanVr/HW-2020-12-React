@@ -19,6 +19,7 @@ interface FormDataGameState {
 
 interface FormDataGameProp {
   onSubmit: (arg0: number) => void;
+  errorInfoElem: React.ReactElement;
 }
 
 export default class FormDataGame extends React.Component<
@@ -46,17 +47,12 @@ export default class FormDataGame extends React.Component<
 
   handleSubmit(event: React.FormEvent): void {
     event.preventDefault();
-    this.props.onSubmit(Number(this.state.size));
+    const size = Number(this.state.size);
+    this.props.onSubmit(size);
   }
 
   handleChangeSize(event: React.ChangeEvent<HTMLInputElement>): void {
-    console.log("onChange - :", event.target.value);
     this.setState({ size: event.target.value });
-  }
-
-  componentDidUpdate(): void {
-    // любые сайд-эффекты рекомендуется выполнять именно здесь
-    console.log("Form - DidUpdate!");
   }
 
   handleChangeTime(event: React.ChangeEvent<HTMLInputElement>): void {
@@ -78,6 +74,9 @@ export default class FormDataGame extends React.Component<
         />
       );
     }
+    if (isNaN(Number(this.state.size))) {
+      throw new Error("Size must be a number!");
+    }
     return (
       <>
         {inputTimeVar}
@@ -92,6 +91,7 @@ export default class FormDataGame extends React.Component<
             handleChangeSize={this.handleChangeSize}
           ></InputSize>
           <input style={stylesSubmit} type="submit" value="Ok" />
+          {this.props.errorInfoElem}
         </form>
       </>
     );

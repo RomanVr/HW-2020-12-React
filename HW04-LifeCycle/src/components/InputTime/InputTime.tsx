@@ -22,12 +22,10 @@ export default class InputTime extends React.Component<
   }
 
   componentDidMount(): void {
-    console.log("DidMout!");
     this.timerID = setInterval(() => this.tick(), 1000);
   }
 
   componentWillUnmount(): void {
-    console.log("WillUnmout!");
     if (this.timerID) {
       clearInterval(this.timerID);
       this.timerID = undefined;
