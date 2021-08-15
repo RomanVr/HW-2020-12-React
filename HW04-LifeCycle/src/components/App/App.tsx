@@ -1,6 +1,6 @@
 import React, { ErrorInfo } from "react";
 
-import FormDataGame from "../FormDataGame/FormDataGame";
+import { FormDataGame } from "../";
 import { Field } from "../";
 import { getUrl } from "../../utils";
 
@@ -17,7 +17,7 @@ interface AppState {
 interface AppProp {}
 
 export default class App extends React.Component<AppProp, AppState> {
-  _isMounted: boolean | undefined;
+  _isMounted: boolean;
   IMAGE_ID_DEFAULT?: number;
   INTERVAL_TIME?: number;
 
@@ -76,7 +76,7 @@ export default class App extends React.Component<AppProp, AppState> {
   }
 
   componentDidUpdate(): void {
-    if (!this._isMounted) {
+    if (this._isMounted) {
       this.setNewImage();
     }
   }
