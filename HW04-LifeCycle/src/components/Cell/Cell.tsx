@@ -5,7 +5,7 @@ interface CellProp {
   handleClick: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 }
 
-export const stylesCell = {
+const stylesCell = {
   background: "yellow",
   width: "30px",
   height: "30px",

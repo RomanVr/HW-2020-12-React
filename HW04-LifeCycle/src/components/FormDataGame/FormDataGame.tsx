@@ -1,6 +1,7 @@
 import React from "react";
-import InputSize from "../InputSize/InputSize";
-import InputTime from "../InputTime/InputTime";
+import { ButtonValue } from "../";
+import { InputSize } from "../";
+import { InputTime } from "../";
 
 const stylesSubmit = {
   background: "white",
@@ -80,10 +81,9 @@ export default class FormDataGame extends React.Component<
     return (
       <>
         {inputTimeVar}
-        <input
-          type="button"
+        <ButtonValue
           value={this.state.buttonValue}
-          onClick={this.handleClick}
+          handleClick={this.handleClick}
         />
         <form onSubmit={this.handleSubmit}>
           <InputSize

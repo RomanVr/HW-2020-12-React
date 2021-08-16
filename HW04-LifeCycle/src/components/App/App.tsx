@@ -36,7 +36,6 @@ export default class App extends React.Component<AppProp, AppState> {
     this.IMAGE_ID_DEFAULT = 200;
     this.INTERVAL_TIME = 1000;
     this.setNewImage = this.setNewImage.bind(this);
-
     this.onSubmit = this.onSubmit.bind(this);
   }
 
