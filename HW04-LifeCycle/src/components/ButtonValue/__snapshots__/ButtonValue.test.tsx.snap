@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ButtonValue Render button for empty value 1`] = `
+<input
+  onClick={[MockFunction]}
+  type="button"
+  value=""
+/>
+`;
+
+exports[`ButtonValue Render button for filled with 'Show time' 1`] = `
+<input
+  onClick={[MockFunction]}
+  type="button"
+  value="Show time"
+/>
+`;

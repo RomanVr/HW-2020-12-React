@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`InputTime Render input for with value Time 1`] = `
+<input
+  readOnly={true}
+  type="text"
+  value="22:56:00"
+/>
+`;

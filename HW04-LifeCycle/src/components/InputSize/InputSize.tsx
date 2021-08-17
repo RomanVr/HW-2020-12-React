@@ -20,7 +20,10 @@ const stylesInput = {
   height: "30px",
 };
 
-const InputSize: React.FC<InputSizeProp> = ({ size, handleChangeSize }) => (
+export const InputSize: React.FC<InputSizeProp> = ({
+  size,
+  handleChangeSize,
+}) => (
   <>
     <label style={stylesLabel}>Введите размер поля:</label>
     <br></br>
@@ -33,5 +36,3 @@ const InputSize: React.FC<InputSizeProp> = ({ size, handleChangeSize }) => (
     ></input>
   </>
 );
-
-export default InputSize;

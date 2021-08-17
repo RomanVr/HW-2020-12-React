@@ -1,7 +1,6 @@
 import React from "react";
 
 interface InputTimeProps {
-  handleChangeTime: (e: React.ChangeEvent<HTMLInputElement>) => void;
   timeValue: string;
 }
 
@@ -9,10 +8,7 @@ interface InputTimeState {
   timeValue: string;
 }
 
-export default class InputTime extends React.Component<
-  InputTimeProps,
-  InputTimeState
-> {
+export class InputTime extends React.Component<InputTimeProps, InputTimeState> {
   // eslint-disable-next-line no-undef
   timerID?: NodeJS.Timeout;
 
@@ -39,13 +35,6 @@ export default class InputTime extends React.Component<
   }
 
   render(): React.ReactElement {
-    return (
-      <input
-        readOnly
-        type="text"
-        value={this.state.timeValue}
-        onChange={this.props.handleChangeTime}
-      />
-    );
+    return <input readOnly type="text" value={this.state.timeValue} />;
   }
 }

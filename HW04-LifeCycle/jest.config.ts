@@ -2,8 +2,9 @@
  * For a detailed explanation regarding each configuration property and type check, visit:
  * https://jestjs.io/docs/en/configuration.html
  */
+import type { Config } from "@jest/types";
 
-export default {
+const config: Config.InitialOptions = {
   // All imported modules in your tests should be mocked automatically
   // automock: false,
 
@@ -123,9 +124,7 @@ export default {
   // rootDir: undefined,
 
   // A list of paths to directories that Jest should use to search for files in
-  // roots: [
-  //   "<rootDir>"
-  // ],
+  roots: ["<rootDir>"],
 
   // Allows you to use a custom runner instead of Jest's default test runner
   // runner: "jest-runner",
@@ -185,6 +184,10 @@ export default {
     "^.+\\.(js|jsx|ts|tsx)$": "<rootDir>/node_modules/babel-jest",
   },
 
+  snapshotSerializers: [
+    "@emotion/jest/enzyme-serializer" /* if needed other snapshotSerializers should go here */,
+  ],
+
   // An array of regexp pattern strings that are matched against all source file paths,
   // matched files will skip transformation
   // transformIgnorePatterns: [
@@ -206,3 +209,5 @@ export default {
   // Whether to use watchman for file crawling
   // watchman: true,
 };
+
+export default config;

@@ -23,7 +23,7 @@ interface FormDataGameProp {
   errorInfoElem: React.ReactElement;
 }
 
-export default class FormDataGame extends React.Component<
+export class FormDataGame extends React.Component<
   FormDataGameProp,
   FormDataGameState
 > {
@@ -42,7 +42,6 @@ export default class FormDataGame extends React.Component<
     this.handleChangeSize = this.handleChangeSize.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
 
-    this.handleChangeTime = this.handleChangeTime.bind(this);
     this.handleClick = this.handleClick.bind(this);
   }
 
@@ -56,10 +55,6 @@ export default class FormDataGame extends React.Component<
     this.setState({ size: event.target.value });
   }
 
-  handleChangeTime(event: React.ChangeEvent<HTMLInputElement>): void {
-    this.setState({ timeValue: event.target.value });
-  }
-
   handleClick(): void {
     const newButtonValue = this.state.isTime ? "Show it Time!" : "Down";
     this.setState({ isTime: !this.state.isTime, buttonValue: newButtonValue });
@@ -68,12 +63,7 @@ export default class FormDataGame extends React.Component<
   render(): React.ReactElement {
     let inputTimeVar: React.ReactElement = <></>;
     if (this.state.isTime) {
-      inputTimeVar = (
-        <InputTime
-          timeValue={this.state.timeValue}
-          handleChangeTime={this.handleChangeTime}
-        />
-      );
+      inputTimeVar = <InputTime timeValue={this.state.timeValue} />;
     }
     if (isNaN(Number(this.state.size))) {
       throw new Error("Size must be a number!");

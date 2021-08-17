@@ -10,7 +10,6 @@ export default {
 };
 
 export const ButtonStory: React.FC = () => {
-  //const value = text("filled with", "Show Time");
   return (
     <ButtonValue
       value={text("filled with", "Show Time")}
