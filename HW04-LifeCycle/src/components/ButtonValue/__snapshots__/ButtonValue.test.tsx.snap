@@ -2,6 +2,7 @@
 
 exports[`ButtonValue Render button for empty value 1`] = `
 <input
+  data-testid="buttonValue"
   onClick={[MockFunction]}
   type="button"
   value=""
@@ -10,6 +11,7 @@ exports[`ButtonValue Render button for empty value 1`] = `
 
 exports[`ButtonValue Render button for filled with 'Show time' 1`] = `
 <input
+  data-testid="buttonValue"
   onClick={[MockFunction]}
   type="button"
   value="Show time"

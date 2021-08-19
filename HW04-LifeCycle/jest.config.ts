@@ -135,7 +135,10 @@ const config: Config.InitialOptions = {
 
   // A list of paths to modules that run some code to configure or set up the testin
   // framework before each test
-  setupFilesAfterEnv: ["<rootDir>/internals/jestSettings.js"],
+  setupFilesAfterEnv: [
+    "<rootDir>/internals/jestSettings.js",
+    "<rootDir>/internals/jestSetup.ts",
+  ],
 
   // The number of seconds after which a test is considered as slow and reported as such
   // in the results.

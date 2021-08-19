@@ -35,6 +35,13 @@ export class InputTime extends React.Component<InputTimeProps, InputTimeState> {
   }
 
   render(): React.ReactElement {
-    return <input readOnly type="text" value={this.state.timeValue} />;
+    return (
+      <input
+        data-testid="inputTime"
+        readOnly
+        type="text"
+        value={this.state.timeValue}
+      />
+    );
   }
 }

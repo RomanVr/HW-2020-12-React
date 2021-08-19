@@ -1,11 +1,11 @@
 import React from "react";
-import renderer from "react-test-renderer";
+import { render, screen } from "@testing-library/react";
 import { InputTime } from "./InputTime";
 
 describe("InputTime", () => {
   it("Render input for with value Time", () => {
-    expect(
-      renderer.create(<InputTime timeValue="Time" />).toJSON()
-    ).toMatchSnapshot();
+    render(<InputTime timeValue="Time" />);
+
+    expect(screen.getByTestId("inputTime")).toBeInTheDocument();
   });
 });

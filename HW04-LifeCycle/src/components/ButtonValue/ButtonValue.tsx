@@ -7,4 +7,11 @@ interface ButtonValueProp {
 export const ButtonValue: React.FC<ButtonValueProp> = ({
   value,
   handleClick,
-}) => <input type="button" value={value} onClick={handleClick} />;
+}) => (
+  <input
+    data-testid="buttonValue"
+    type="button"
+    value={value}
+    onClick={handleClick}
+  />
+);
