@@ -10,7 +10,6 @@ describe("FormDataGame testing", () => {
   });
 
   it("renders FormDataGame", () => {
-    screen.debug();
     expect(screen.getByPlaceholderText("Enter size")).toBeInTheDocument();
     expect(screen.queryByTestId("inputTime")).toBeNull();
     expect(screen.getByTestId("buttonValue")).toBeInTheDocument();

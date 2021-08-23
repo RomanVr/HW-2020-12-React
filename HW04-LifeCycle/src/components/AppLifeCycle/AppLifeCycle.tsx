@@ -16,7 +16,7 @@ interface AppState {
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface AppProp {}
 
-export default class App extends React.Component<AppProp, AppState> {
+export default class AppCycle extends React.Component<AppProp, AppState> {
   _isMounted: boolean;
   IMAGE_ID_DEFAULT?: number;
   INTERVAL_TIME?: number;

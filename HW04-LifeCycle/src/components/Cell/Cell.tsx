@@ -15,5 +15,10 @@ const stylesCell = {
 };
 
 export const Cell: React.FC<CellProp> = ({ dataKey, handleClick }) => (
-  <div data-key={dataKey} style={stylesCell} onClick={handleClick}></div>
+  <div
+    data-testid="items-field-item"
+    data-key={dataKey}
+    style={stylesCell}
+    onClick={handleClick}
+  ></div>
 );
