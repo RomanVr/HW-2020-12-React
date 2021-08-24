@@ -1,23 +1,19 @@
-import { action } from "@storybook/addon-actions";
-import { withKnobs } from "@storybook/addon-knobs";
+import { Meta, Story } from "@storybook/react";
 import React from "react";
-import { FormDataGame } from "./FormDataGame";
+
+import { FormDataGame, FormDataGameProps } from "./FormDataGame";
 
 export default {
-  title: "FormData",
-  Component: FormDataGame,
-  decorators: [withKnobs],
-};
+  title: "Form/Form",
+  component: FormDataGame,
+} as Meta;
 
-export const FormWithoutError: React.FC = () => {
-  return <FormDataGame errorInfoElem={<></>} onSubmit={action("Submit")} />;
-};
+const Template: Story<FormDataGameProps> = (args) => <FormDataGame {...args} />;
 
-export const FormWithError: React.FC = () => {
-  return (
-    <FormDataGame
-      errorInfoElem={<span style={{ color: "red" }}>Please enter Number</span>}
-      onSubmit={action("Submit")}
-    />
-  );
+export const FormStory = Template.bind({});
+FormStory.args = { errorInfoElem: <></> };
+
+export const FormStoryError = Template.bind({});
+FormStoryError.args = {
+  errorInfoElem: <span style={{ color: "red" }}>Please enter Number</span>,
 };

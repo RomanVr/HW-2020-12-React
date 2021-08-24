@@ -1,19 +1,17 @@
 import React from "react";
-import { action } from "@storybook/addon-actions";
-import { ButtonValue } from "./ButtonValue";
-import { text, withKnobs } from "@storybook/addon-knobs";
+
+import { ButtonValue, ButtonValueProps } from "./ButtonValue";
+import { Meta, Story } from "@storybook/react";
 
 export default {
-  title: "ButtonValue",
-  Component: ButtonValue,
-  decorators: [withKnobs],
-};
+  title: "Form/ButtonValue",
+  component: ButtonValue,
+} as Meta;
 
-export const ButtonStory: React.FC = () => {
-  return (
-    <ButtonValue
-      value={text("filled with", "Show Time")}
-      handleClick={action("Click")}
-    />
-  );
+const Template: Story<ButtonValueProps> = (args) => <ButtonValue {...args} />;
+
+export const ButtonStory = Template.bind({});
+
+ButtonStory.args = {
+  value: "Show Time",
 };

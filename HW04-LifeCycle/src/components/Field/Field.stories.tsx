@@ -1,16 +1,14 @@
 import React from "react";
+import { Meta, Story } from "@storybook/react";
 
-//import { action } from "@storybook/addon-actions";
-import { withKnobs, number } from "@storybook/addon-knobs";
-
-import { Field } from "./Field";
+import { Field, FieldProps } from "./Field";
 
 export default {
-  title: "Field",
-  decorators: [withKnobs],
-};
+  title: "Field/Field",
+  component: Field,
+} as Meta;
 
-export const StoryField = (): React.ReactElement => {
-  const size = number("size field", 3);
-  return <Field start={size} />;
-};
+const Template: Story<FieldProps> = (args) => <Field {...args} />;
+
+export const FieldStory = Template.bind({});
+FieldStory.args = { start: 5 };

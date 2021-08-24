@@ -1,19 +1,14 @@
 import React from "react";
-import { action } from "@storybook/addon-actions";
-import { text, withKnobs } from "@storybook/addon-knobs";
-import { InputSize } from "..";
+
+import { InputSize, InputSizeProps } from "./InputSize";
+import { Meta, Story } from "@storybook/react";
 
 export default {
-  title: "InputSize",
-  Component: InputSize,
-  decorators: [withKnobs],
-};
+  title: "Form/InputSize",
+  component: InputSize,
+} as Meta;
 
-export const InputSizeStory: React.FC = () => {
-  return (
-    <InputSize
-      size={text("filled with", "size")}
-      handleChangeSize={action("ChangeSize")}
-    />
-  );
-};
+const Template: Story<InputSizeProps> = (args) => <InputSize {...args} />;
+
+export const InputSizeStory = Template.bind({});
+InputSizeStory.args = { size: "5" };

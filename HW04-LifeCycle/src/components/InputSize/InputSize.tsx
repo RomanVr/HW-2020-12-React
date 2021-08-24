@@ -1,6 +1,6 @@
 import React from "react";
 
-interface InputSizeProp {
+export interface InputSizeProps {
   size: string;
   handleChangeSize: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
@@ -20,7 +20,7 @@ const stylesInput = {
   height: "30px",
 };
 
-export const InputSize: React.FC<InputSizeProp> = ({
+export const InputSize: React.FC<InputSizeProps> = ({
   size,
   handleChangeSize,
 }) => (

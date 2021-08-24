@@ -13,15 +13,12 @@ interface AppState {
   errorInfo: ErrorInfo | null;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface AppProp {}
-
-export default class AppCycle extends React.Component<AppProp, AppState> {
+export class AppLifeCycle extends React.Component<unknown, AppState> {
   _isMounted: boolean;
   IMAGE_ID_DEFAULT?: number;
   INTERVAL_TIME?: number;
 
-  constructor(props: AppProp | Readonly<AppProp>) {
+  constructor(props: never) {
     super(props);
     this.state = {
       sizeField: 10,

@@ -1,17 +1,17 @@
 import React from "react";
 
-import { action } from "@storybook/addon-actions";
-import { withKnobs, number } from "@storybook/addon-knobs";
-
-import { Cell } from "./Cell";
+import { Story, Meta } from "@storybook/react";
+import { Cell, CellProps } from "./Cell";
 
 export default {
-  title: "Cell",
-  Component: Cell,
-  decorators: [withKnobs],
-};
+  title: "Field/Cell",
+  component: Cell,
+  argTypes: {
+    dataKey: { defaultValue: 1 },
+  },
+} as Meta;
 
-export const CellStory: React.FC = () => {
-  const dataKey = number("data-key", 10);
-  return <Cell dataKey={dataKey} handleClick={action("log data-key")} />;
-};
+const Template: Story<CellProps> = (args) => <Cell {...args} />;
+
+export const CellDataKey = Template.bind({});
+CellDataKey.args = { dataKey: 10 };

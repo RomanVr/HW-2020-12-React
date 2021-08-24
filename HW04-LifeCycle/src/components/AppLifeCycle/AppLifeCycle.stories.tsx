@@ -1,14 +1,13 @@
 import React from "react";
-import { withKnobs } from "@storybook/addon-knobs";
+import { Meta, Story } from "@storybook/react";
 
-import AppLifeCycle from "./AppLifeCycle";
+import { AppLifeCycle } from "./AppLifeCycle";
 
 export default {
   title: "App",
-  Component: AppLifeCycle,
-  decorators: [withKnobs],
-};
+  component: AppLifeCycle,
+} as unknown as Meta;
 
-export const App: React.FC = () => {
-  return <AppLifeCycle />;
-};
+const Template: Story = () => <AppLifeCycle />;
+
+export const AppStory = Template.bind({});

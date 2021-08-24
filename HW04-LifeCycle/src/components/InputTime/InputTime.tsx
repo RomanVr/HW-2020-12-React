@@ -1,18 +1,14 @@
 import React from "react";
 
-interface InputTimeProps {
-  timeValue: string;
-}
-
 interface InputTimeState {
   timeValue: string;
 }
 
-export class InputTime extends React.Component<InputTimeProps, InputTimeState> {
+export class InputTime extends React.Component<unknown, InputTimeState> {
   // eslint-disable-next-line no-undef
   timerID?: NodeJS.Timeout;
 
-  constructor(props: InputTimeProps) {
+  constructor(props: never) {
     super(props);
     this.state = { timeValue: new Date().toLocaleTimeString() };
   }

@@ -1,13 +1,13 @@
 import React from "react";
-import { text, withKnobs } from "@storybook/addon-knobs";
-import { InputTime } from "..";
+import { Meta, Story } from "@storybook/react";
+
+import { InputTime } from "./InputTime";
 
 export default {
-  title: "InputTime",
-  Component: InputTime,
-  decorators: [withKnobs],
-};
+  title: "Form/InputTime",
+  component: InputTime,
+} as unknown as Meta;
 
-export const InputTimeStory: React.FC = () => {
-  return <InputTime timeValue={text("filled with", "12:05:55")} />;
-};
+const Template: Story = () => <InputTime />;
+
+export const InputTimeStory = Template.bind({});

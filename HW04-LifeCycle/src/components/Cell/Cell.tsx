@@ -1,6 +1,6 @@
 import React from "react";
 
-interface CellProp {
+export interface CellProps {
   dataKey: number;
   handleClick: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 }
@@ -14,7 +14,7 @@ const stylesCell = {
   display: "table-cell",
 };
 
-export const Cell: React.FC<CellProp> = ({ dataKey, handleClick }) => (
+export const Cell: React.FC<CellProps> = ({ dataKey, handleClick }) => (
   <div
     data-testid="items-field-item"
     data-key={dataKey}

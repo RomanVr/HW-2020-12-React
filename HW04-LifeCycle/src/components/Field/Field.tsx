@@ -2,11 +2,11 @@ import React, { ReactNode } from "react";
 
 import { Cell } from "../Cell/Cell";
 
-interface FieldProp {
+export interface FieldProps {
   start?: number;
 }
 
-export const Field: React.FC<FieldProp> = ({ start = 10 }) => {
+export const Field: React.FC<FieldProps> = ({ start = 10 }) => {
   const handleClick = (e: React.MouseEvent): void => {
     const target = e.target as HTMLDivElement;
     console.log(`data-key: ${target.dataset.key}`);
