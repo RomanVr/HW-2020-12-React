@@ -1,10 +1,10 @@
 import React from "react";
 
-interface ButtonValueProp {
+export interface ButtonValueProps {
   value: string;
   handleClick: () => void;
 }
-export const ButtonValue: React.FC<ButtonValueProp> = ({
+export const ButtonValue: React.FC<ButtonValueProps> = ({
   value,
   handleClick,
 }) => (

@@ -18,19 +18,19 @@ interface FormDataGameState {
   buttonValue: string;
 }
 
-interface FormDataGameProp {
+export interface FormDataGameProps {
   onSubmit: (arg0: number) => void;
   errorInfoElem: React.ReactElement;
 }
 
 export class FormDataGame extends React.Component<
-  FormDataGameProp,
+  FormDataGameProps,
   FormDataGameState
 > {
   // eslint-disable-next-line no-undef
   timerID?: NodeJS.Timeout;
 
-  constructor(props: FormDataGameProp | Readonly<FormDataGameProp>) {
+  constructor(props: FormDataGameProps) {
     super(props);
     this.state = {
       size: "10",
@@ -63,7 +63,7 @@ export class FormDataGame extends React.Component<
   render(): React.ReactElement {
     let inputTimeVar: React.ReactElement = <></>;
     if (this.state.isTime) {
-      inputTimeVar = <InputTime timeValue={this.state.timeValue} />;
+      inputTimeVar = <InputTime />;
     }
     if (isNaN(Number(this.state.size))) {
       throw new Error("Size must be a number!");
