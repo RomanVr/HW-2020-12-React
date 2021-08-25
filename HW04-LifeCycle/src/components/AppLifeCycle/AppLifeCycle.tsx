@@ -37,6 +37,12 @@ export class AppLifeCycle extends React.Component<unknown, AppState> {
   }
 
   onSubmit(sizeField: number): void {
+    console.log(
+      "onSubmit - Errorinfo: ",
+      this.state.errorInfo,
+      "sizeField: ",
+      sizeField
+    );
     this.setState({ sizeField });
     if (this.state.errorInfo) {
       this.setState({ errorInfo: null });
@@ -56,6 +62,7 @@ export class AppLifeCycle extends React.Component<unknown, AppState> {
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
+    console.log("DidCatch - Errorinfo: ", errorInfo);
     this.setState({
       error,
       errorInfo,
@@ -72,16 +79,23 @@ export class AppLifeCycle extends React.Component<unknown, AppState> {
   }
 
   componentDidUpdate(): void {
+    console.log("DidUpdate - Errorinfo: ", this.state.errorInfo);
     if (this._isMounted) {
       this.setNewImage();
     }
   }
 
   shouldComponentUpdate(nextProps: never, nextState: AppState): boolean {
+    console.log(
+      "shouldComponentUpdate - stateErrorinfo: ",
+      this.state.errorInfo,
+      "NextStateErrorinfo: ",
+      nextState.errorInfo
+    );
     //контролируем в стейте size
     const isUpdate: boolean =
       this.state.sizeField !== nextState.sizeField ||
-      nextState.errorInfo !== null;
+      this.state.errorInfo !== nextState.errorInfo;
     return isUpdate;
   }
 
