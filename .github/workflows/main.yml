@@ -6,7 +6,7 @@ name: CI
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
   push:
-    branches: [ master, HW04-LifeCycle]
+    branches: [ master ]
   pull_request:
     branches: [ master ]
 
@@ -38,4 +38,13 @@ jobs:
       # Run project Eslint
       - name: Eslint
         run: npm run lint
+      
+       # Adds Chromatic as a step in the workflow
+      - name: Publish to Chromatic
+        uses: chromaui/action@v1
+        # Options required to the GitHub Chromatic Action
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          # Chromatic projectToken, refer to the manage page to obtain it.
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
         
