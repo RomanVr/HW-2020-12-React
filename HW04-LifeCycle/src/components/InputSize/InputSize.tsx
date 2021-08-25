@@ -28,6 +28,7 @@ export const InputSize: React.FC<InputSizeProps> = ({
     <label style={stylesLabel}>Введите размер поля:</label>
     <br></br>
     <input
+      data-testid="inputSize"
       style={stylesInput}
       type="text"
       value={size}

@@ -1,13 +1,11 @@
 import React from "react";
-import renderer from "react-test-renderer";
+import { render, screen } from "@testing-library/react";
 import { InputSize } from "./InputSize";
 
 describe("InputSize", () => {
   it("Render input for epmty value", () => {
-    expect(
-      renderer
-        .create(<InputSize size="" handleChangeSize={jest.fn()} />)
-        .toJSON()
-    ).toMatchSnapshot();
+    render(<InputSize size="" handleChangeSize={jest.fn()} />);
+
+    expect(screen.getByTestId("inputSize")).toBeInTheDocument();
   });
 });
