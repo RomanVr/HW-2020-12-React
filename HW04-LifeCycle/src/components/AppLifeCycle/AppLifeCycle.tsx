@@ -89,7 +89,11 @@ export class AppLifeCycle extends React.Component<unknown, AppState> {
     const { url, imageNumber } = this.state;
     let errorInfoElem: React.ReactElement = <></>;
     if (this.state.errorInfo) {
-      errorInfoElem = <span style={{ color: "red" }}>Please enter Number</span>;
+      errorInfoElem = (
+        <span data-testid="spanError" style={{ color: "red" }}>
+          Please enter Number
+        </span>
+      );
     }
     return (
       <>
