@@ -1,0 +1,10 @@
+dist
+out
+node_modules
+public
+coverage
+__tests__/__fixtures__
+storybook-static
+HW01-CalcCLI
+HW02-JSXbaseReactJS
+HW04-LifeCycle
