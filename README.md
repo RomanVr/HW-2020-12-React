@@ -53,3 +53,7 @@ Roman Vorobyev (Роман Воробьев) romakf99@yandex.ru
     3) Компонент AppLifeCycle описывает shouldComponentUpdate, который позволяет обновится в случае если изменяется размер Field и возникает ошибка при не правильном вводе размера (должно быть числом).
     4) Компонент InputTime описывает componentDidMount и componentWillUnmout для отображение времени с переодичностью.
     5) Компонент AppLifeCycle описывает componentDidCatch для перехвата ошибки в дочернем компоненте FormDataGame.
+
+[Deploy on AWS Amplify](https://hw04-lifecycle.d2xcctmz26q5pv.amplifyapp.com/)
+
+[Chromatic](https://www.chromatic.com/build?appId=6123eb10d1e6cf003abe7735&number=7)
