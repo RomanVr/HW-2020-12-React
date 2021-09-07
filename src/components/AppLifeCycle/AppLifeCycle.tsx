@@ -13,6 +13,8 @@ interface AppState {
   errorInfo: ErrorInfo | null;
 }
 
+const urlDefault = "https://picsum.photos/id/1/200";
+
 export class AppLifeCycle extends React.Component<unknown, AppState> {
   IMAGE_ID_DEFAULT?: number;
   INTERVAL_TIME?: number;
@@ -21,7 +23,7 @@ export class AppLifeCycle extends React.Component<unknown, AppState> {
     super(props);
     this.state = {
       sizeField: 10,
-      url: "",
+      url: urlDefault,
       imageNumber: 0,
 
       error: null,
