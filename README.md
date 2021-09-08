@@ -56,5 +56,5 @@ Roman Vorobyev (Роман Воробьев) romakf99@yandex.ru
 
 [Deploy on AWS Amplify](https://hw04-lifecycle.d7i4bhza825gv.amplifyapp.com)
 
-[Chromatic](https://www.chromatic.com/build?appId=6123eb10d1e6cf003abe7735&number=7)
+[Chromatic](https://www.chromatic.com/build?appId=6123eb10d1e6cf003abe7735&number=7) ---
 [Invite to Chromatic](https://www.chromatic.com/builds?appId=6123eb10d1e6cf003abe7735&inviteToken=60e9a76550ee4d54aa1871142d24c67d)
