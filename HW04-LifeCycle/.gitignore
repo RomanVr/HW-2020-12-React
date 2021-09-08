@@ -1,0 +1,9 @@
+node_modules
+*.log
+out
+dist
+coverage
+.env
+db.*
+/public/assets/
+storybook-static
