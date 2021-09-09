@@ -1,24 +1,33 @@
 import React from "react";
+import styled from "@emotion/styled";
+import { css } from "@emotion/core";
 
 export interface CellProps {
-  dataKey: number;
-  handleClick: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+  coordX: number;
+  coordY: number;
+  getCoordsClick: (x: number, y: number) => void;
 }
 
-const stylesCell = {
-  background: "yellow",
-  width: "30px",
-  height: "30px",
-  border: "1px solid black",
-  borderRadius: "5px",
-  display: "table-cell",
-};
+const styleBaseCell = css`
+  background: #95d7f1;
+  width: 10px;
+  height: 10px;
+  border: 1px solid black;
+  border-radius: 1px;
+  display: table-cell;
+`;
 
-export const Cell: React.FC<CellProps> = ({ dataKey, handleClick }) => (
-  <div
+const CellItem = styled.div`
+  ${styleBaseCell};
+`;
+
+export const Cell: React.FC<CellProps> = ({
+  coordX,
+  coordY,
+  getCoordsClick,
+}) => (
+  <CellItem
     data-testid="items-field-item"
-    data-key={dataKey}
-    style={stylesCell}
-    onClick={handleClick}
-  ></div>
+    onClick={() => getCoordsClick(coordX, coordY)}
+  ></CellItem>
 );

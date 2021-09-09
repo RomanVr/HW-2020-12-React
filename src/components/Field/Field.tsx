@@ -7,9 +7,8 @@ export interface FieldProps {
 }
 
 export const Field: React.FC<FieldProps> = ({ start = 10 }) => {
-  const handleClick = (e: React.MouseEvent): void => {
-    const target = e.target as HTMLDivElement;
-    console.log(`data-key: ${target.dataset.key}`);
+  const handleClick = (x: number, y: number): void => {
+    console.log(`data-key: ${x},  ${y}`);
   };
 
   const initField = (size: number): Array<ReactNode> => {
@@ -21,7 +20,7 @@ export const Field: React.FC<FieldProps> = ({ start = 10 }) => {
       while (j < size) {
         const key = j + i * size;
         rowOfField.push(
-          <Cell key={key} handleClick={handleClick} dataKey={key}>
+          <Cell key={key} getCoordsClick={handleClick} coordX={i} coordY={j}>
             {key}
           </Cell>
         );
