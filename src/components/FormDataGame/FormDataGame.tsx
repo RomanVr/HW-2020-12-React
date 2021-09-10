@@ -19,7 +19,7 @@ interface FormDataGameState {
 }
 
 export interface FormDataGameProps {
-  onSubmit: (arg0: number) => void;
+  onSubmit: (sizeX: number, sizeY: number) => void;
   errorInfoElem: React.ReactElement;
 }
 

@@ -9,38 +9,50 @@ export interface FieldProps {
   sizeY: number;
 }
 
-export class Field extends React.Component<FieldProps, unknown> {
+interface FieldState {
+  fieldData: number[][];
+}
+
+export class Field extends React.Component<FieldProps, FieldState> {
   constructor(props: FieldProps) {
     super(props);
+
     this.state = {
       fieldData: this.generateDataField(props.sizeX, props.sizeY),
-    }
+    };
+
     this.handleClick = this.handleClick.bind(this);
   }
 
   handleClick(x: number, y: number): void {
     console.log(`data-key: ${x},  ${y}`);
+    console.log(`array fieldData[x][y] : ${this.state.fieldData[x][y]}`);
+    const newFieldData = new Array(this.props.sizeY)
+      .fill(null)
+      .map((itemRow, indexRow) => [...this.state.fieldData[indexRow]]);
+    newFieldData[x][y] = this.state.fieldData[x][y] ? 0 : 1;
+    this.setState({ fieldData: newFieldData });
   }
 
   generateDataField(sizeX: number, sizeY: number): number[][] {
     return new Array(sizeX).fill(null).map(() => new Array(sizeY).fill(0));
   }
 
-  initField(size: number): Array<ReactNode> {
-    const field: Array<ReactNode> = new Array(size);
+  initField(sizeX: number, sizeY: number): Array<ReactNode> {
+    const field: Array<ReactNode> = new Array(sizeX);
     let i = 0;
-    while (i < size) {
-      const rowOfField: Array<ReactNode> = new Array(size);
+    while (i < sizeX) {
+      const rowOfField: Array<ReactNode> = new Array(sizeY);
       let j = 0;
-      while (j < size) {
-        const key = j + i * size;
+      while (j < sizeY) {
+        const key = j + i * sizeX;
         rowOfField.push(
           <Cell
             key={key}
-            getCoordsClick={this.handleClick}
+            onClick={this.handleClick}
             coordX={i}
             coordY={j}
-            live={}
+            isLive={Boolean(this.state.fieldData[i][j])}
           >
             {key}
           </Cell>
@@ -55,10 +67,13 @@ export class Field extends React.Component<FieldProps, unknown> {
       i += 1;
     }
     return field;
-  };
+  }
 
   render(): React.ReactElement {
-    const field: Array<ReactNode> = this.initField(this.props.start);
+    const field: Array<ReactNode> = this.initField(
+      this.props.sizeX,
+      this.props.sizeY
+    );
 
     return <div style={{ display: "table" }}>{field}</div>;
   }
