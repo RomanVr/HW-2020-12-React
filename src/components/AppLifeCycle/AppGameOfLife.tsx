@@ -47,7 +47,7 @@ export class AppGameOfLife extends React.Component<unknown, AppState> {
   shouldComponentUpdate(nextProps: never, nextState: AppState): boolean {
     //контролируем в стейте size
     const isUpdate: boolean =
-    // this.state.sizeField !== nextState.sizeField ||
+      // this.state.sizeField !== nextState.sizeField ||
       this.state.sizeX !== nextState.sizeX ||
       this.state.sizeY !== nextState.sizeY ||
       this.state.errorInfo !== nextState.errorInfo;

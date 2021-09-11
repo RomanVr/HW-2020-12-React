@@ -1,39 +1,49 @@
 import React from "react";
+import styled from "@emotion/styled";
+import { css } from "@emotion/core";
 
 export interface InputSizeProps {
   size: string;
-  handleChangeSize: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  placeHolder: string;
+  label: string;
 }
 
-const stylesLabel = {
+const stylesLabel = css`
   display: "block-inline",
   background: "gray",
   border: "1px solid black",
   borderRadius: "5px",
   height: "30px",
-};
+`;
+const LabelInput = styled.label`
+  ${stylesLabel}
+`;
 
-const stylesInput = {
+const stylesInput = css`
   background: "white",
   border: "1px solid grey",
   borderRadius: "5px",
   height: "30px",
-};
+`;
+const InputItem = styled.input`
+  ${stylesInput}
+`;
 
 export const InputSize: React.FC<InputSizeProps> = ({
   size,
-  handleChangeSize,
+  onChange,
+  placeHolder,
+  label,
 }) => (
   <>
-    <label style={stylesLabel}>Введите размер поля:</label>
-    <br></br>
-    <input
+    <LabelInput>{label}</LabelInput>
+    <InputItem
       data-testid="inputSize"
-      style={stylesInput}
       type="text"
       value={size}
-      onChange={handleChangeSize}
-      placeholder="Enter size"
-    ></input>
+      onChange={onChange}
+      placeholder={placeHolder}
+    ></InputItem>
   </>
 );

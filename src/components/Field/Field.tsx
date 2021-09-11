@@ -25,9 +25,9 @@ export class Field extends React.Component<FieldProps, FieldState> {
   }
 
   handleClick(x: number, y: number): void {
-    // console.log(`data-key: ${x},  ${y}`);
+    console.log(`data-key: ${x},  ${y}`);
     // console.log(`array fieldData : ${this.state.fieldData}`);
-    // console.log(`array fieldData[x][y] : ${this.state.fieldData[x][y]}`);
+    console.log(`array fieldData[x][y] : ${this.state.fieldData[x][y]}`);
     const newFieldData = new Array(this.props.sizeX)
       .fill(null)
       .map((itemRow, indexRow) => [...this.state.fieldData[indexRow]]);
