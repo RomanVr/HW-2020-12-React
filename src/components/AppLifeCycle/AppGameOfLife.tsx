@@ -1,9 +1,10 @@
 import React, { ErrorInfo } from "react";
 
-import { FormDataGame } from "../";
-import { Field } from "../";
+import { FormDataGame } from "..";
+import { Field } from "..";
 
 interface AppState {
+  // sizeField: number;
   sizeX: number;
   sizeY: number;
 
@@ -11,13 +12,14 @@ interface AppState {
   errorInfo: ErrorInfo | null;
 }
 
-export class AppLifeCycle extends React.Component<unknown, AppState> {
+export class AppGameOfLife extends React.Component<unknown, AppState> {
   IMAGE_ID_DEFAULT?: number;
   INTERVAL_TIME?: number;
 
   constructor(props: never) {
     super(props);
     this.state = {
+      // sizeField: 10,
       sizeX: 20,
       sizeY: 30,
 
@@ -45,6 +47,7 @@ export class AppLifeCycle extends React.Component<unknown, AppState> {
   shouldComponentUpdate(nextProps: never, nextState: AppState): boolean {
     //контролируем в стейте size
     const isUpdate: boolean =
+    // this.state.sizeField !== nextState.sizeField ||
       this.state.sizeX !== nextState.sizeX ||
       this.state.sizeY !== nextState.sizeY ||
       this.state.errorInfo !== nextState.errorInfo;
@@ -52,6 +55,7 @@ export class AppLifeCycle extends React.Component<unknown, AppState> {
   }
 
   render(): React.ReactElement {
+    // const { sizeField } = this.state;
     const { sizeX, sizeY } = this.state;
     let errorInfoElem: React.ReactElement = <></>;
     if (this.state.errorInfo) {

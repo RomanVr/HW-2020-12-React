@@ -48,7 +48,7 @@ export class FormDataGame extends React.Component<
   handleSubmit(event: React.FormEvent): void {
     event.preventDefault();
     const size = Number(this.state.size);
-    this.props.onSubmit(size);
+    this.props.onSubmit(size, size);
   }
 
   handleChangeSize(event: React.ChangeEvent<HTMLInputElement>): void {

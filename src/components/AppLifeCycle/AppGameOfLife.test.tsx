@@ -1,14 +1,14 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
-import { AppLifeCycle } from "./AppLifeCycle";
+import { AppGameOfLife } from "./AppGameOfLife";
 import userEvent from "@testing-library/user-event";
 
 describe("AppLifeCycle testing", () => {
   beforeEach(() => {
-    render(<AppLifeCycle />);
+    render(<AppGameOfLife />);
   });
 
-  it("renderrs AppLifeCycle", () => {
+  it("renderrs AppGameOfLife", () => {
     expect(screen.getByAltText("Main")).toBeInTheDocument();
     expect(screen.getByPlaceholderText("Enter size")).toBeInTheDocument();
     expect(screen.queryByTestId("inputTime")).toBeNull();

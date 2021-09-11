@@ -2,8 +2,8 @@ import styled from "@emotion/styled";
 import { css } from "@emotion/core";
 
 const styleBaseCell = css`
-  width: 10px;
-  height: 10px;
+  width: 15px;
+  height: 15px;
   border: 1px solid black;
   border-radius: 1px;
   display: table-cell;
@@ -21,7 +21,7 @@ interface Props {
   isLive: boolean;
 }
 
-export const CellItem = styled.div`
+export const CellItem = styled.div<Props>`
   ${styleBaseCell};
-  ${({ isLive }: Props) => (isLive ? styleLiveCell : styleDeadCell)};
+  ${({ isLive }) => (isLive ? styleLiveCell : styleDeadCell)};
 `;

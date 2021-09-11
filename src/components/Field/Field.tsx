@@ -25,9 +25,10 @@ export class Field extends React.Component<FieldProps, FieldState> {
   }
 
   handleClick(x: number, y: number): void {
-    console.log(`data-key: ${x},  ${y}`);
-    console.log(`array fieldData[x][y] : ${this.state.fieldData[x][y]}`);
-    const newFieldData = new Array(this.props.sizeY)
+    // console.log(`data-key: ${x},  ${y}`);
+    // console.log(`array fieldData : ${this.state.fieldData}`);
+    // console.log(`array fieldData[x][y] : ${this.state.fieldData[x][y]}`);
+    const newFieldData = new Array(this.props.sizeX)
       .fill(null)
       .map((itemRow, indexRow) => [...this.state.fieldData[indexRow]]);
     newFieldData[x][y] = this.state.fieldData[x][y] ? 0 : 1;
@@ -35,8 +36,13 @@ export class Field extends React.Component<FieldProps, FieldState> {
   }
 
   generateDataField(sizeX: number, sizeY: number): number[][] {
+    console.log(`generateDataField: sizeX - ${sizeX}, sizeY - ${sizeY}`);
     return new Array(sizeX).fill(null).map(() => new Array(sizeY).fill(0));
   }
+
+  // componentDidMount() {
+  //   console.log(`array fieldData : ${this.state.fieldData}`);
+  // }
 
   initField(sizeX: number, sizeY: number): Array<ReactNode> {
     const field: Array<ReactNode> = new Array(sizeX);
