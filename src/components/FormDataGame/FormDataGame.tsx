@@ -1,6 +1,4 @@
 import React from "react";
-import { ButtonValue } from "../";
-import { InputTime } from "../";
 import { ButtonSubmit } from "../ButtonSubmit/ButtonSubmit";
 import { InputMultiInForm } from "./InputMultiInForm";
 
@@ -37,8 +35,6 @@ export class FormDataGame extends React.Component<
     // this.handleChangeSize = this.handleChangeSize.bind(this);
     this.getHandleFormChange = this.getHandleFormChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-
-    this.handleClick = this.handleClick.bind(this);
   }
 
   handleSubmit(event: React.FormEvent): void {
@@ -54,26 +50,12 @@ export class FormDataGame extends React.Component<
       this.setState({ [inputProp]: ev.target.value } as never);
     };
 
-  handleClick(): void {
-    const newButtonValue = this.state.isTime ? "Show it Time!" : "Down";
-    this.setState({ isTime: !this.state.isTime, buttonValue: newButtonValue });
-  }
-
   render(): React.ReactElement {
-    let inputTimeVar: React.ReactElement = <></>;
-    if (this.state.isTime) {
-      inputTimeVar = <InputTime />;
-    }
     if (isNaN(Number(this.state.sizeX))) {
       throw new Error("Size must be a number!");
     }
     return (
       <>
-        {inputTimeVar}
-        <ButtonValue
-          value={this.state.buttonValue}
-          handleClick={this.handleClick}
-        />
         <form onSubmit={this.handleSubmit}>
           {[
             {

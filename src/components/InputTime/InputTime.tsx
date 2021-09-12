@@ -1,7 +1,7 @@
 import React from "react";
 
 interface InputTimeState {
-  timeValue: string;
+  timeValue: number;
 }
 
 export class InputTime extends React.Component<unknown, InputTimeState> {
@@ -10,7 +10,18 @@ export class InputTime extends React.Component<unknown, InputTimeState> {
 
   constructor(props: never) {
     super(props);
-    this.state = { timeValue: new Date().toLocaleTimeString() };
+    this.state = { timeValue: 0 };
+  }
+
+  moment(timeSeconds: number): string {
+    function num(val: number) {
+      val = Math.floor(val);
+      return val < 10 ? "0" + val : val;
+    }
+    const hours = (timeSeconds / 3600) % 24;
+    const minutes = (timeSeconds / 60) % 60;
+    const seconds = timeSeconds % 60;
+    return `${num(hours)}:${num(minutes)}:${num(seconds)}`;
   }
 
   componentDidMount(): void {
@@ -24,7 +35,7 @@ export class InputTime extends React.Component<unknown, InputTimeState> {
 
   tick(): void {
     this.setState({
-      timeValue: new Date().toLocaleTimeString(),
+      timeValue: this.state.timeValue + 1,
     });
   }
 
@@ -34,7 +45,7 @@ export class InputTime extends React.Component<unknown, InputTimeState> {
         data-testid="inputTime"
         readOnly
         type="text"
-        value={this.state.timeValue}
+        value={this.moment(this.state.timeValue)}
       />
     );
   }

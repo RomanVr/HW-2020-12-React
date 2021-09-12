@@ -5,46 +5,24 @@ import { Cell } from "../Cell/Cell";
 export type CellType = "live" | "dead";
 
 export interface FieldProps {
-  sizeX: number;
-  sizeY: number;
-}
-
-interface FieldState {
   fieldData: number[][];
+  handleClickOnCell: (x: number, y: number) => void;
 }
 
-export class Field extends React.Component<FieldProps, FieldState> {
-  constructor(props: FieldProps) {
-    super(props);
-
-    this.state = {
-      fieldData: this.generateDataField(props.sizeX, props.sizeY),
-    };
-
-    this.handleClick = this.handleClick.bind(this);
-  }
-
-  handleClick(x: number, y: number): void {
-    console.log(`data-key: ${x},  ${y}`);
-    // console.log(`array fieldData : ${this.state.fieldData}`);
-    console.log(`array fieldData[x][y] : ${this.state.fieldData[x][y]}`);
-    const newFieldData = new Array(this.props.sizeX)
-      .fill(null)
-      .map((itemRow, indexRow) => [...this.state.fieldData[indexRow]]);
-    newFieldData[x][y] = this.state.fieldData[x][y] ? 0 : 1;
-    this.setState({ fieldData: newFieldData });
-  }
-
-  generateDataField(sizeX: number, sizeY: number): number[][] {
-    console.log(`generateDataField: sizeX - ${sizeX}, sizeY - ${sizeY}`);
-    return new Array(sizeX).fill(null).map(() => new Array(sizeY).fill(0));
-  }
-
+export const Field: React.FC<FieldProps> = ({
+  fieldData,
+  handleClickOnCell,
+}) => {
   // componentDidMount() {
   //   console.log(`array fieldData : ${this.state.fieldData}`);
   // }
 
-  initField(sizeX: number, sizeY: number): Array<ReactNode> {
+  const initField = (
+    fieldData: number[][],
+    handleClickOnCell: (x: number, y: number) => void
+  ): Array<ReactNode> => {
+    const sizeX: number = fieldData.length;
+    const sizeY: number = fieldData[0].length;
     const field: Array<ReactNode> = new Array(sizeX);
     let i = 0;
     while (i < sizeX) {
@@ -55,10 +33,10 @@ export class Field extends React.Component<FieldProps, FieldState> {
         rowOfField.push(
           <Cell
             key={key}
-            onClick={this.handleClick}
+            onClick={handleClickOnCell}
             coordX={i}
             coordY={j}
-            isLive={Boolean(this.state.fieldData[i][j])}
+            isLive={Boolean(fieldData[i][j])}
           >
             {key}
           </Cell>
@@ -73,14 +51,9 @@ export class Field extends React.Component<FieldProps, FieldState> {
       i += 1;
     }
     return field;
-  }
+  };
 
-  render(): React.ReactElement {
-    const field: Array<ReactNode> = this.initField(
-      this.props.sizeX,
-      this.props.sizeY
-    );
+  const field: Array<ReactNode> = initField(fieldData, handleClickOnCell);
 
-    return <div style={{ display: "table" }}>{field}</div>;
-  }
-}
+  return <div style={{ display: "table" }}>{field}</div>;
+};
