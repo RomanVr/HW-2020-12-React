@@ -13,6 +13,7 @@ interface AppState {
   buttonValue: string;
   countStep: number;
   velosity: number;
+  rndRrate: number;
 
   error: Error | null;
   errorInfo: ErrorInfo | null;
@@ -33,6 +34,7 @@ export class AppGameOfLife extends React.Component<unknown, AppState> {
       buttonValue: "Start",
       countStep: 0,
       velosity: 1000,
+      rndRrate: 30,
 
       error: null,
       errorInfo: null,
@@ -43,6 +45,8 @@ export class AppGameOfLife extends React.Component<unknown, AppState> {
     this.handleClickIncrement = this.handleClickIncrement.bind(this);
     this.handleClickDecrement = this.handleClickDecrement.bind(this);
     this.clearField = this.clearField.bind(this);
+    this.handleOnChangeRnd = this.handleOnChangeRnd.bind(this);
+    this.getRandomieDataField = this.getRandomieDataField.bind(this);
   }
 
   generateDataField(sizeX: number, sizeY: number): number[][] {
@@ -139,7 +143,31 @@ export class AppGameOfLife extends React.Component<unknown, AppState> {
     const newFieldData = new Array(stateSizeX)
       .fill(null)
       .map(() => new Array(stateSizeY).fill(0));
+
+    const rndCellOnY = (stateSizeY * this.state.rndRrate) / 100;
+    let rndCounter = 0;
+    const setElementJ: Set<number> = new Set([]);
+    for (let i = 0; i < newFieldData.length; i += 1) {
+      while (rndCounter < rndCellOnY) {
+        const j = Math.round(Math.random() * (stateSizeY + 1));
+        if (!setElementJ.has(j)) {
+          setElementJ.add(j);
+          rndCounter += 1;
+          newFieldData[i][j] = 1;
+        }
+      }
+      setElementJ.clear();
+      rndCounter = 0;
+    }
+
     this.setState({ fieldData: newFieldData });
+  }
+
+  handleOnChangeRnd(ev: React.ChangeEvent<HTMLInputElement>): void {
+    const rndRrate = Number(ev.target.value);
+    if (rndRrate >= 0 && rndRrate < 100) {
+      this.setState({ rndRrate: rndRrate });
+    }
   }
 
   clearField(): void {
@@ -232,6 +260,15 @@ export class AppGameOfLife extends React.Component<unknown, AppState> {
       <>
         <FormDataGame onSubmit={this.onSubmit} errorInfoElem={errorInfoElem} />
         <ButtonValue handleClick={this.clearField} value="Clear" />
+        <input
+          value={this.state.rndRrate}
+          onChange={this.handleOnChangeRnd}
+          type="text"
+          style={{
+            width: String(this.state.rndRrate).length * 7 + 10,
+            textAlign: "center",
+          }}
+        />
         <ButtonValue
           handleClick={this.getRandomieDataField}
           value="Randomize"
