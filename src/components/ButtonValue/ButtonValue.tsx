@@ -13,5 +13,6 @@ export const ButtonValue: React.FC<ButtonValueProps> = ({
     type="button"
     value={value}
     onClick={handleClick}
+    style={{ display: "inline-block" }}
   />
 );

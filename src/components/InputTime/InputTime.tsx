@@ -40,12 +40,14 @@ export class InputTime extends React.Component<unknown, InputTimeState> {
   }
 
   render(): React.ReactElement {
+    const timeValue = this.moment(this.state.timeValue);
     return (
       <input
         data-testid="inputTime"
         readOnly
         type="text"
-        value={this.moment(this.state.timeValue)}
+        value={timeValue}
+        style={{ width: timeValue.length * 7, textAlign: "center" }}
       />
     );
   }

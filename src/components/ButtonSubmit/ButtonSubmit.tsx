@@ -3,11 +3,12 @@ import styled from "@emotion/styled";
 import React from "react";
 
 const stylesSubmit = css`
-  background: "white",
-  border: "1px solid grey",
-  borderRadius: "5px",
-  width: "50px",
-  height: "30px",
+  background: white;
+  border: 1px solid grey;
+  border-radius: 5px;
+  width: 50px;
+  height: 22px;
+  /* float: right; */
 `;
 const ButtonItem = styled.input`
   ${stylesSubmit}

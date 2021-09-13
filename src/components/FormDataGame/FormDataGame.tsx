@@ -56,7 +56,7 @@ export class FormDataGame extends React.Component<
     }
     return (
       <>
-        <form onSubmit={this.handleSubmit}>
+        <form onSubmit={this.handleSubmit} style={{ display: "inline-block" }}>
           {[
             {
               sizeState: this.state.sizeX,

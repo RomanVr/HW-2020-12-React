@@ -19,8 +19,6 @@ interface AppState {
 }
 
 export class AppGameOfLife extends React.Component<unknown, AppState> {
-  IMAGE_ID_DEFAULT?: number;
-  INTERVAL_TIME?: number;
   // eslint-disable-next-line no-undef
   timerStep?: NodeJS.Timeout;
 
@@ -44,6 +42,7 @@ export class AppGameOfLife extends React.Component<unknown, AppState> {
     this.handleClickStart = this.handleClickStart.bind(this);
     this.handleClickIncrement = this.handleClickIncrement.bind(this);
     this.handleClickDecrement = this.handleClickDecrement.bind(this);
+    this.clearField = this.clearField.bind(this);
   }
 
   generateDataField(sizeX: number, sizeY: number): number[][] {
@@ -133,6 +132,30 @@ export class AppGameOfLife extends React.Component<unknown, AppState> {
     return summ;
   }
 
+  getRandomieDataField(): void {
+    console.log(`Randomize`);
+    const stateSizeX: number = this.state.fieldData.length;
+    const stateSizeY: number = this.state.fieldData[0].length;
+    const newFieldData = new Array(stateSizeX)
+      .fill(null)
+      .map(() => new Array(stateSizeY).fill(0));
+    this.setState({ fieldData: newFieldData });
+  }
+
+  clearField(): void {
+    console.log(`timerStep - ${this.timerStep}`);
+    if (this.timerStep) {
+      clearInterval(Number(this.timerStep));
+      this.timerStep = undefined;
+    }
+    this.setState({
+      start: false,
+      buttonValue: "Start",
+      countStep: 0,
+      fieldData: this.generateDataField(this.state.sizeX, this.state.sizeY),
+    });
+  }
+
   handleClickStart(): void {
     let newButtonValue = "";
     if (this.state.start) {
@@ -146,7 +169,6 @@ export class AppGameOfLife extends React.Component<unknown, AppState> {
     this.setState({
       start: !this.state.start,
       buttonValue: newButtonValue,
-      countStep: 0,
     });
   }
 
@@ -208,22 +230,42 @@ export class AppGameOfLife extends React.Component<unknown, AppState> {
     }
     return (
       <>
-        <button onClick={this.handleClickDecrement}> - </button>
-        <input readOnly type="text" value={21 - this.state.velosity / 100} />
-        <button onClick={this.handleClickIncrement}> + </button>
-        {inputTimeVar}
-        <ButtonValue
-          value={this.state.buttonValue}
-          handleClick={this.handleClickStart}
-        />
-        <ButtonValue handleClick={() => this.nextStep()} value="Step" />
-        <input value={this.state.countStep} readOnly type="text" />
-        <br />
         <FormDataGame onSubmit={this.onSubmit} errorInfoElem={errorInfoElem} />
+        <ButtonValue handleClick={this.clearField} value="Clear" />
+        <ButtonValue
+          handleClick={this.getRandomieDataField}
+          value="Randomize"
+        />
         <Field
           fieldData={this.state.fieldData}
           handleClickOnCell={this.handleClickOnCell}
         />
+        <button onClick={this.handleClickDecrement}> &lt;&lt; </button>
+        <input
+          readOnly
+          type="text"
+          value={21 - this.state.velosity / 100}
+          style={{
+            width: String(this.state.velosity / 100 - 1).length * 7 + 10,
+            textAlign: "center",
+          }}
+        />
+        <button onClick={this.handleClickIncrement}> &gt;&gt; </button>
+        <ButtonValue handleClick={() => this.nextStep()} value="Step" />
+        <input
+          value={this.state.countStep}
+          readOnly
+          type="text"
+          style={{
+            width: String(this.state.countStep).length * 7 + 10,
+            textAlign: "center",
+          }}
+        />
+        <ButtonValue
+          value={this.state.buttonValue}
+          handleClick={this.handleClickStart}
+        />
+        {inputTimeVar}
       </>
     );
   }
