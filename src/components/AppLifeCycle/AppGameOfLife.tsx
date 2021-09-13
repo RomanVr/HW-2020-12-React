@@ -10,6 +10,7 @@ interface AppState {
   fieldData: number[][];
 
   start: boolean;
+  isFinish: boolean;
   buttonValue: string;
   countStep: number;
   velosity: number;
@@ -22,6 +23,7 @@ interface AppState {
 export class AppGameOfLife extends React.Component<unknown, AppState> {
   // eslint-disable-next-line no-undef
   timerStep?: NodeJS.Timeout;
+  fieldDataPrev: number[][];
 
   constructor(props: never) {
     super(props);
@@ -31,6 +33,7 @@ export class AppGameOfLife extends React.Component<unknown, AppState> {
       fieldData: this.generateDataField(20, 30),
 
       start: false,
+      isFinish: false,
       buttonValue: "Start",
       countStep: 0,
       velosity: 1000,
@@ -39,6 +42,7 @@ export class AppGameOfLife extends React.Component<unknown, AppState> {
       error: null,
       errorInfo: null,
     };
+    this.fieldDataPrev = this.generateDataField(20, 30);
     this.onSubmit = this.onSubmit.bind(this);
     this.handleClickOnCell = this.handleClickOnCell.bind(this);
     this.handleClickStart = this.handleClickStart.bind(this);
@@ -62,7 +66,7 @@ export class AppGameOfLife extends React.Component<unknown, AppState> {
       .fill(null)
       .map((itemRow, indexRow) => [...this.state.fieldData[indexRow]]);
     newFieldData[x][y] = this.state.fieldData[x][y] ? 0 : 1;
-    this.setState({ fieldData: newFieldData });
+    this.setState({ fieldData: newFieldData, isFinish: false });
   }
 
   setNewSizeFieldData(sizeX: number, sizeY: number): number[][] {
@@ -84,6 +88,7 @@ export class AppGameOfLife extends React.Component<unknown, AppState> {
 
   nextStep(): void {
     console.log(`Step `);
+    this.fieldDataPrev = this.state.fieldData;
     const stateSizeX: number = this.state.fieldData.length;
     const stateSizeY: number = this.state.fieldData[0].length;
     const newFieldData = new Array(stateSizeX)
@@ -102,10 +107,16 @@ export class AppGameOfLife extends React.Component<unknown, AppState> {
         }
       }
     }
-    this.setState({
-      fieldData: newFieldData,
-      countStep: this.state.countStep + 1,
-    });
+    if (this.isFinish(newFieldData)) {
+      console.log(`Finish!!!`);
+      this.clearField();
+    } else {
+      this.setState({
+        isFinish: false,
+        fieldData: newFieldData,
+        countStep: this.state.countStep + 1,
+      });
+    }
   }
 
   getCountAround(x: number, y: number): number {
@@ -170,6 +181,21 @@ export class AppGameOfLife extends React.Component<unknown, AppState> {
     }
   }
 
+  isFinish(newFieldData: number[][]): boolean {
+    const countLifeCell: number = newFieldData
+      .flat()
+      .reduce((acc, item) => acc + item, 0);
+    if (countLifeCell == 0) return true;
+    for (let i = 0; i < newFieldData.length; i += 1) {
+      for (let j = 0; j < newFieldData[i].length; j += 1) {
+        if (this.fieldDataPrev[i][j] != newFieldData[i][j]) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
   clearField(): void {
     console.log(`timerStep - ${this.timerStep}`);
     if (this.timerStep) {
@@ -178,6 +204,7 @@ export class AppGameOfLife extends React.Component<unknown, AppState> {
     }
     this.setState({
       start: false,
+      isFinish: true,
       buttonValue: "Start",
       countStep: 0,
       fieldData: this.generateDataField(this.state.sizeX, this.state.sizeY),
@@ -195,6 +222,7 @@ export class AppGameOfLife extends React.Component<unknown, AppState> {
       this.timerStep = setInterval(() => this.nextStep(), this.state.velosity);
     }
     this.setState({
+      isFinish: false,
       start: !this.state.start,
       buttonValue: newButtonValue,
     });
@@ -256,6 +284,20 @@ export class AppGameOfLife extends React.Component<unknown, AppState> {
     if (this.state.start) {
       inputTimeVar = <InputTime />;
     }
+    let inputFinish: React.ReactElement = <></>;
+    if (this.state.isFinish) {
+      inputFinish = (
+        <input
+          value="Finish!!!"
+          readOnly
+          type="text"
+          style={{
+            width: "Finish!!!".length * 7 + 10,
+            textAlign: "center",
+          }}
+        />
+      );
+    }
     return (
       <>
         <FormDataGame onSubmit={this.onSubmit} errorInfoElem={errorInfoElem} />
@@ -303,6 +345,7 @@ export class AppGameOfLife extends React.Component<unknown, AppState> {
           handleClick={this.handleClickStart}
         />
         {inputTimeVar}
+        {inputFinish}
       </>
     );
   }
