@@ -1,5 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { AppGameOfLife } from "./components/AppGameOfLife/AppGameOfLife";
+import { GameOfLife } from "./components/";
 
-ReactDOM.render(<AppGameOfLife />, document.getElementById("container"));
+ReactDOM.render(<GameOfLife />, document.getElementById("container"));

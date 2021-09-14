@@ -4,7 +4,7 @@ import { FormDataGame, InputTime } from "..";
 import { Field } from "..";
 import { ButtonValue } from "../ButtonValue/ButtonValue";
 
-interface AppState {
+interface GameOfLifeState {
   sizeX: number;
   sizeY: number;
   fieldData: number[][];
@@ -20,7 +20,7 @@ interface AppState {
   errorInfo: ErrorInfo | null;
 }
 
-export class AppGameOfLife extends React.Component<unknown, AppState> {
+export class GameOfLife extends React.Component<unknown, GameOfLifeState> {
   // eslint-disable-next-line no-undef
   timerStep?: NodeJS.Timeout;
   fieldDataPrev: number[][];

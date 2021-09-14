@@ -1,6 +1,6 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
-import { AppGameOfLife } from "./AppGameOfLife";
+import { AppGameOfLife } from "./GameOfLife";
 import userEvent from "@testing-library/user-event";
 
 describe("AppLifeCycle testing", () => {

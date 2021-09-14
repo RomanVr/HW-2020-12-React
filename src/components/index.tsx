@@ -5,6 +5,7 @@ import { InputSize } from "./InputSize/InputSize";
 import { InputTime } from "./InputTime/InputTime";
 import { ButtonValue } from "./ButtonValue/ButtonValue";
 import { ButtonSubmit } from "./ButtonSubmit/ButtonSubmit";
+import { GameOfLife } from "./GameOfLife/GameOfLife";
 
 export {
   Cell,
@@ -14,4 +15,5 @@ export {
   InputTime,
   ButtonValue,
   ButtonSubmit,
+  GameOfLife,
 };
