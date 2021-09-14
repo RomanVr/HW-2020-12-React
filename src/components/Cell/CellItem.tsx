@@ -6,7 +6,9 @@ const styleBaseCell = css`
   height: 15px;
   border: 1px solid black;
   border-radius: 1px;
-  display: table-cell;
+  white-space: nowrap;
+  display: flex;
+  flex: 0 0 auto;
 `;
 
 const styleLiveCell = css`

@@ -44,7 +44,7 @@ export const Field: React.FC<FieldProps> = ({
         j += 1;
       }
       field.push(
-        <div key={i} style={{ display: "table-row" }}>
+        <div key={i} style={{ display: "flex" }}>
           {rowOfField}
         </div>
       );
@@ -55,5 +55,20 @@ export const Field: React.FC<FieldProps> = ({
 
   const field: Array<ReactNode> = initField(fieldData, handleClickOnCell);
 
-  return <div style={{ display: "table" }}>{field}</div>;
+  return (
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        borderCollapse: "collapse",
+        borderSpacing: 0,
+        width: "100%",
+        tableLayout: "fixed",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      {field}
+    </div>
+  );
 };
