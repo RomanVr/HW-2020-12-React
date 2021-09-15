@@ -323,6 +323,9 @@ export class GameOfLife extends React.Component<unknown, GameOfLifeState> {
           justifyContent: "center",
         }}
       >
+        <div>
+          <h2>Game Of Life</h2>
+        </div>
         <div
           style={{
             display: "flex",
