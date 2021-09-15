@@ -1,6 +1,6 @@
 import React, { ErrorInfo } from "react";
 
-import { FormDataGame, InputTime } from "..";
+import { FormDataGame, InputOnLength, InputTime } from "..";
 import { Field } from "..";
 import { ButtonValue } from "../ButtonValue/ButtonValue";
 
@@ -336,14 +336,9 @@ export class GameOfLife extends React.Component<unknown, GameOfLifeState> {
             errorInfoElem={errorInfoElem}
           />
           <ButtonValue handleClick={this.clearField} value="Clear" />
-          <input
+          <InputOnLength
             value={this.state.rndRrate}
             onChange={this.handleOnChangeRnd}
-            type="text"
-            style={{
-              width: String(this.state.rndRrate).length * 7 + 10,
-              textAlign: "center",
-            }}
           />
           <ButtonValue
             handleClick={this.getRandomieDataField}
@@ -362,26 +357,10 @@ export class GameOfLife extends React.Component<unknown, GameOfLifeState> {
           }}
         >
           <button onClick={this.handleClickDecrement}> &lt;&lt; </button>
-          <input
-            readOnly
-            type="text"
-            value={21 - this.state.velosity / 100}
-            style={{
-              width: String(this.state.velosity / 100 - 1).length * 7 + 10,
-              textAlign: "center",
-            }}
-          />
+          <InputOnLength readOnly value={21 - this.state.velosity / 100} />
           <button onClick={this.handleClickIncrement}> &gt;&gt; </button>
           <ButtonValue handleClick={() => this.nextStep()} value="Step" />
-          <input
-            value={this.state.countStep}
-            readOnly
-            type="text"
-            style={{
-              width: String(this.state.countStep).length * 7 + 10,
-              textAlign: "center",
-            }}
-          />
+          <InputOnLength value={this.state.countStep} readOnly />
           <ButtonValue
             value={this.state.buttonValue}
             handleClick={this.handleClickStart}

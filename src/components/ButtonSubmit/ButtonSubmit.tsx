@@ -8,7 +8,6 @@ const stylesSubmit = css`
   border-radius: 5px;
   width: 50px;
   height: 22px;
-  /* float: right; */
 `;
 const ButtonItem = styled.input`
   ${stylesSubmit}
