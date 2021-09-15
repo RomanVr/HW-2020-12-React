@@ -1,19 +1,28 @@
-import { shallow } from "enzyme";
 import React from "react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { Cell } from "..";
 
 describe("Cell render check", () => {
-  const handleClickMock = jest.fn();
-  const component = shallow(
-    <Cell dataKey={1} handleClick={handleClickMock}></Cell>
-  );
+  it("Render Cell dead", () => {
+    render(<Cell coordX={0} coordY={0} isLive={false} onClick={jest.fn()} />);
+    expect(screen.getByTestId("items-field-item")).toBeInTheDocument();
+  });
 
-  it("Default render with prop 'data-key'", () => {
-    expect(component.prop("data-key")).toEqual(1);
+  it("Render Cell life", () => {
+    render(<Cell coordX={0} coordY={0} isLive={true} onClick={jest.fn()} />);
+    expect(screen.getByTestId("items-field-item")).toBeInTheDocument();
   });
 
   it("Click simulation", () => {
-    component.find("div").simulate("click");
-    expect(handleClickMock.mock.calls.length).toBe(1);
+    const props = {
+      coordX: 0,
+      coordY: 0,
+      isLive: true,
+      onClick: jest.fn(),
+    };
+    render(<Cell {...props}></Cell>);
+    const cellItem = screen.getByTestId("items-field-item");
+    fireEvent.click(cellItem);
+    expect(props.onClick).toBeCalled();
   });
 });

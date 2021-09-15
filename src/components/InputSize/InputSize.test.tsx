@@ -4,7 +4,14 @@ import { InputSize } from "./InputSize";
 
 describe("InputSize", () => {
   it("Render input for epmty value", () => {
-    render(<InputSize size="" handleChangeSize={jest.fn()} />);
+    render(
+      <InputSize
+        size=""
+        onChange={jest.fn()}
+        placeHolder={"Input"}
+        label={"X:"}
+      />
+    );
 
     expect(screen.getByTestId("inputSize")).toBeInTheDocument();
   });

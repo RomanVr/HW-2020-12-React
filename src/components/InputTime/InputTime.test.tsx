@@ -2,7 +2,7 @@ import React from "react";
 import { act, render, screen } from "@testing-library/react";
 import { InputTime } from "./InputTime";
 
-describe("InputTime", () => {
+describe("Test InputTime", () => {
   it("Render input for with value Time", () => {
     jest.useFakeTimers();
     render(<InputTime />);

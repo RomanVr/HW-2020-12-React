@@ -14,5 +14,5 @@ const ButtonItem = styled.input`
 `;
 
 export const ButtonSubmit: React.FC = () => (
-  <ButtonItem type="submit" value="Ok" />
+  <ButtonItem type="submit" value="Ok" data-testid="ButtonSubmit" />
 );
