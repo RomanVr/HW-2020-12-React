@@ -5,24 +5,31 @@ import { render, screen } from "@testing-library/react";
 import { FormDataGame } from "./FormDataGame";
 
 describe("FormDataGame testing", () => {
+  const handleSubmit = jest.fn();
   beforeEach(() => {
-    render(<FormDataGame onSubmit={jest.fn()} errorInfoElem={<></>} />);
+    render(<FormDataGame onSubmit={handleSubmit} errorInfoElem={<></>} />);
   });
 
   it("renders FormDataGame", () => {
-    expect(screen.getByPlaceholderText("Enter size")).toBeInTheDocument();
-    expect(screen.queryByTestId("inputTime")).toBeNull();
-    expect(screen.getByTestId("buttonValue")).toBeInTheDocument();
+    expect(
+      screen.getByPlaceholderText("Значение по горизонтали")
+    ).toBeInTheDocument();
+    expect(screen.getByTestId("ButtonSubmit")).toBeInTheDocument();
   });
 
-  it("add inputTime on click button", () => {
-    expect(screen.queryByTestId("inputTime")).toBeNull();
-    expect(screen.getByTestId("buttonValue")).toBeInTheDocument();
+  it("Type in the input", () => {
+    const inputSize = screen.getByPlaceholderText("Значение по горизонтали");
+    userEvent.clear(inputSize);
+    userEvent.type(inputSize, "22");
+    userEvent.click(screen.getByTestId("ButtonSubmit"));
+    expect(handleSubmit).toBeCalled();
+  });
 
-    userEvent.click(screen.getByTestId("buttonValue"));
-    expect(screen.getByTestId("inputTime")).toBeInTheDocument();
-
-    userEvent.click(screen.getByTestId("buttonValue"));
-    expect(screen.queryByTestId("inputTime")).toBeNull();
+  it("Type in the input wrong number", () => {
+    const inputSize = screen.getByPlaceholderText("Значение по горизонтали");
+    userEvent.clear(inputSize);
+    expect(() => {
+      userEvent.type(inputSize, "22t");
+    }).not.toThrow();
   });
 });

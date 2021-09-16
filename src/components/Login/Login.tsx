@@ -12,7 +12,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
   };
 
   return (
-    <form onSubmit={onSubmit} data-testid="Login">
+    <form onSubmit={onSubmit} data-testid="FormLogin">
       <label>
         Name:
         <input
@@ -21,6 +21,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
           minLength={4}
           maxLength={20}
           onChange={(ev) => setNameUser(ev.target.value)}
+          data-testid="LoginInput"
         />
       </label>
     </form>

@@ -29,16 +29,16 @@ export class GameOfLife extends React.Component<unknown, GameOfLifeState> {
   constructor(props: never) {
     super(props);
     this.state = {
-      sizeX: 20,
-      sizeY: 30,
-      fieldData: this.generateDataField(20, 30),
+      sizeX: 10,
+      sizeY: 10,
+      fieldData: this.generateDataField(10, 10),
 
       start: false,
       isFinish: false,
       buttonValue: "Start",
       countStep: 0,
       velosity: 1000,
-      rndRrate: 30,
+      rndRrate: 20,
 
       error: null,
       errorInfo: null,
@@ -57,14 +57,10 @@ export class GameOfLife extends React.Component<unknown, GameOfLifeState> {
   }
 
   generateDataField(sizeX: number, sizeY: number): number[][] {
-    console.log(`generateDataField: sizeX - ${sizeX}, sizeY - ${sizeY}`);
     return new Array(sizeX).fill(null).map(() => new Array(sizeY).fill(0));
   }
 
   handleClickOnCell(x: number, y: number): void {
-    console.log(`data-key: ${x},  ${y}`);
-    // console.log(`array fieldData : ${this.state.fieldData}`);
-    console.log(`array fieldData[x][y] : ${this.state.fieldData[x][y]}`);
     const newFieldData = new Array(this.state.sizeX)
       .fill(null)
       .map((itemRow, indexRow) => [...this.state.fieldData[indexRow]]);
@@ -73,7 +69,6 @@ export class GameOfLife extends React.Component<unknown, GameOfLifeState> {
   }
 
   setNewSizeFieldData(sizeX: number, sizeY: number): number[][] {
-    console.log(`Props: prop X - ${sizeX},  prop Y - ${sizeY}`);
     const newFieldData = this.generateDataField(sizeX, sizeY);
 
     const stateSizeX: number = this.state.fieldData.length;
@@ -90,7 +85,6 @@ export class GameOfLife extends React.Component<unknown, GameOfLifeState> {
   }
 
   nextStep(): void {
-    console.log(`Step `);
     this.fieldDataPrev2 = this.fieldDataPrev;
     this.fieldDataPrev = this.state.fieldData;
     const stateSizeX: number = this.state.fieldData.length;
@@ -161,7 +155,7 @@ export class GameOfLife extends React.Component<unknown, GameOfLifeState> {
   }
 
   getRandomieDataField(): void {
-    console.log(`Randomize`);
+    // console.log(`Randomize`);
     const stateSizeX: number = this.state.fieldData.length;
     const stateSizeY: number = this.state.fieldData[0].length;
     const newFieldData = new Array(stateSizeX)
@@ -213,7 +207,6 @@ export class GameOfLife extends React.Component<unknown, GameOfLifeState> {
   }
 
   clearField(): void {
-    console.log(`timerStep - ${this.timerStep}`);
     if (this.timerStep) {
       clearInterval(Number(this.timerStep));
       this.timerStep = undefined;
@@ -316,6 +309,7 @@ export class GameOfLife extends React.Component<unknown, GameOfLifeState> {
     }
     return (
       <div
+        data-testid="GameofLife"
         style={{
           display: "flex",
           flexDirection: "column",
@@ -356,9 +350,9 @@ export class GameOfLife extends React.Component<unknown, GameOfLifeState> {
             justifyContent: "center",
           }}
         >
-          <button onClick={this.handleClickDecrement}> &lt;&lt; </button>
+          <button onClick={this.handleClickDecrement}> Rase </button>
           <InputOnLength readOnly value={21 - this.state.velosity / 100} />
-          <button onClick={this.handleClickIncrement}> &gt;&gt; </button>
+          <button onClick={this.handleClickIncrement}> Damp </button>
           <ButtonValue handleClick={() => this.nextStep()} value="Step" />
           <InputOnLength value={this.state.countStep} readOnly />
           <ButtonValue

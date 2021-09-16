@@ -1,46 +1,144 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
-import { AppGameOfLife } from "./GameOfLife";
+import { act, render, screen } from "@testing-library/react";
+import { GameOfLife } from "./GameOfLife";
 import userEvent from "@testing-library/user-event";
 
-describe("AppLifeCycle testing", () => {
+describe("GameOfLife testing", () => {
   beforeEach(() => {
-    render(<AppGameOfLife />);
+    render(<GameOfLife />);
   });
 
-  it("renderrs AppGameOfLife", () => {
-    expect(screen.getByAltText("Main")).toBeInTheDocument();
-    expect(screen.getByPlaceholderText("Enter size")).toBeInTheDocument();
-    expect(screen.queryByTestId("inputTime")).toBeNull();
-    expect(screen.getByTestId("buttonValue")).toBeInTheDocument();
-    expect(screen.getByText(/Image Number:/)).toBeInTheDocument();
+  it("renders GameOfLife", () => {
+    // expect(screen.getByAltText("Main")).toBeInTheDocument();
+    // expect(screen.getByPlaceholderText("Enter size")).toBeInTheDocument();
+    expect(screen.queryByTestId("GameofLife")).toBeInTheDocument();
+    // expect(screen.getByTestId("buttonValue")).toBeInTheDocument();
+    // expect(screen.getByText(/Image Number:/)).toBeInTheDocument();
   });
-
-  it("test field items", () => {
+  it("Click to Cell", () => {
+    const elemCell: HTMLElement = screen.getAllByTestId("items-field-item")[0];
+    userEvent.click(elemCell);
     expect(screen.queryAllByTestId("items-field-item").length).toBe(100);
-
-    expect(
-      (screen.getByPlaceholderText("Enter size") as HTMLInputElement).value
-    ).toBe("10");
-
-    const textInput = "3";
-    userEvent.clear(screen.getByPlaceholderText("Enter size"));
-    userEvent.type(screen.getByPlaceholderText("Enter size"), textInput);
-    userEvent.click(screen.getByDisplayValue("Ok"));
-
-    expect(
-      (screen.getByPlaceholderText("Enter size") as HTMLInputElement).value
-    ).toBe("3");
-    expect(screen.queryAllByTestId("items-field-item").length).toBe(9);
   });
-
-  it("test error span", () => {
+  it("Type in the input", () => {
+    const inputSize = screen.getByPlaceholderText("Значение по горизонтали");
+    userEvent.clear(inputSize);
+    userEvent.type(inputSize, "20");
+    userEvent.click(screen.getByTestId("ButtonSubmit"));
+    expect(screen.queryAllByTestId("items-field-item").length).toBe(200);
+  });
+  it("Click Step", () => {
+    const buttonStep = screen.getByDisplayValue("Step");
+    userEvent.click(buttonStep);
+    expect(screen.queryAllByTestId("items-field-item").length).toBe(100);
+  });
+  it("Cell alone to live", () => {
+    userEvent.click(screen.getAllByTestId("items-field-item")[0]);
+    userEvent.click(screen.getAllByTestId("items-field-item")[1]);
+    userEvent.click(screen.getAllByTestId("items-field-item")[2]);
+    const buttonStep = screen.getByDisplayValue("Step");
+    userEvent.click(buttonStep);
+    expect(screen.queryAllByTestId("items-field-item").length).toBe(100);
+  });
+  it("Cick Start", () => {
+    jest.useFakeTimers();
+    const buttonStart = screen.getByDisplayValue("Start");
+    userEvent.click(buttonStart);
+    act(() => {
+      jest.advanceTimersByTime(1000);
+    });
+    expect(screen.queryAllByTestId("items-field-item").length).toBe(100);
+  });
+  it("Input value Random", () => {
+    // screen.debug();
+    const inputRnd = screen.getByDisplayValue("20");
+    userEvent.clear(inputRnd);
+    userEvent.type(inputRnd, "10");
+    expect(screen.queryAllByTestId("items-field-item").length).toBe(100);
+    userEvent.type(inputRnd, "100");
+    expect(screen.queryAllByTestId("items-field-item").length).toBe(100);
+    userEvent.type(inputRnd, "-10");
+    expect(screen.queryAllByTestId("items-field-item").length).toBe(100);
+  });
+  it("Cick Random", () => {
+    const buttonRnd = screen.getByDisplayValue("Randomize");
+    userEvent.click(buttonRnd);
+    expect(screen.queryAllByTestId("items-field-item").length).toBe(100);
+  });
+  it("Get Finish from the second step", () => {
+    userEvent.click(screen.getAllByTestId("items-field-item")[0]);
+    userEvent.click(screen.getAllByTestId("items-field-item")[1]);
+    userEvent.click(screen.getAllByTestId("items-field-item")[2]);
+    const buttonStep = screen.getByDisplayValue("Step");
+    userEvent.click(buttonStep);
+    userEvent.click(buttonStep);
+    expect(screen.getByDisplayValue("Finish!!!")).toBeInTheDocument();
+  });
+  it("Cick Clear", () => {
+    jest.useFakeTimers();
+    userEvent.click(screen.getAllByTestId("items-field-item")[0]);
+    userEvent.click(screen.getAllByTestId("items-field-item")[1]);
+    userEvent.click(screen.getAllByTestId("items-field-item")[2]);
+    userEvent.click(screen.getAllByTestId("items-field-item")[3]);
+    const buttonClear = screen.getByDisplayValue("Clear");
+    const buttonStart = screen.getByDisplayValue("Start");
+    userEvent.click(buttonStart);
+    act(() => {
+      jest.advanceTimersByTime(1000);
+    });
+    userEvent.click(buttonClear);
+    expect(screen.queryAllByTestId("items-field-item").length).toBe(100);
+  });
+  it("Cick Start and Stop", () => {
+    jest.useFakeTimers();
+    const buttonStart = screen.getByDisplayValue("Start");
+    userEvent.click(screen.getAllByTestId("items-field-item")[0]);
+    userEvent.click(screen.getAllByTestId("items-field-item")[1]);
+    userEvent.click(screen.getAllByTestId("items-field-item")[2]);
+    userEvent.click(screen.getAllByTestId("items-field-item")[3]);
+    userEvent.click(buttonStart);
+    act(() => {
+      jest.advanceTimersByTime(1000);
+    });
+    userEvent.click(buttonStart);
+    expect(screen.queryAllByTestId("items-field-item").length).toBe(100);
+  });
+  it("Cick Increment and Decrement", () => {
+    const buttonInc = screen.getByText("Rase");
+    const buttonDec = screen.getByText("Damp");
+    userEvent.click(buttonInc);
+    userEvent.click(buttonDec);
+    expect(screen.queryAllByTestId("items-field-item").length).toBe(100);
+  });
+  it("Cick Increment and Decrement with Star", () => {
+    jest.useFakeTimers();
+    const buttonInc = screen.getByText("Rase");
+    const buttonDec = screen.getByText("Damp");
+    const buttonStart = screen.getByDisplayValue("Start");
+    userEvent.click(screen.getAllByTestId("items-field-item")[0]);
+    userEvent.click(screen.getAllByTestId("items-field-item")[1]);
+    userEvent.click(screen.getAllByTestId("items-field-item")[2]);
+    userEvent.click(screen.getAllByTestId("items-field-item")[3]);
+    userEvent.click(buttonStart);
+    userEvent.click(buttonInc);
+    act(() => {
+      jest.advanceTimersByTime(1100);
+    });
+    userEvent.click(buttonDec);
+    act(() => {
+      jest.advanceTimersByTime(1100);
+    });
+    expect(screen.queryAllByTestId("items-field-item").length).toBe(100);
+  });
+  it("Type in the input wrong number", () => {
+    const inputSize = screen.getByPlaceholderText("Значение по горизонтали");
+    userEvent.clear(inputSize);
     expect(() => {
-      userEvent.type(screen.getByPlaceholderText("Enter size"), "q");
-    }).not.toThrow("Size must be a number!");
-
-    expect(screen.getByTestId("spanError")).toBeInTheDocument();
-    userEvent.click(screen.getByDisplayValue("Ok"));
+      userEvent.type(inputSize, "22t");
+    }).not.toThrow();
+    userEvent.clear(inputSize);
+    userEvent.type(inputSize, "10");
+    userEvent.click(screen.getByTestId("ButtonSubmit"));
     expect(screen.queryAllByTestId("items-field-item").length).toBe(100);
   });
 });

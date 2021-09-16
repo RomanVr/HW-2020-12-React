@@ -13,10 +13,6 @@ export const Field: React.FC<FieldProps> = ({
   fieldData,
   handleClickOnCell,
 }) => {
-  // componentDidMount() {
-  //   console.log(`array fieldData : ${this.state.fieldData}`);
-  // }
-
   const initField = (
     fieldData: number[][],
     handleClickOnCell: (x: number, y: number) => void

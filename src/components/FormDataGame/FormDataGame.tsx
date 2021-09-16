@@ -25,8 +25,8 @@ export class FormDataGame extends React.Component<
   constructor(props: FormDataGameProps) {
     super(props);
     this.state = {
-      sizeX: "20",
-      sizeY: "30",
+      sizeX: "10",
+      sizeY: "10",
       timeValue: "now",
       isTime: false,
       buttonValue: "Show it Time!",
