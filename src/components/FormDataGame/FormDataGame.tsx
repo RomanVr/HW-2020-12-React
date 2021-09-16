@@ -32,7 +32,6 @@ export class FormDataGame extends React.Component<
       buttonValue: "Show it Time!",
     };
 
-    // this.handleChangeSize = this.handleChangeSize.bind(this);
     this.getHandleFormChange = this.getHandleFormChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }

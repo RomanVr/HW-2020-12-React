@@ -13,5 +13,5 @@ const Template: Story<ButtonValueProps> = (args) => <ButtonValue {...args} />;
 export const ButtonStory = Template.bind({});
 
 ButtonStory.args = {
-  value: "Show Time",
+  value: "Ok",
 };

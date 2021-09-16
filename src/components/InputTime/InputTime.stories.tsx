@@ -8,6 +8,4 @@ export default {
   component: InputTime,
 } as unknown as Meta;
 
-const Template: Story = () => <InputTime />;
-
-export const InputTimeStory = Template.bind({});
+export const InputTimeStory: Story = () => <InputTime />;

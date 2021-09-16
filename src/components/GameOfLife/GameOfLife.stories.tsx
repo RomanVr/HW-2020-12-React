@@ -1,11 +1,11 @@
 import React from "react";
 import { Meta, Story } from "@storybook/react";
 
-import { AppGameOfLife } from "./GameOfLife";
+import { GameOfLife } from "./GameOfLife";
 
 export default {
-  title: "App",
-  component: AppGameOfLife,
+  title: "GameOfLife",
+  component: GameOfLife,
 } as unknown as Meta;
 
-export const AppStory: Story = () => <AppGameOfLife />;
+export const GameOfLifeStory: Story = () => <GameOfLife />;
