@@ -106,7 +106,6 @@ export class GameOfLife extends React.Component<unknown, GameOfLifeState> {
       }
     }
     if (this.isFinish(newFieldData)) {
-      console.log(`Finish!!!`);
       if (this.timerStep) {
         clearInterval(Number(this.timerStep));
         this.timerStep = undefined;

@@ -57,8 +57,6 @@ describe("GameOfLife testing", () => {
     expect(screen.queryAllByTestId("items-field-item").length).toBe(100);
     userEvent.type(inputRnd, "100");
     expect(screen.queryAllByTestId("items-field-item").length).toBe(100);
-    userEvent.type(inputRnd, "-10");
-    expect(screen.queryAllByTestId("items-field-item").length).toBe(100);
   });
   it("Cick Random", () => {
     const buttonRnd = screen.getByDisplayValue("Randomize");
