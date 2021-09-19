@@ -59,8 +59,12 @@ describe("GameOfLife testing", () => {
     expect(screen.queryAllByTestId("items-field-item").length).toBe(100);
   });
   it("Cick Random", () => {
+    jest.useFakeTimers();
     const buttonRnd = screen.getByDisplayValue("Randomize");
     userEvent.click(buttonRnd);
+    act(() => {
+      jest.advanceTimersByTime(1000);
+    });
     expect(screen.queryAllByTestId("items-field-item").length).toBe(100);
   });
   it("Get Finish from the second step", () => {
