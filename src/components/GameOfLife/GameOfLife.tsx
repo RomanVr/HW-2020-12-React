@@ -349,9 +349,9 @@ export class GameOfLife extends React.Component<unknown, GameOfLifeState> {
             justifyContent: "center",
           }}
         >
-          <button onClick={this.handleClickDecrement}> Rase </button>
+          <button onClick={this.handleClickDecrement}> Damp</button>
           <InputOnLength readOnly value={21 - this.state.velosity / 100} />
-          <button onClick={this.handleClickIncrement}> Damp </button>
+          <button onClick={this.handleClickIncrement}> Rase </button>
           <ButtonValue handleClick={() => this.nextStep()} value="Step" />
           <InputOnLength value={this.state.countStep} readOnly />
           <ButtonValue
