@@ -18,9 +18,7 @@ export type QsObj = Record<string, string | number | boolean | object>;
 export const createQs = (qsObj: QsObj): string => {
   const str: string[] = Object.keys(qsObj)
     .reduce<string[]>(
-      (acc, item) => {
-        return [...acc, `${item}=${qsObj[item]}`]
-      }
+      (acc, item) => [...acc, `${item}=${qsObj[item]}`]
       , []);
 
   return `?${str.join('&')}`;
