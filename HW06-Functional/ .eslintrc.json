@@ -1,4 +1,3 @@
-ines (23 sloc) 573 Bytes
 {
     "env": {
         "browser": true,
@@ -9,16 +8,11 @@ ines (23 sloc) 573 Bytes
       "prettier/@typescript-eslint",
       "plugin:prettier/recommended"
     ],
-    "parser": "@typescript-eslint/parser",    
+    "parser": "@typescript-eslint/parser",
     "plugins": [
         "@typescript-eslint"
     ],
     "rules": {
       "no-console":"off"
-      //"jest/no-disabled-tests": "warn",
-      //"jest/no-focused-tests": "error",
-      //"jest/no-identical-title": "error",
-      //"jest/prefer-to-have-length": "warn",
-      //"jest/valid-expect": "error"
     }
 }
