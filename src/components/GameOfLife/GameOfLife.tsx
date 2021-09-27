@@ -1,5 +1,4 @@
 import React, { ErrorInfo } from "react";
-
 import { FormDataGame, InputOnLength, InputTime } from "..";
 import { Field } from "..";
 import { ButtonValue } from "../ButtonValue/ButtonValue";
@@ -96,12 +95,13 @@ export class GameOfLife extends React.Component<unknown, GameOfLifeState> {
       for (let j = 0; j < newFieldData[i].length; j += 1) {
         const countAround: number = this.getCountAround(i, j);
         const currentCell = Boolean(this.state.fieldData[i][j]);
-        if (!currentCell && countAround == 3) {
+        if (
+          (!currentCell && countAround == 3) ||
+          (currentCell && (countAround == 3 || countAround == 2))
+        ) {
           newFieldData[i][j] = 1;
         } else if (currentCell && countAround != 3 && countAround != 2) {
           newFieldData[i][j] = 0;
-        } else if (currentCell && (countAround == 3 || countAround == 2)) {
-          newFieldData[i][j] = 1;
         }
       }
     }
@@ -126,31 +126,27 @@ export class GameOfLife extends React.Component<unknown, GameOfLifeState> {
   }
 
   getCountAround(x: number, y: number): number {
+    const coordX: number[] = [3];
+    const coordY: number[] = [3];
+    coordX[2] = x;
+    coordY[2] = y;
     const stateSizeX: number = this.state.fieldData.length;
     const stateSizeY: number = this.state.fieldData[0].length;
-    const coordXSub = x - 1 < 0 ? stateSizeX - 1 : x - 1;
-    const coordYSub = y - 1 < 0 ? stateSizeY - 1 : y - 1;
-    const coordXAdd = x + 1 == stateSizeX ? 0 : x + 1;
-    const coordYAdd = y + 1 == stateSizeY ? 0 : y + 1;
-    const number1: number = this.state.fieldData[coordXSub][coordYSub];
-    const number2: number = this.state.fieldData[coordXSub][y];
-    const number3: number = this.state.fieldData[x][coordYSub];
-    const number4: number = this.state.fieldData[coordXAdd][y];
-    const number5: number = this.state.fieldData[coordXAdd][coordYAdd];
-    const number6: number = this.state.fieldData[x][coordYAdd];
-    const number7: number = this.state.fieldData[coordXAdd][coordYSub];
-    const number8: number = this.state.fieldData[coordXSub][coordYAdd];
-
-    const summ: number =
-      number1 +
-      number2 +
-      number3 +
-      number4 +
-      number5 +
-      number6 +
-      number7 +
-      number8;
-    return summ;
+    coordX[0] = x - 1 < 0 ? stateSizeX - 1 : x - 1; //sub
+    coordX[1] = x + 1 == stateSizeX ? 0 : x + 1; //add
+    coordY[0] = y - 1 < 0 ? stateSizeY - 1 : y - 1; //sub
+    coordY[1] = y + 1 == stateSizeY ? 0 : y + 1; //add
+    return (
+      coordX.reduce(
+        (accX, elemX) =>
+          accX +
+          coordY.reduce(
+            (accY, elemY) => accY + this.state.fieldData[elemX][elemY],
+            0
+          ),
+        0
+      ) - this.state.fieldData[x][y]
+    );
   }
 
   getRandomieDataField(): void {

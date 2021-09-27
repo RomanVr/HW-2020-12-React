@@ -7,7 +7,6 @@ import { getUrl } from "../../utils";
 interface AppState {
   sizeField: number;
   url: string;
-  imageNumber: number;
 
   error: Error | null;
   errorInfo: ErrorInfo | null;
@@ -17,18 +16,18 @@ export class AppLifeCycle extends React.Component<unknown, AppState> {
   _isMounted: boolean;
   IMAGE_ID_DEFAULT?: number;
   INTERVAL_TIME?: number;
+  imageNumber: number;
 
   constructor(props: never) {
     super(props);
+
     this.state = {
       sizeField: 10,
       url: "",
-      imageNumber: 0,
-
       error: null,
       errorInfo: null,
     };
-
+    this.imageNumber = 0,
     this._isMounted = false;
     this.IMAGE_ID_DEFAULT = 200;
     this.INTERVAL_TIME = 1000;
@@ -47,10 +46,10 @@ export class AppLifeCycle extends React.Component<unknown, AppState> {
     if (this._isMounted) {
       const newId = Math.floor(
         Math.random() * (this.IMAGE_ID_DEFAULT as number)
-      );
+        );
+      imageNumber: this.imageNumber + 1,
       this.setState((state: AppState) => ({
         url: getUrl(newId),
-        imageNumber: state.imageNumber + 1,
       }));
     }
   }
@@ -86,7 +85,7 @@ export class AppLifeCycle extends React.Component<unknown, AppState> {
   }
 
   render(): React.ReactElement {
-    const { url, imageNumber } = this.state;
+    const { url } = this.state;
     let errorInfoElem: React.ReactElement = <></>;
     if (this.state.errorInfo) {
       errorInfoElem = (
@@ -98,7 +97,7 @@ export class AppLifeCycle extends React.Component<unknown, AppState> {
     return (
       <>
         <img src={url} alt="Main" style={{ marginTop: 16 }} />
-        <h4>Image Number: {imageNumber}</h4>
+        <h4>Image Number: {this.imageNumber}</h4>
         <FormDataGame onSubmit={this.onSubmit} errorInfoElem={errorInfoElem} />
         <Field start={this.state.sizeField} />
       </>
