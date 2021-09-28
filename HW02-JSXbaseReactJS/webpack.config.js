@@ -1,33 +1,35 @@
-import { join } from "path";
-import HTML_WEBPACK_PLUGIN from "html-webpack-plugin";
+const path = require("path");
+const HTML_WEBPACK_PLUGIN = require("html-webpack-plugin");
 
-export const mode = "development";
-export const devtool = "source-map";
-export const entry = "./src/index.tsx";
-export const output = {
-  filename: "main.js",
-  path: join(__dirname, "out"),
-};
-export const resolve = {
-  extensions: [".js", ".jsx", ".ts", ".tsx"],
-};
-export const devServer = {
-  contentBase: join(__dirname, "out"),
-  compress: true,
-  port: 8080,
-};
-export const module = {
-  rules: [
-    {
-      test: /\.(js|ts)x?$/,
-      loader: require.resolve("babel-loader"),
-      exclude: /node_modules/,
-    },
+module.exports = {
+  mode: "development",
+  devtool: "source-map",
+  entry: "./src/index.tsx",
+  output: {
+    filename: "main.js",
+    path: path.join(__dirname, "out"),
+  },
+  resolve: {
+    extensions: [".js", ".jsx", ".ts", ".tsx"],
+  },
+  devServer: {
+    contentBase: path.join(__dirname, "out"),
+    compress: true,
+    port: 8080,
+  },
+  module: {
+    rules: [
+      {
+        test: /\.(js|ts)x?$/,
+        loader: require.resolve("babel-loader"),
+        exclude: /node_modules/,
+      },
+    ],
+  },
+  plugins: [
+    new HTML_WEBPACK_PLUGIN({
+      template: "./public/index.html",
+      favicon: "./public/assets/favicon.jpg",
+    }),
   ],
 };
-export const plugins = [
-  new HTML_WEBPACK_PLUGIN({
-    template: "./public/index.html",
-    favicon: "./public/assets/favicon.jpg",
-  }),
-];
