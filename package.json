@@ -1,5 +1,5 @@
 {
-  "name": "hw4-lifecycle",
+  "name": "hw05-gameoflife",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -23,6 +23,7 @@
     "@babel/preset-react": "^7.12.13",
     "@babel/preset-typescript": "^7.12.7",
     "@babel/register": "^7.12.10",
+    "@emotion/babel-preset-css-prop": "^11.2.0",
     "@emotion/jest": "^11.3.0",
     "@jest/types": "^26.6.2",
     "@storybook/addon-essentials": "^6.3.6",
@@ -43,7 +44,7 @@
     "@wojtekmaj/enzyme-adapter-react-17": "^0.6.3",
     "babel-jest": "^26.6.3",
     "babel-loader": "^8.2.2",
-    "chromatic": "^5.5.1-dev.1",
+    "chromatic": "^5.10.0",
     "enzyme": "^3.11.0",
     "enzyme-to-json": "^3.6.2",
     "eslint": "^7.18.0",
@@ -60,6 +61,9 @@
     "webpack-dev-server": "^3.11.2"
   },
   "dependencies": {
+    "@emotion/core": "^11.0.0",
+    "@emotion/react": "^11.4.1",
+    "@emotion/styled": "^11.3.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
   }
