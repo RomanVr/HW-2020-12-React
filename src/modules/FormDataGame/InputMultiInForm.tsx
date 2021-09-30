@@ -1,5 +1,5 @@
 import React from "react";
-import { InputSize } from "../InputSize/InputSize";
+import { InputSize } from "@/components";
 
 interface InputMultiInFormProps {
   sizeState: string;

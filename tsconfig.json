@@ -2,6 +2,12 @@
   "compilerOptions": {
     "target": "es5",
     "module": "commonjs",
+    "baseUrl": "./",
+        "paths": {
+          "@/*": [
+            "src/*"
+          ]
+        },
     "allowJs": true,
     "jsx": "react",
     "sourceMap": true,

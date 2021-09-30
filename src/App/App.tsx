@@ -1,6 +1,7 @@
 import React, { ReactElement } from "react";
-import { GameOfLife, Login } from "../components/";
-import { User } from "../components/";
+import { Login } from "@/modules/Login/Login";
+import { GameOfLife } from "@/modules/GameOfLife/GameOfLife";
+import { User } from "@/modules/User/User";
 
 interface AppState {
   nameUser: string;

@@ -1,13 +1,10 @@
 import React from "react";
-import { ButtonSubmit } from "../ButtonSubmit/ButtonSubmit";
+import { ButtonSubmit } from "@/components";
 import { InputMultiInForm } from "./InputMultiInForm";
 
 export interface FormDataGameState {
   sizeX: string;
   sizeY: string;
-  timeValue: string;
-  isTime: boolean;
-  buttonValue: string;
 }
 
 export interface FormDataGameProps {
@@ -19,17 +16,11 @@ export class FormDataGame extends React.Component<
   FormDataGameProps,
   FormDataGameState
 > {
-  // eslint-disable-next-line no-undef
-  timerID?: NodeJS.Timeout;
-
   constructor(props: FormDataGameProps) {
     super(props);
     this.state = {
       sizeX: "10",
       sizeY: "10",
-      timeValue: "now",
-      isTime: false,
-      buttonValue: "Show it Time!",
     };
 
     this.getHandleFormChange = this.getHandleFormChange.bind(this);
@@ -50,7 +41,7 @@ export class FormDataGame extends React.Component<
     };
 
   render(): React.ReactElement {
-    if (isNaN(Number(this.state.sizeX))) {
+    if (isNaN(Number(this.state.sizeX)) || isNaN(Number(this.state.sizeY))) {
       throw new Error("Size must be a number!");
     }
     return (

@@ -1,7 +1,13 @@
 import React, { ErrorInfo } from "react";
-import { FormDataGame, InputOnLength, InputTime } from "..";
-import { Field } from "..";
-import { ButtonValue } from "../ButtonValue/ButtonValue";
+import { FormDataGame } from "@/modules/FormDataGame/FormDataGame";
+import {
+  InputOnLength,
+  InputTime,
+  Field,
+  ButtonValue,
+  NameGame,
+  SpanError,
+} from "@/components";
 
 interface GameOfLifeState {
   sizeX: number;
@@ -278,11 +284,7 @@ export class GameOfLife extends React.Component<unknown, GameOfLifeState> {
   render(): React.ReactElement {
     let errorInfoElem: React.ReactElement = <></>;
     if (this.state.errorInfo) {
-      errorInfoElem = (
-        <span data-testid="spanError" style={{ color: "red" }}>
-          Please enter Number
-        </span>
-      );
+      errorInfoElem = <SpanError />;
     }
     let inputTimeVar: React.ReactElement = <></>;
     if (this.state.start) {
@@ -312,9 +314,7 @@ export class GameOfLife extends React.Component<unknown, GameOfLifeState> {
           justifyContent: "center",
         }}
       >
-        <div>
-          <h2>Game Of Life</h2>
-        </div>
+        <NameGame />
         <div
           style={{
             display: "flex",

@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 
-import { Cell } from "../Cell/Cell";
+import { Cell } from "@/components";
 
 export type CellType = "live" | "dead";
 

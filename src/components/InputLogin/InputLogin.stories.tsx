@@ -1,13 +1,13 @@
 import React from "react";
 import { Meta, Story } from "@storybook/react";
 
-import { Login } from "./Login";
+import { InputLogin } from "./InputLogin";
 
 export default {
   title: "Login",
-  component: Login,
-} as unknown as Meta;
+  component: InputLogin,
+} as Meta;
 
 export const LoginStory: Story = () => (
-  <Login onLogin={(name: string) => name} />
+  <InputLogin nameUser="Name User" setNameUser={(name: string) => name} />
 );

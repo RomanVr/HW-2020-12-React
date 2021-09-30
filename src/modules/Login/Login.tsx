@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { InputLogin } from "@/components";
 
 interface LoginProps {
   onLogin: (nameUser: string) => void;
@@ -13,17 +14,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
 
   return (
     <form onSubmit={onSubmit} data-testid="FormLogin">
-      <label>
-        Name:
-        <input
-          placeholder="Enter your Name"
-          value={nameUser}
-          minLength={4}
-          maxLength={20}
-          onChange={(ev) => setNameUser(ev.target.value)}
-          data-testid="LoginInput"
-        />
-      </label>
+      <InputLogin nameUser={nameUser} setNameUser={setNameUser} />
     </form>
   );
 };
