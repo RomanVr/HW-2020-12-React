@@ -7,6 +7,7 @@ export interface InputSizeProps {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   placeHolder: string;
   label: string;
+  nameState: string;
 }
 
 const stylesLabel = css`
@@ -48,6 +49,7 @@ export const InputSize: React.FC<InputSizeProps> = ({
   onChange,
   placeHolder,
   label,
+  nameState,
 }) => (
   <>
     <LabelInput>
@@ -58,6 +60,7 @@ export const InputSize: React.FC<InputSizeProps> = ({
         value={size}
         onChange={onChange}
         placeholder={placeHolder}
+        name={nameState}
       ></InputItem>
     </LabelInput>
   </>

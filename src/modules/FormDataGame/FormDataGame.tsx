@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FormEvent } from "react";
 import { ButtonSubmit } from "@/components";
 import { InputMultiInForm } from "./InputMultiInForm";
 
@@ -34,11 +34,22 @@ export class FormDataGame extends React.Component<
     this.props.onSubmit(sizeX, sizeY);
   }
 
-  getHandleFormChange =
-    (inputProp: keyof Pick<FormDataGameState, "sizeX" | "sizeY">) =>
-    (ev: React.ChangeEvent<HTMLInputElement>): void => {
-      this.setState({ [inputProp]: ev.target.value } as never);
-    };
+  // getHandleFormChange =
+  //   (inputProp: keyof Pick<FormDataGameState, "sizeX" | "sizeY">) =>
+  //   (ev: React.ChangeEvent<HTMLInputElement>): void => {
+  //     this.setState({ [inputProp]: ev.target.value } as never);
+  //   };
+
+  getHandleFormChange = (ev: FormEvent<HTMLInputElement>): void => {
+    const elemForm = ev.target as HTMLInputElement;
+    console.log(
+      `ev.target: ${elemForm.value} attr: ${elemForm.getAttribute("name")}`
+    );
+    this.setState({
+      [elemForm.getAttribute("name") as keyof FormDataGameState]:
+        elemForm.value,
+    } as any);
+  };
 
   render(): React.ReactElement {
     if (isNaN(Number(this.state.sizeX)) || isNaN(Number(this.state.sizeY))) {
@@ -50,15 +61,17 @@ export class FormDataGame extends React.Component<
           {[
             {
               sizeState: this.state.sizeX,
-              onChange: this.getHandleFormChange("sizeX"),
+              onChange: this.getHandleFormChange,
               placeHolder: "Значение по горизонтали",
               label: "X: ",
+              nameState: "sizeX",
             },
             {
               sizeState: this.state.sizeY,
-              onChange: this.getHandleFormChange("sizeY"),
+              onChange: this.getHandleFormChange,
               placeHolder: "Значение по вертикали",
               label: "Y: ",
+              nameState: "sizeY",
             },
           ].map((propsItem) => (
             <InputMultiInForm
@@ -67,6 +80,7 @@ export class FormDataGame extends React.Component<
               onChange={propsItem.onChange}
               placeHolder={propsItem.placeHolder}
               label={propsItem.label}
+              nameState={propsItem.nameState}
             />
           ))}
           <ButtonSubmit />
