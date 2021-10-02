@@ -1,13 +1,22 @@
 import React, { ErrorInfo } from "react";
 import { FormDataGame } from "@/modules/FormDataGame/FormDataGame";
+import { withInput } from "@/HOC/withInput";
 import {
-  InputOnLength,
+  // InputOnLength,
   InputTime,
   Field,
   ButtonValue,
   NameGame,
   SpanError,
+  InputText,
 } from "@/components";
+
+const params = {
+  readOnly: true,
+};
+
+const InputReadOnlyWithInputText = withInput(InputText, params);
+const InputWithInputText = withInput(InputText);
 
 interface GameOfLifeState {
   sizeX: number;
@@ -156,9 +165,8 @@ export class GameOfLife extends React.Component<unknown, GameOfLifeState> {
   }
 
   getRandomieDataField(): void {
-    // console.log(`Randomize`);
-    const stateSizeX: number = this.state.fieldData.length;
-    const stateSizeY: number = this.state.fieldData[0].length;
+    const stateSizeX: number = this.state.sizeX;
+    const stateSizeY: number = this.state.sizeY;
     const newFieldData = new Array(stateSizeX)
       .fill(null)
       .map(() => new Array(stateSizeY).fill(0));
@@ -166,10 +174,10 @@ export class GameOfLife extends React.Component<unknown, GameOfLifeState> {
     const rndCellOnY = (stateSizeY * this.state.rndRrate) / 100;
     let rndCounter = 0;
     const setElementJ: Set<number> = new Set([]);
-    for (let i = 0; i < newFieldData.length; i += 1) {
+    for (let i = 0; i < stateSizeX; i += 1) {
       while (rndCounter < rndCellOnY) {
         const j = Math.round(Math.random() * (stateSizeY + 1));
-        if (!setElementJ.has(j)) {
+        if (!setElementJ.has(j) && j < stateSizeY) {
           setElementJ.add(j);
           rndCounter += 1;
           newFieldData[i][j] = 1;
@@ -182,8 +190,8 @@ export class GameOfLife extends React.Component<unknown, GameOfLifeState> {
     this.setState({ fieldData: newFieldData });
   }
 
-  handleOnChangeRnd(ev: React.ChangeEvent<HTMLInputElement>): void {
-    const rndRrate = Number(ev.target.value);
+  handleOnChangeRnd(value: string): void {
+    const rndRrate = Number(value);
     if (rndRrate >= 0 && rndRrate < 100) {
       this.setState({ rndRrate: rndRrate });
     }
@@ -325,9 +333,9 @@ export class GameOfLife extends React.Component<unknown, GameOfLifeState> {
             errorInfoElem={errorInfoElem}
           />
           <ButtonValue handleClick={this.clearField} value="Clear" />
-          <InputOnLength
-            value={this.state.rndRrate}
-            onChange={this.handleOnChangeRnd}
+          <InputWithInputText
+            valueInput={String(this.state.rndRrate)}
+            onChangeInput={this.handleOnChangeRnd}
           />
           <ButtonValue
             handleClick={this.getRandomieDataField}
@@ -346,10 +354,15 @@ export class GameOfLife extends React.Component<unknown, GameOfLifeState> {
           }}
         >
           <button onClick={this.handleClickDecrement}> Damp</button>
-          <InputOnLength readOnly value={21 - this.state.velosity / 100} />
+          <InputReadOnlyWithInputText
+            valueInput={String(21 - this.state.velosity / 100)}
+          />
           <button onClick={this.handleClickIncrement}> Rase </button>
           <ButtonValue handleClick={() => this.nextStep()} value="Step" />
-          <InputOnLength value={this.state.countStep} readOnly />
+          <InputReadOnlyWithInputText
+            valueInput={String(this.state.countStep)}
+            readOnly
+          />
           <ButtonValue
             value={this.state.buttonValue}
             handleClick={this.handleClickStart}

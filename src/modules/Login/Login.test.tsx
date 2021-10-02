@@ -12,7 +12,7 @@ describe("Test Login", () => {
     const onlogin = jest.fn();
     render(<Login onLogin={onlogin} />);
 
-    const inputLogin = screen.getByTestId("LoginInput");
+    const inputLogin = screen.getByTestId("InputText");
     userEvent.type(inputLogin, "Name{enter}");
     expect(onlogin).toBeCalled();
   });

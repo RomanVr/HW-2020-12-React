@@ -1,9 +1,19 @@
-import React from "react";
-import { InputSize } from "@/components";
+import React, { FormEvent } from "react";
+import { InputText } from "@/components";
+import { withInput } from "@/HOC/withInput";
+
+const params = {
+  type: "text",
+};
+
+const InputSizeWithInputText = withInput(InputText, params);
 
 interface InputMultiInFormProps {
   sizeState: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (
+    value: string,
+    ev: FormEvent<HTMLInputElement> | undefined
+  ) => void;
   placeHolder: string;
   label: string;
   nameState: string;
@@ -12,15 +22,13 @@ interface InputMultiInFormProps {
 export const InputMultiInForm: React.FC<InputMultiInFormProps> = ({
   sizeState,
   onChange,
-  placeHolder,
   label,
   nameState,
 }) => (
-  <InputSize
-    size={sizeState}
-    onChange={onChange}
-    placeHolder={placeHolder}
-    label={label}
-    nameState={nameState}
-  ></InputSize>
+  <InputSizeWithInputText
+    valueInput={sizeState}
+    onChangeInput={onChange}
+    labelInput={label}
+    nameInput={nameState}
+  />
 );

@@ -11,14 +11,12 @@ describe("FormDataGame testing", () => {
   });
 
   it("renders FormDataGame", () => {
-    expect(
-      screen.getByPlaceholderText("Значение по горизонтали")
-    ).toBeInTheDocument();
+    expect(screen.getByTestId("InputTextsizeX")).toBeInTheDocument();
     expect(screen.getByTestId("ButtonSubmit")).toBeInTheDocument();
   });
 
   it("Type in the input", () => {
-    const inputSize = screen.getByPlaceholderText("Значение по горизонтали");
+    const inputSize = screen.getByTestId("InputTextsizeX");
     userEvent.clear(inputSize);
     userEvent.type(inputSize, "22");
     userEvent.click(screen.getByTestId("ButtonSubmit"));
@@ -26,7 +24,7 @@ describe("FormDataGame testing", () => {
   });
 
   it("Type in the input wrong number", () => {
-    const inputSize = screen.getByPlaceholderText("Значение по горизонтали");
+    const inputSize = screen.getByTestId("InputTextsizeX");
     userEvent.clear(inputSize);
     expect(() => {
       userEvent.type(inputSize, "22t");

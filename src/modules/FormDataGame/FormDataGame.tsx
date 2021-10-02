@@ -34,20 +34,13 @@ export class FormDataGame extends React.Component<
     this.props.onSubmit(sizeX, sizeY);
   }
 
-  // getHandleFormChange =
-  //   (inputProp: keyof Pick<FormDataGameState, "sizeX" | "sizeY">) =>
-  //   (ev: React.ChangeEvent<HTMLInputElement>): void => {
-  //     this.setState({ [inputProp]: ev.target.value } as never);
-  //   };
-
-  getHandleFormChange = (ev: FormEvent<HTMLInputElement>): void => {
-    const elemForm = ev.target as HTMLInputElement;
-    console.log(
-      `ev.target: ${elemForm.value} attr: ${elemForm.getAttribute("name")}`
-    );
+  getHandleFormChange = (
+    valueInput: string,
+    ev: FormEvent<HTMLInputElement> | undefined
+  ): void => {
+    const elemForm = ev?.target as HTMLInputElement;
     this.setState({
-      [elemForm.getAttribute("name") as keyof FormDataGameState]:
-        elemForm.value,
+      [elemForm.getAttribute("name") as keyof FormDataGameState]: valueInput,
     } as any);
   };
 

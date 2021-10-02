@@ -9,11 +9,7 @@ describe("GameOfLife testing", () => {
   });
 
   it("renders GameOfLife", () => {
-    // expect(screen.getByAltText("Main")).toBeInTheDocument();
-    // expect(screen.getByPlaceholderText("Enter size")).toBeInTheDocument();
     expect(screen.queryByTestId("GameofLife")).toBeInTheDocument();
-    // expect(screen.getByTestId("buttonValue")).toBeInTheDocument();
-    // expect(screen.getByText(/Image Number:/)).toBeInTheDocument();
   });
   it("Click to Cell", () => {
     const elemCell: HTMLElement = screen.getAllByTestId("items-field-item")[0];
@@ -21,7 +17,7 @@ describe("GameOfLife testing", () => {
     expect(screen.queryAllByTestId("items-field-item").length).toBe(100);
   });
   it("Type in the input", () => {
-    const inputSize = screen.getByPlaceholderText("Значение по горизонтали");
+    const inputSize = screen.getByTestId("InputTextsizeX");
     userEvent.clear(inputSize);
     userEvent.type(inputSize, "20");
     userEvent.click(screen.getByTestId("ButtonSubmit"));
@@ -133,7 +129,7 @@ describe("GameOfLife testing", () => {
     expect(screen.queryAllByTestId("items-field-item").length).toBe(100);
   });
   it("Type in the input wrong number", () => {
-    const inputSize = screen.getByPlaceholderText("Значение по горизонтали");
+    const inputSize = screen.getByTestId("InputTextsizeX");
     userEvent.clear(inputSize);
     expect(() => {
       userEvent.type(inputSize, "22t");

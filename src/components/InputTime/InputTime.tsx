@@ -1,4 +1,5 @@
 import React from "react";
+import { InputText } from "@/components";
 
 interface InputTimeState {
   timeValue: number;
@@ -42,12 +43,11 @@ export class InputTime extends React.Component<unknown, InputTimeState> {
   render(): React.ReactElement {
     const timeValue = this.moment(this.state.timeValue);
     return (
-      <input
+      <InputText
         data-testid="inputTime"
         readOnly
         type="text"
-        value={timeValue}
-        style={{ width: timeValue.length * 7, textAlign: "center" }}
+        valueInput={timeValue}
       />
     );
   }
