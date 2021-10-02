@@ -28,7 +28,9 @@ export const withOnChangeValue = <P extends Object>(
     return <Component onChange={onChange} />;
   };
 
-  WithOnChangeValue.displayName = `${Component.displayName || Component}`;
+  WithOnChangeValue.displayName = `${
+    Component.displayName || Component
+  }withOnChangeValue`;
 
   return WithOnChangeValue;
 };
