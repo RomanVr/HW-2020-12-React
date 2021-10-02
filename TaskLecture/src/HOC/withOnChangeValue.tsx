@@ -4,7 +4,10 @@ import React from "react";
  * см тесты в src/utils/withOnChangeValue.test.tsx
  * @param Component
  */
-export const withOnChangeValue = <P extends Record<string, unknown>>(
+
+// Обернуть input или другой компонент с обработчиком onChange,
+// который передает данные в другой обработчик, например onChangeValue
+export const withOnChangeValue = <P extends Object>(
   Component: React.ComponentType<P>
 ) => {
   const WithOnChangeValue = (
