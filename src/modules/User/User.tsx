@@ -1,6 +1,7 @@
 import React from "react";
 import { InputText } from "@/components";
 import { withInput } from "@/HOC/withInput";
+import { DivFlexEnd } from "@/screen/DivFlexEnd";
 
 const params = {
   type: "button",
@@ -16,14 +17,8 @@ interface UserProps {
 }
 
 export const User: React.FC<UserProps> = ({ logoutClick, nameUser }) => (
-  <div
-    style={{
-      display: "flex",
-      flexDirection: "row",
-      justifyContent: "flex-end",
-    }}
-  >
+  <DivFlexEnd>
     <h3>Hello, {nameUser}!</h3>
     <ButtonLoginWithInputText onClickInput={logoutClick} />
-  </div>
+  </DivFlexEnd>
 );

@@ -1,7 +1,8 @@
 import React from "react";
+import { DivFlexCenter } from "@/screen/DivFlexCenter";
 
 export const NameGame: React.FC<unknown> = () => (
-  <div>
+  <DivFlexCenter>
     <h2>Game Of Life</h2>
-  </div>
+  </DivFlexCenter>
 );

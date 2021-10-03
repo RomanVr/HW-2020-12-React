@@ -2,9 +2,12 @@ import React, { ErrorInfo } from "react";
 import { FormDataGame } from "@/modules/FormDataGame/FormDataGame";
 import { withInput } from "@/HOC/withInput";
 import { InputTime, Field, NameGame, SpanError, InputText } from "@/components";
+import { DivFlexGame } from "@/screen/DivFlexGame";
+import { DivFlexCenter } from "@/screen/DivFlexCenter";
 
 const params = {
   readOnly: true,
+  type: "text",
 };
 
 const paramsButton = {
@@ -298,34 +301,12 @@ export class GameOfLife extends React.Component<unknown, GameOfLifeState> {
     }
     let inputFinish: React.ReactElement = <></>;
     if (this.state.isFinish) {
-      inputFinish = (
-        <input
-          value="Finish!!!"
-          readOnly
-          type="text"
-          style={{
-            width: "Finish!!!".length * 7 + 10,
-            textAlign: "center",
-          }}
-        />
-      );
+      inputFinish = <InputReadOnlyWithInputText valueInput="Finish!!!" />;
     }
     return (
-      <div
-        data-testid="GameofLife"
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
+      <DivFlexGame dataTestId="GameofLife">
         <NameGame />
-        <div
-          style={{
-            display: "flex",
-          }}
-        >
+        <DivFlexCenter>
           <FormDataGame
             onSubmit={this.onSubmit}
             errorInfoElem={errorInfoElem}
@@ -342,30 +323,29 @@ export class GameOfLife extends React.Component<unknown, GameOfLifeState> {
             onClickInput={this.getRandomieDataField}
             valueInput="Randomize"
           />
-        </div>
+        </DivFlexCenter>
         <Field
           fieldData={this.state.fieldData}
           handleClickOnCell={this.handleClickOnCell}
         />
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <button onClick={this.handleClickDecrement}> Damp</button>
+        <DivFlexCenter>
+          <ButtonValueWithInputText
+            onClickInput={this.handleClickDecrement}
+            valueInput="Damp"
+          />
           <InputReadOnlyWithInputText
             valueInput={String(21 - this.state.velosity / 100)}
           />
-          <button onClick={this.handleClickIncrement}> Rase </button>
+          <ButtonValueWithInputText
+            onClickInput={this.handleClickIncrement}
+            valueInput="Rase"
+          />
           <ButtonValueWithInputText
             onClickInput={() => this.nextStep()}
             valueInput="Step"
           />
           <InputReadOnlyWithInputText
             valueInput={String(this.state.countStep)}
-            readOnly
           />
           <ButtonValueWithInputText
             valueInput={this.state.buttonValue}
@@ -373,8 +353,8 @@ export class GameOfLife extends React.Component<unknown, GameOfLifeState> {
           />
           {inputTimeVar}
           {inputFinish}
-        </div>
-      </div>
+        </DivFlexCenter>
+      </DivFlexGame>
     );
   }
 }
