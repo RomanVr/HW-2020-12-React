@@ -12,14 +12,14 @@ describe("FormDataGame testing", () => {
 
   it("renders FormDataGame", () => {
     expect(screen.getByTestId("InputTextsizeX")).toBeInTheDocument();
-    expect(screen.getByTestId("ButtonSubmit")).toBeInTheDocument();
+    expect(screen.getByTestId("InputTextButtonSubmit")).toBeInTheDocument();
   });
 
   it("Type in the input", () => {
     const inputSize = screen.getByTestId("InputTextsizeX");
     userEvent.clear(inputSize);
     userEvent.type(inputSize, "22");
-    userEvent.click(screen.getByTestId("ButtonSubmit"));
+    userEvent.click(screen.getByTestId("InputTextButtonSubmit"));
     expect(handleSubmit).toBeCalled();
   });
 

@@ -20,7 +20,7 @@ describe("GameOfLife testing", () => {
     const inputSize = screen.getByTestId("InputTextsizeX");
     userEvent.clear(inputSize);
     userEvent.type(inputSize, "20");
-    userEvent.click(screen.getByTestId("ButtonSubmit"));
+    userEvent.click(screen.getByTestId("InputTextButtonSubmit"));
     expect(screen.queryAllByTestId("items-field-item").length).toBe(200);
   });
   it("Click Step", () => {
@@ -136,7 +136,7 @@ describe("GameOfLife testing", () => {
     }).not.toThrow();
     userEvent.clear(inputSize);
     userEvent.type(inputSize, "10");
-    userEvent.click(screen.getByTestId("ButtonSubmit"));
+    userEvent.click(screen.getByTestId("InputTextButtonSubmit"));
     expect(screen.queryAllByTestId("items-field-item").length).toBe(100);
   });
 });

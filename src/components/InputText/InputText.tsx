@@ -16,12 +16,21 @@ const InputItem = styled.input`
   ${stylesInput}
 `;
 
+const stylesLabel = css`
+  align-self: center;
+`;
+
+const LabelItem = styled.label`
+  ${stylesLabel}
+`;
+
 export interface InputTextProps {
   valueInput?: string;
   onChangeInput?: (
     name: string,
     ev: FormEvent<HTMLInputElement> | undefined
   ) => void;
+  onClickInput?: () => void;
   labelInput?: string;
   placeholderInput?: string;
   minLengthInput?: number;
@@ -34,6 +43,7 @@ export interface InputTextProps {
 export const InputText: React.FC<InputTextProps> = ({
   valueInput,
   onChangeInput,
+  onClickInput,
   labelInput,
   placeholderInput,
   minLengthInput,
@@ -42,7 +52,7 @@ export const InputText: React.FC<InputTextProps> = ({
   nameInput,
   type,
 }) => (
-  <label>
+  <LabelItem>
     {labelInput}
     <InputItem
       placeholder={placeholderInput}
@@ -51,9 +61,10 @@ export const InputText: React.FC<InputTextProps> = ({
       minLength={minLengthInput}
       maxLength={maxLengthInput}
       onChange={(ev) => onChangeInput && onChangeInput(ev.target.value, ev)}
+      onClick={onClickInput}
       name={nameInput}
       data-testid={`InputText${nameInput ? nameInput : ""}`} // заменить в тестах id
       type={type}
     />
-  </label>
+  </LabelItem>
 );

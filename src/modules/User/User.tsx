@@ -1,4 +1,14 @@
 import React from "react";
+import { InputText } from "@/components";
+import { withInput } from "@/HOC/withInput";
+
+const params = {
+  type: "button",
+  valueInput: "Logout",
+  nameInput: "ButtonLogout",
+};
+
+const ButtonLoginWithInputText = withInput(InputText, params);
 
 interface UserProps {
   logoutClick: () => void;
@@ -14,8 +24,6 @@ export const User: React.FC<UserProps> = ({ logoutClick, nameUser }) => (
     }}
   >
     <h3>Hello, {nameUser}!</h3>
-    <button onClick={logoutClick} style={{ height: 30, alignSelf: "center" }}>
-      Logout
-    </button>
+    <ButtonLoginWithInputText onClickInput={logoutClick} />
   </div>
 );

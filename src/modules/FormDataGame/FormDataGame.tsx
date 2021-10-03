@@ -1,6 +1,16 @@
 import React, { FormEvent } from "react";
-import { ButtonSubmit } from "@/components";
 import { InputMultiInForm } from "./InputMultiInForm";
+import { InputText } from "@/components";
+import { withInput } from "@/HOC/withInput";
+
+const params = {
+  type: "submit",
+  valueInput: "Ok",
+  nameInput: "ButtonSubmit",
+  maxLengthInput: 40,
+};
+
+const ButtonSubmitWithInputText = withInput(InputText, params);
 
 export interface FormDataGameState {
   sizeX: string;
@@ -76,7 +86,7 @@ export class FormDataGame extends React.Component<
               nameState={propsItem.nameState}
             />
           ))}
-          <ButtonSubmit />
+          <ButtonSubmitWithInputText />
           {this.props.errorInfoElem}
         </form>
       </>

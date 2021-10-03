@@ -1,22 +1,20 @@
 import React, { ErrorInfo } from "react";
 import { FormDataGame } from "@/modules/FormDataGame/FormDataGame";
 import { withInput } from "@/HOC/withInput";
-import {
-  // InputOnLength,
-  InputTime,
-  Field,
-  ButtonValue,
-  NameGame,
-  SpanError,
-  InputText,
-} from "@/components";
+import { InputTime, Field, NameGame, SpanError, InputText } from "@/components";
 
 const params = {
   readOnly: true,
 };
 
+const paramsButton = {
+  type: "button",
+  nameInput: "Button",
+};
+
 const InputReadOnlyWithInputText = withInput(InputText, params);
 const InputWithInputText = withInput(InputText);
+const ButtonValueWithInputText = withInput(InputText, paramsButton);
 
 interface GameOfLifeState {
   sizeX: number;
@@ -332,14 +330,17 @@ export class GameOfLife extends React.Component<unknown, GameOfLifeState> {
             onSubmit={this.onSubmit}
             errorInfoElem={errorInfoElem}
           />
-          <ButtonValue handleClick={this.clearField} value="Clear" />
+          <ButtonValueWithInputText
+            onClickInput={this.clearField}
+            valueInput="Clear"
+          />
           <InputWithInputText
             valueInput={String(this.state.rndRrate)}
             onChangeInput={this.handleOnChangeRnd}
           />
-          <ButtonValue
-            handleClick={this.getRandomieDataField}
-            value="Randomize"
+          <ButtonValueWithInputText
+            onClickInput={this.getRandomieDataField}
+            valueInput="Randomize"
           />
         </div>
         <Field
@@ -358,14 +359,17 @@ export class GameOfLife extends React.Component<unknown, GameOfLifeState> {
             valueInput={String(21 - this.state.velosity / 100)}
           />
           <button onClick={this.handleClickIncrement}> Rase </button>
-          <ButtonValue handleClick={() => this.nextStep()} value="Step" />
+          <ButtonValueWithInputText
+            onClickInput={() => this.nextStep()}
+            valueInput="Step"
+          />
           <InputReadOnlyWithInputText
             valueInput={String(this.state.countStep)}
             readOnly
           />
-          <ButtonValue
-            value={this.state.buttonValue}
-            handleClick={this.handleClickStart}
+          <ButtonValueWithInputText
+            valueInput={this.state.buttonValue}
+            onClickInput={this.handleClickStart}
           />
           {inputTimeVar}
           {inputFinish}
