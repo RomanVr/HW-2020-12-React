@@ -56,7 +56,7 @@ describe("GameOfLife testing", () => {
   });
   it("Cick Random", () => {
     jest.useFakeTimers();
-    const buttonRnd = screen.getByDisplayValue("Randomize");
+    const buttonRnd = screen.getByDisplayValue("Random Fill");
     userEvent.click(buttonRnd);
     act(() => {
       jest.advanceTimersByTime(1000);
