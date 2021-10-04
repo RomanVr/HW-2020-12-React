@@ -3,10 +3,14 @@ import styled from "@emotion/styled";
 import { css } from "@emotion/react";
 
 const stylesDiv = css`
-  display: flex,
-  flex-direction: column,
-  align-items: center,
-  justify-content: center,
+  display: flex;
+  flex-wrap: wrap;
+  min-width: fit-content;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid black;
+  background: #00d8fb26;
 `;
 const DivItem = styled.div`
   ${stylesDiv}

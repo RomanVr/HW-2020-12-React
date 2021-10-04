@@ -321,7 +321,7 @@ export class GameOfLife extends React.Component<unknown, GameOfLifeState> {
           />
           <ButtonValueWithInputText
             onClickInput={this.getRandomieDataField}
-            valueInput="Randomize"
+            valueInput="Random Fill"
           />
         </DivFlexCenter>
         <Field

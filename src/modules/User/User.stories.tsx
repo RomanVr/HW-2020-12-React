@@ -8,7 +8,7 @@ export default {
   title: "User",
   component: User,
   argsTypes: { logoutClick: { action: "Click" } },
-} as unknown as Meta;
+} as Meta;
 
 export const UserStory: Story = () => (
   <User nameUser="User" logoutClick={action("Button is clicked!")} />

@@ -8,7 +8,7 @@ interface Props {
 }
 
 const stylesInput = (props: Props) => css`
-  width: ${!props.maxLength && String(props.value).length * 8 + 10}px;
+  width: ${!props.maxLength && String(props.value).length * 9 + 10}px;
   text-align: center;
 `;
 
@@ -17,7 +17,13 @@ const InputItem = styled.input`
 `;
 
 const stylesLabel = css`
+  display: flex;
   align-self: center;
+  align-items: center;
+  align-content: center;
+  justify-content: flex-start;
+  justify-self: center;
+  text-align: center;
 `;
 
 const LabelItem = styled.label`

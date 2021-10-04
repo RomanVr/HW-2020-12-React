@@ -23,7 +23,15 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
   };
 
   return (
-    <form onSubmit={onSubmit} data-testid="FormLogin">
+    <form
+      onSubmit={onSubmit}
+      style={{
+        display: "flex",
+        alignContent: "center",
+        alignItems: "center",
+      }}
+      data-testid="FormLogin"
+    >
       <InputLoginWithInputText
         valueInput={nameUser}
         onChangeInput={setNameUser}
