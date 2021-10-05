@@ -16,6 +16,12 @@ describe("GameOfLife testing", () => {
     userEvent.click(elemCell);
     expect(screen.queryAllByTestId("items-field-item").length).toBe(100);
   });
+  it("Click to Cell live", () => {
+    const elemCell: HTMLElement = screen.getAllByTestId("items-field-item")[0];
+    userEvent.click(elemCell);
+    userEvent.click(elemCell);
+    expect(screen.queryAllByTestId("items-field-item").length).toBe(100);
+  });
   it("Type in the input", () => {
     const inputSize = screen.getByTestId("InputTextsizeX");
     userEvent.clear(inputSize);
