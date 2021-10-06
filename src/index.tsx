@@ -1,5 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { App } from "./App/App";
+import AppRoute from "./App/AppNest";
 
-ReactDOM.render(<App />, document.getElementById("container"));
+ReactDOM.render(<AppRoute />, document.getElementById("container"));
