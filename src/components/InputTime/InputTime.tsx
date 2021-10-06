@@ -1,20 +1,22 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { InputText } from "@/components";
 
-interface InputTimeState {
-  timeValue: number;
-}
-
-export class InputTime extends React.Component<unknown, InputTimeState> {
+export const InputTime: React.FC<unknown> = () => {
   // eslint-disable-next-line no-undef
-  timerID?: NodeJS.Timeout;
+  let timerID: NodeJS.Timeout | undefined;
 
-  constructor(props: never) {
-    super(props);
-    this.state = { timeValue: 0 };
-  }
+  const [timeValue, setTime] = useState(0);
 
-  moment(timeSeconds: number): string {
+  useEffect(() => {
+    console.log("Mount Timer");
+    timerID = setInterval(() => tick(), 1000);
+    return function clear() {
+      clearInterval(Number(timerID));
+      timerID = undefined;
+    };
+  }, [timeValue]);
+
+  const moment = (timeSeconds: number): string => {
     function num(val: number) {
       val = Math.floor(val);
       return val < 10 ? "0" + val : val;
@@ -23,32 +25,18 @@ export class InputTime extends React.Component<unknown, InputTimeState> {
     const minutes = (timeSeconds / 60) % 60;
     const seconds = timeSeconds % 60;
     return `${num(hours)}:${num(minutes)}:${num(seconds)}`;
-  }
+  };
 
-  componentDidMount(): void {
-    this.timerID = setInterval(() => this.tick(), 1000);
-  }
+  const tick = (): void => {
+    setTime(timeValue + 1);
+  };
 
-  componentWillUnmount(): void {
-    clearInterval(Number(this.timerID));
-    this.timerID = undefined;
-  }
-
-  tick(): void {
-    this.setState({
-      timeValue: this.state.timeValue + 1,
-    });
-  }
-
-  render(): React.ReactElement {
-    const timeValue = this.moment(this.state.timeValue);
-    return (
-      <InputText
-        data-testid="inputTime"
-        readOnly
-        type="text"
-        valueInput={timeValue}
-      />
-    );
-  }
-}
+  return (
+    <InputText
+      data-testid="inputTime"
+      readOnly
+      type="text"
+      valueInput={moment(timeValue)}
+    />
+  );
+};
