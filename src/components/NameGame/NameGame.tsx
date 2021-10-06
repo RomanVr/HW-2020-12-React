@@ -1,8 +1,8 @@
 import React from "react";
-import { DivFlexCenter } from "@/screen/DivFlexCenter";
+import { ContainerFlexCenter } from "@/screen/ContainerFlexCenter";
 
-export const NameGame: React.FC<unknown> = () => (
-  <DivFlexCenter>
+export const NameGame: React.FC<Record<string, never>> = () => (
+  <ContainerFlexCenter>
     <h2>Game Of Life</h2>
-  </DivFlexCenter>
+  </ContainerFlexCenter>
 );

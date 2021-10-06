@@ -16,12 +16,12 @@ const DivItem = styled.div`
   ${stylesDiv}
 `;
 
-interface DivFlexGameProps {
+interface ContainerFlexGameProps {
   children?: React.ReactNode;
   dataTestId?: string;
 }
 
-export const DivFlexGame: React.FC<DivFlexGameProps> = ({
+export const ContainerFlexGame: React.FC<ContainerFlexGameProps> = ({
   children,
   dataTestId,
 }): React.ReactElement => (

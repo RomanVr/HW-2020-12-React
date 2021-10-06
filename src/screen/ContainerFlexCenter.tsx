@@ -12,12 +12,12 @@ const DivItem = styled.div`
   ${stylesDiv}
 `;
 
-interface DivFlexCenterProps {
+interface ContainerFlexCenterProps {
   children?: React.ReactNode;
   dataTestId?: string;
 }
 
-export const DivFlexCenter: React.FC<DivFlexCenterProps> = ({
+export const ContainerFlexCenter: React.FC<ContainerFlexCenterProps> = ({
   children,
   dataTestId,
 }): React.ReactElement => (

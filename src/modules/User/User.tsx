@@ -1,7 +1,7 @@
 import React from "react";
 import { InputText } from "@/components";
 import { withInput } from "@/HOC/withInput";
-import { DivFlexEnd } from "@/screen/DivFlexEnd";
+import { ContainerFlexEnd } from "@/screen/ContainerFlexEnd";
 
 const params = {
   type: "button",
@@ -17,8 +17,8 @@ interface UserProps {
 }
 
 export const User: React.FC<UserProps> = ({ logoutClick, nameUser }) => (
-  <DivFlexEnd>
+  <ContainerFlexEnd>
     <h3>Hello, {nameUser}!</h3>
     <ButtonLoginWithInputText onClickInput={logoutClick} />
-  </DivFlexEnd>
+  </ContainerFlexEnd>
 );

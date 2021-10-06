@@ -2,8 +2,8 @@ import React, { ErrorInfo } from "react";
 import { FormDataGame } from "@/modules/FormDataGame/FormDataGame";
 import { withInput } from "@/HOC/withInput";
 import { InputTime, Field, NameGame, SpanError, InputText } from "@/components";
-import { DivFlexGame } from "@/screen/DivFlexGame";
-import { DivFlexCenter } from "@/screen/DivFlexCenter";
+import { ContainerFlexGame } from "@/screen/ContainerFlexGame";
+import { ContainerFlexCenter } from "@/screen/ContainerFlexCenter";
 
 const params = {
   readOnly: true,
@@ -304,9 +304,9 @@ export class GameOfLife extends React.Component<unknown, GameOfLifeState> {
       inputFinish = <InputReadOnlyWithInputText valueInput="Finish!!!" />;
     }
     return (
-      <DivFlexGame dataTestId="GameofLife">
+      <ContainerFlexGame dataTestId="GameofLife">
         <NameGame />
-        <DivFlexCenter>
+        <ContainerFlexCenter>
           <FormDataGame
             onSubmit={this.onSubmit}
             errorInfoElem={errorInfoElem}
@@ -323,12 +323,12 @@ export class GameOfLife extends React.Component<unknown, GameOfLifeState> {
             onClickInput={this.getRandomieDataField}
             valueInput="Random Fill"
           />
-        </DivFlexCenter>
+        </ContainerFlexCenter>
         <Field
           fieldData={this.state.fieldData}
           handleClickOnCell={this.handleClickOnCell}
         />
-        <DivFlexCenter>
+        <ContainerFlexCenter>
           <ButtonValueWithInputText
             onClickInput={this.handleClickDecrement}
             valueInput="Damp"
@@ -353,8 +353,8 @@ export class GameOfLife extends React.Component<unknown, GameOfLifeState> {
           />
           {inputTimeVar}
           {inputFinish}
-        </DivFlexCenter>
-      </DivFlexGame>
+        </ContainerFlexCenter>
+      </ContainerFlexGame>
     );
   }
 }

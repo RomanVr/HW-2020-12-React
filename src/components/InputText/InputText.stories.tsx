@@ -12,9 +12,9 @@ export default {
   },
 } as Meta;
 
-const Template: Story<InputTextProps> = (args) => <InputText {...args} />;
-
-export const InputDefaultStory = Template.bind({});
+export const InputDefaultStory: Story<InputTextProps> = (args) => (
+  <InputText {...args} />
+);
 InputDefaultStory.args = {
   valueInput: "value",
   type: "text",

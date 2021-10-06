@@ -11,10 +11,10 @@ const DivItem = styled.div`
   ${stylesDiv}
 `;
 
-interface DivFlexEndProps {
+interface ContainerFlexEndProps {
   children?: React.ReactElement[];
 }
 
-export const DivFlexEnd: React.FC<DivFlexEndProps> = ({
+export const ContainerFlexEnd: React.FC<ContainerFlexEndProps> = ({
   children,
 }): React.ReactElement => <DivItem>{children}</DivItem>;
