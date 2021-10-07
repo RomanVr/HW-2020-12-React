@@ -2,6 +2,7 @@ import React from "react";
 import { InputText } from "@/components";
 import { withInput } from "@/HOC/withInput";
 import { ContainerFlexEnd } from "@/screen/ContainerFlexEnd";
+import { RouteComponentProps } from "react-router";
 
 const params = {
   type: "button",
@@ -11,14 +12,20 @@ const params = {
 
 const ButtonLoginWithInputText = withInput(InputText, params);
 
-interface UserProps {
-  logoutClick: () => void;
-  nameUser: string;
+interface RouteParams {
+  name: string;
 }
 
-export const User: React.FC<UserProps> = ({ logoutClick, nameUser }) => (
-  <ContainerFlexEnd>
-    <h3>Hello, {nameUser}!</h3>
-    <ButtonLoginWithInputText onClickInput={logoutClick} />
-  </ContainerFlexEnd>
-);
+export const User: React.FC<RouteComponentProps<RouteParams>> = (props) => {
+  const logoutClick = () => {
+    localStorage.removeItem("nameUser");
+    props.history.push("/");
+  };
+
+  return (
+    <ContainerFlexEnd>
+      <h3>Hello, {props.match.params.name}!</h3>
+      <ButtonLoginWithInputText onClickInput={logoutClick} />
+    </ContainerFlexEnd>
+  );
+};
