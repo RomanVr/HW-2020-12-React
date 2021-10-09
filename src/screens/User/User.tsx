@@ -1,8 +1,10 @@
 import React from "react";
 import { InputText } from "@/components";
 import { withInput } from "@/HOC/withInput";
-import { ContainerFlexEnd } from "@/screen/ContainerFlexEnd";
+import { ContainerFlexEnd } from "@/components/layout/ContainerFlexEnd";
 import { RouteComponentProps } from "react-router";
+import { logout } from "@/api/auth";
+import { authorizedOnlyHoc } from "@/HOC/authorizedOnlyHoc";
 
 const params = {
   type: "button",
@@ -16,9 +18,9 @@ interface RouteParams {
   name: string;
 }
 
-export const User: React.FC<RouteComponentProps<RouteParams>> = (props) => {
+const RawUser: React.FC<RouteComponentProps<RouteParams>> = (props) => {
   const logoutClick = () => {
-    localStorage.removeItem("nameUser");
+    logout("nameUser");
     props.history.push("/");
   };
 
@@ -29,3 +31,5 @@ export const User: React.FC<RouteComponentProps<RouteParams>> = (props) => {
     </ContainerFlexEnd>
   );
 };
+
+export const UserScreen = authorizedOnlyHoc(RawUser, "/login");

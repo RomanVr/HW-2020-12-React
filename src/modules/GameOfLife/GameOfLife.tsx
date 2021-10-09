@@ -2,8 +2,9 @@ import React, { ErrorInfo } from "react";
 import { FormDataGame } from "@/modules/FormDataGame/FormDataGame";
 import { withInput } from "@/HOC/withInput";
 import { InputTime, Field, NameGame, SpanError, InputText } from "@/components";
-import { ContainerFlexGame } from "@/screen/ContainerFlexGame";
-import { ContainerFlexCenter } from "@/screen/ContainerFlexCenter";
+import { ContainerFlexGame } from "@/components/layout/ContainerFlexGame";
+import { ContainerFlexCenter } from "@/components/layout/ContainerFlexCenter";
+import { RouteComponentProps } from "react-router-dom";
 
 const params = {
   readOnly: true,
@@ -35,7 +36,14 @@ interface GameOfLifeState {
   errorInfo: ErrorInfo | null;
 }
 
-export class GameOfLife extends React.Component<unknown, GameOfLifeState> {
+interface RouteParams {
+  name: string;
+}
+
+export class GameOfLife extends React.Component<
+  RouteComponentProps<RouteParams>,
+  GameOfLifeState
+> {
   // eslint-disable-next-line no-undef
   timerStep?: NodeJS.Timeout;
   fieldDataPrev: number[][];

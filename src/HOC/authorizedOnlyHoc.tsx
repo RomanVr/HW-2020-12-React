@@ -1,4 +1,5 @@
 import React from "react";
+import { isLoggedIn } from "@/api/auth";
 import { useEffect, useState } from "react";
 import { Redirect } from "react-router";
 
@@ -8,14 +9,14 @@ enum CheckState {
   failed,
 }
 
-export const authorizedOnlyHoc = <Props extends Record<string, unknown>>(
-  Component: React.ComponentType<Props>,
-  redirectPath = "/login"
-): React.ComponentType<Props> => {
-  const WithAuthorized = (props: Props) => {
+export function authorizedOnlyHoc<P>(
+  WrappedComponent: React.ComponentType<P>,
+  redirectPath: string
+) {
+  const WithAuthorized = (props: P) => {
     const [isAuthorized, setIsAuthorized] = useState(CheckState.initiated);
     useEffect(() => {
-      const isAuthorized = localStorage.getItem("nameUser");
+      const isAuthorized = isLoggedIn();
       setIsAuthorized(isAuthorized ? CheckState.succeed : CheckState.failed);
     }, []);
 
@@ -26,9 +27,10 @@ export const authorizedOnlyHoc = <Props extends Record<string, unknown>>(
     if (isAuthorized === CheckState.failed) {
       return <Redirect to={redirectPath} />;
     }
-    return <Component {...props} />;
+    return <WrappedComponent {...props} />;
   };
 
-  WithAuthorized.displayName = `${Component.displayName}withAuthorized`;
+  WithAuthorized.displayName = `${WrappedComponent?.displayName}withAuthorized`;
+
   return WithAuthorized;
-};
+}

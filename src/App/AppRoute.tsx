@@ -1,7 +1,8 @@
-import { GameOfLife } from "@/modules/GameOfLife/GameOfLife";
-import { Login } from "@/modules/Login/Login";
-import { NoMatchScreen } from "@/modules/NoMatchScreen/NoMatchScreen";
-import { User } from "@/modules/User/User";
+import { NameGame } from "@/components";
+import { GameScreen } from "@/screens/GameScreen/GameScreen";
+import { Login } from "@/screens/Login/Login";
+import { NoMatchScreen } from "@/screens/NoMatchScreen/NoMatchScreen";
+import { UserScreen } from "@/screens/User/User";
 import React from "react";
 import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
 
@@ -11,6 +12,9 @@ export function AppRoute(): React.ReactElement {
       <div>
         <nav>
           <ul>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
             <li>
               <Link to="/login">Login</Link>
             </li>
@@ -23,17 +27,11 @@ export function AppRoute(): React.ReactElement {
           </ul>
         </nav>
         <Switch>
-          <Route exact path="/" render={() => <></>} />
-          <Route path="/login">
-            <Login />
-          </Route>
-          <Route path="/user/:name" component={User} />
-          <Route path="/game">
-            <GameOfLife />
-          </Route>
-          <Route path="/*">
-            <NoMatchScreen />
-          </Route>
+          <Route exact path="/" component={NameGame} />
+          <Route path="/login" component={Login} />
+          <Route path="/user/:name" component={UserScreen} />
+          <Route path="/game" component={GameScreen} />
+          <Route path="/*" component={NoMatchScreen} />
         </Switch>
       </div>
     </Router>

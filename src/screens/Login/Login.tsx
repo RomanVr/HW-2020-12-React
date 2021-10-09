@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { withInput } from "@/HOC/withInput";
 import { InputText } from "@/components";
 import { useHistory } from "react-router";
+import { login } from "@/api/auth";
 
 const params = {
   labelInput: "Name:",
@@ -25,13 +26,13 @@ export const Login: React.FC = () => {
   const [nameUser, setNameUser] = useState("");
   const history = useHistory();
 
-  useEffect(() => {
-    setNameUser(localStorage.getItem("nameUser") || "");
-  }, []);
+  // useEffect(() => {
+  //   setNameUser(localStorage.getItem("nameUser") || "");
+  // }, []);
 
   const onSubmit = (ev: React.FormEvent): void => {
     ev.preventDefault();
-    localStorage.setItem("nameUser", nameUser);
+    login(nameUser);
     history.push(`/user/${nameUser}`);
   };
 

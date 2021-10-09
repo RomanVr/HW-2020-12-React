@@ -1,5 +1,5 @@
 import React from "react";
-import { ContainerFlexCenter } from "@/screen/ContainerFlexCenter";
+import { ContainerFlexCenter } from "@/components/layout/ContainerFlexCenter";
 
 export const NameGame: React.FC<Record<string, never>> = () => (
   <ContainerFlexCenter>
