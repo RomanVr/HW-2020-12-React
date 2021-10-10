@@ -9,6 +9,7 @@ const params = {
   placeholderInput: "Enter your Name",
   minLengthInput: 4,
   maxLengthInput: 20,
+  required: true,
 };
 
 const InputLoginWithInputText = withInput(InputText, params);
@@ -20,20 +21,21 @@ const paramsSubmit = {
   maxLengthInput: 40,
 };
 
+interface LoginProps {
+  onSubmitLogin: (nameUser: string) => void;
+}
+
 const ButtonSubmitWithInputText = withInput(InputText, paramsSubmit);
 
-export const Login: React.FC = () => {
+export const Login: React.FC<LoginProps> = ({ onSubmitLogin }) => {
   const [nameUser, setNameUser] = useState("");
   const history = useHistory();
-
-  // useEffect(() => {
-  //   setNameUser(localStorage.getItem("nameUser") || "");
-  // }, []);
 
   const onSubmit = (ev: React.FormEvent): void => {
     ev.preventDefault();
     login(nameUser);
-    history.push(`/user/${nameUser}`);
+    onSubmitLogin(nameUser);
+    history.push(`/`);
   };
 
   return (

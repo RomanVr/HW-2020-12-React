@@ -4,7 +4,6 @@ import { withInput } from "@/HOC/withInput";
 import { InputTime, Field, NameGame, SpanError, InputText } from "@/components";
 import { ContainerFlexGame } from "@/components/layout/ContainerFlexGame";
 import { ContainerFlexCenter } from "@/components/layout/ContainerFlexCenter";
-import { RouteComponentProps } from "react-router-dom";
 
 const params = {
   readOnly: true,
@@ -36,20 +35,13 @@ interface GameOfLifeState {
   errorInfo: ErrorInfo | null;
 }
 
-interface RouteParams {
-  name: string;
-}
-
-export class GameOfLife extends React.Component<
-  RouteComponentProps<RouteParams>,
-  GameOfLifeState
-> {
+export class GameOfLife extends React.Component<unknown, GameOfLifeState> {
   // eslint-disable-next-line no-undef
   timerStep?: NodeJS.Timeout;
   fieldDataPrev: number[][];
   fieldDataPrev2: number[][];
 
-  constructor(props: never) {
+  constructor(props: unknown) {
     super(props);
     this.state = {
       sizeX: 10,

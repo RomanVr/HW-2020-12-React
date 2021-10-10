@@ -3,8 +3,13 @@ export const isLoggedIn = (): boolean => {
   return Boolean(isLogged);
 };
 
-export const logout = (nameUser: string): void => {
-  localStorage.removeItem(nameUser);
+export const getLogin = (): string | null => {
+  const isLogged = localStorage.getItem("login");
+  return isLogged;
+};
+
+export const logout = (): void => {
+  localStorage.removeItem("login");
 };
 
 export const login = (nameUser: string): void => {

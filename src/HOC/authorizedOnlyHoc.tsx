@@ -12,7 +12,7 @@ enum CheckState {
 export function authorizedOnlyHoc<P>(
   WrappedComponent: React.ComponentType<P>,
   redirectPath: string
-) {
+): React.FC<P> {
   const WithAuthorized = (props: P) => {
     const [isAuthorized, setIsAuthorized] = useState(CheckState.initiated);
     useEffect(() => {

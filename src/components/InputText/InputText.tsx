@@ -44,6 +44,7 @@ export interface InputTextProps {
   readOnly?: boolean;
   nameInput?: string;
   type?: string;
+  required?: boolean;
 }
 
 export const InputText: React.FC<InputTextProps> = ({
@@ -57,6 +58,7 @@ export const InputText: React.FC<InputTextProps> = ({
   readOnly,
   nameInput,
   type,
+  required,
 }) => (
   <LabelItem>
     {labelInput}
@@ -71,6 +73,7 @@ export const InputText: React.FC<InputTextProps> = ({
       name={nameInput}
       data-testid={`InputText${nameInput ? nameInput : ""}`} // заменить в тестах id
       type={type}
+      required={required}
     />
   </LabelItem>
 );
