@@ -1,10 +1,9 @@
 import React from "react";
 import { InputText } from "@/components";
 import { withInput } from "@/HOC/withInput";
-import { ContainerFlexEnd } from "@/components/layout/ContainerFlexEnd";
 import { logout } from "@/api/auth";
-// import { authorizedOnlyHoc } from "@/HOC/authorizedOnlyHoc";
 import { useHistory, useParams } from "react-router-dom";
+import { ContainerFlexCenter } from "@/components/layout/ContainerFlexCenter";
 
 const params = {
   type: "button",
@@ -22,7 +21,7 @@ interface RawUserProps {
   onSubmitLogin: (nameUser: string) => void;
 }
 
-export const UserScreen: React.FC<RawUserProps> = ({ onSubmitLogin }) => {
+export const User: React.FC<RawUserProps> = ({ onSubmitLogin }) => {
   const history = useHistory();
   const { name } = useParams<paramsType>();
 
@@ -33,11 +32,9 @@ export const UserScreen: React.FC<RawUserProps> = ({ onSubmitLogin }) => {
   };
 
   return (
-    <ContainerFlexEnd>
+    <ContainerFlexCenter>
       <h3>Hello, {name}!</h3>
       <ButtonLoginWithInputText onClickInput={logoutClick} />
-    </ContainerFlexEnd>
+    </ContainerFlexCenter>
   );
 };
-
-// export const UserScreen = authorizedOnlyHoc(RawUser, "/login");

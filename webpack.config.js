@@ -45,6 +45,7 @@ module.exports = {
     port: 8080,
     open: true,
     hot: true,
+    historyApiFallback: true,
   },
   plugins: [
     new HTML_WEBPACK_PLUGIN({

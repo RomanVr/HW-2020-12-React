@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { withInput } from "@/HOC/withInput";
 import { InputText } from "@/components";
-import { useHistory } from "react-router";
+import { useHistory } from "react-router-dom";
 import { login } from "@/api/auth";
 
 const params = {
@@ -35,7 +35,7 @@ export const Login: React.FC<LoginProps> = ({ onSubmitLogin }) => {
     ev.preventDefault();
     login(nameUser);
     onSubmitLogin(nameUser);
-    history.push(`/`);
+    history.push(`/game`);
   };
 
   return (
@@ -45,6 +45,7 @@ export const Login: React.FC<LoginProps> = ({ onSubmitLogin }) => {
         display: "flex",
         alignContent: "center",
         alignItems: "center",
+        justifyContent: "center",
       }}
       data-testid="FormLogin"
     >

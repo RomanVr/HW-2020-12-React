@@ -4,54 +4,60 @@ import { NameGame } from "@/components";
 import { GameScreen } from "@/screens/GameScreen/GameScreen";
 import { Login } from "@/screens/Login/Login";
 import { NoMatchScreen } from "@/screens/NoMatchScreen/NoMatchScreen";
-import { UserScreen } from "@/screens/User/User";
+import { UserScreen } from "@/screens/UserScreen/UserScreen";
 import { getLogin } from "@/api/auth";
+import { withTextDecor } from "@/HOC/withTextDecor";
+
+const stylesParams = {
+  style: { textDecoration: "unset" },
+};
+
+const LinkWithDecor = withTextDecor(Link, stylesParams);
 
 export function AppRoute(): React.ReactElement {
   const [login, setLogin] = useState(getLogin());
-  // const login = getLogin();
   return (
     <Router>
-      <div>
-        <nav>
-          <ul
-            style={{
-              display: "flex",
-              listStyleType: "none",
-              justifyContent: "space-around",
-            }}
-          >
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            {login ? (
-              <>
-                <li>
-                  <Link to="/game">GameOfLife</Link>
-                </li>
-                <li>
-                  <Link to={`/user/${login}`}>User</Link>
-                </li>
-              </>
-            ) : (
+      <nav>
+        <ul
+          style={{
+            display: "flex",
+            listStyleType: "none",
+            justifyContent: "space-around",
+          }}
+        >
+          <li>
+            <LinkWithDecor to="/">Home</LinkWithDecor>
+          </li>
+          {login ? (
+            <>
               <li>
-                <Link to="/login">Login</Link>
+                <LinkWithDecor to="/game">GameOfLife</LinkWithDecor>
               </li>
-            )}
-          </ul>
-        </nav>
-        <Switch>
-          <Route exact path="/" component={NameGame} />
-          <Route path="/login">
-            <Login onSubmitLogin={setLogin} />
-          </Route>
-          <Route path="/user/:name">
-            <UserScreen onSubmitLogin={setLogin} />
-          </Route>
-          <Route path="/game" component={GameScreen} />
-          <Route path="/*" component={NoMatchScreen} />
-        </Switch>
-      </div>
+              <li>
+                <LinkWithDecor
+                  to={`/user/${login}`}
+                >{`Login to: ${login}`}</LinkWithDecor>
+              </li>
+            </>
+          ) : (
+            <li>
+              <LinkWithDecor to="/login">Login</LinkWithDecor>
+            </li>
+          )}
+        </ul>
+      </nav>
+      <Switch>
+        <Route exact path="/" component={NameGame} />
+        <Route path="/login">
+          <Login onSubmitLogin={setLogin} />
+        </Route>
+        <Route path="/user/:name">
+          <UserScreen onSubmitLogin={setLogin} />
+        </Route>
+        <Route path="/game" component={GameScreen} />
+        <Route path="/*" component={NoMatchScreen} />
+      </Switch>
     </Router>
   );
 }
