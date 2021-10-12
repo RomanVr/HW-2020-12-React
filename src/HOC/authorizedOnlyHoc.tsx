@@ -1,7 +1,7 @@
 import React from "react";
 import { isLoggedIn } from "@/api/auth";
 import { useEffect, useState } from "react";
-import { Redirect } from "react-router";
+import { Redirect } from "react-router-dom";
 
 enum CheckState {
   initiated,
@@ -11,13 +11,15 @@ enum CheckState {
 
 export function authorizedOnlyHoc<P>(
   WrappedComponent: React.ComponentType<P>,
-  redirectPath: string
+  redirectPath = "/login"
 ): React.FC<P> {
   const WithAuthorized = (props: P) => {
     const [isAuthorized, setIsAuthorized] = useState(CheckState.initiated);
     useEffect(() => {
-      const isAuthorized = isLoggedIn();
-      setIsAuthorized(isAuthorized ? CheckState.succeed : CheckState.failed);
+      (async () => {
+        const isAuthorized = await isLoggedIn();
+        setIsAuthorized(isAuthorized ? CheckState.succeed : CheckState.failed);
+      })();
     }, []);
 
     if (isAuthorized === CheckState.initiated) {

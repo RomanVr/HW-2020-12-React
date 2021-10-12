@@ -18,24 +18,17 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(js|ts)x?$/,
-        loader: require.resolve("babel-loader"),
-        exclude: /node_modules/,
-      },
-      {
         test: /\.css$/i,
         use: ["style-loader", "css-loader"],
       },
       {
-        test: /\.(png|jpg|gif|svg)$/i,
-        use: [
-          {
-            loader: "url-loader",
-            options: {
-              limit: 8192,
-            },
-          },
-        ],
+        test: /\.worker\.(ts|js)$/,
+        use: { loader: "worker-loader" },
+      },
+      {
+        test: /\.(js|ts)x?$/,
+        loader: require.resolve("babel-loader"),
+        exclude: /node_modules/,
       },
     ],
   },

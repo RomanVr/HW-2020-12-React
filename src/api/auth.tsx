@@ -1,17 +1,29 @@
-export const isLoggedIn = (): boolean => {
-  const isLogged = localStorage.getItem("login");
-  return Boolean(isLogged);
-};
+import { sleep } from "@/utils/sleep";
 
 export const getLogin = (): string | null => {
   const isLogged = localStorage.getItem("login");
   return isLogged;
 };
 
-export const logout = (): void => {
+export const login = async (name: string): Promise<void> => {
+  await sleep(1000);
+
+  localStorage.setItem("login", name);
+};
+
+export const logout = async (): Promise<void> => {
+  await sleep(1000);
+
   localStorage.removeItem("login");
 };
 
-export const login = (nameUser: string): void => {
-  localStorage.setItem("login", nameUser);
+export const getUserSession = async (): Promise<string | null> => {
+  await sleep(2000);
+  const login = localStorage.getItem("login");
+  return login;
+};
+
+export const isLoggedIn = async (): Promise<boolean> => {
+  const login = await getUserSession();
+  return Boolean(login);
 };
