@@ -18,4 +18,4 @@ interface WebWorkerConstructor {
 }
 
 // eslint-disable-next-line no-restricted-syntax
-export default (null as unknown) as WebWorkerConstructor;
+export default null as unknown as WebWorkerConstructor;
