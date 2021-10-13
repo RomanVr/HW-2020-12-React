@@ -15,7 +15,7 @@ describe("Test InputTime", () => {
   });
   it("Render input for with value Time", () => {
     act(() => {
-      jest.advanceTimersByTime(10000);
+      jest.advanceTimersByTime(15000);
     });
     expect(screen.getByTestId("InputText")).toBeInTheDocument();
   });

@@ -10,6 +10,9 @@ describe("Hash Generator", () => {
     expect(findHash("test", "0")).toEqual(
       "0434b4c3eac49e190708e84db0ca15b257161bddf165ac62a914c19dacb087f1"
     );
+    expect(findHash("test")).toEqual(
+      "0434b4c3eac49e190708e84db0ca15b257161bddf165ac62a914c19dacb087f1"
+    );
   });
   it("findHash check startWith 00", () => {
     expect(findHash("test", "00")).toEqual(

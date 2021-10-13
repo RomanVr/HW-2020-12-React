@@ -9,11 +9,6 @@ jest.mock("react-router-dom", () => ({
   useParams: () => ({ name: "User" }),
 }));
 
-// const mockParams = { name: "User" };
-// jest.mock("react-router-dom", () => ({
-//   useParams: { name: "User" },
-// }));
-
 describe("Test User", () => {
   it("Render User", () => {
     render(<User onSubmitLogin={jest.fn()} />);

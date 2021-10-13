@@ -1,24 +1,17 @@
 import { sleep } from "@/utils/sleep";
 
-export const getLogin = (): string | null => {
-  const isLogged = localStorage.getItem("login");
-  return isLogged;
-};
-
 export const login = async (name: string): Promise<void> => {
   await sleep(1000);
-
   localStorage.setItem("login", name);
 };
 
 export const logout = async (): Promise<void> => {
-  await sleep(1000);
-
+  await sleep(100);
   localStorage.removeItem("login");
 };
 
 export const getUserSession = async (): Promise<string | null> => {
-  await sleep(2000);
+  await sleep(100);
   const login = localStorage.getItem("login");
   return login;
 };
