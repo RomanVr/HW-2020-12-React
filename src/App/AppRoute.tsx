@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
 import { NameGame } from "@/components";
 import { GameScreen } from "@/screens/GameScreen/GameScreen";
 import { Login } from "@/screens/Login/Login";
 import { NoMatchScreen } from "@/screens/NoMatchScreen/NoMatchScreen";
 import { UserScreen } from "@/screens/UserScreen/UserScreen";
-import { getLogin } from "@/api/auth";
+import { getUserSession } from "@/api/auth";
 import { withTextDecor } from "@/HOC/withTextDecor";
 
 const stylesParams = {
@@ -15,7 +15,13 @@ const stylesParams = {
 const LinkWithDecor = withTextDecor(Link, stylesParams);
 
 export function AppRoute(): React.ReactElement {
-  const [login, setLogin] = useState(getLogin());
+  const [login, setLogin] = useState("");
+  useEffect(() => {
+    (async () => {
+      const user = (await getUserSession()) as string;
+      setLogin(user);
+    })();
+  }, []);
   return (
     <Router>
       <nav>

@@ -111,5 +111,5 @@ Roman Vorobyev (Роман Воробьев) romakf99@yandex.ru
     5. После ввода имени в приложении должно показываться имя пользователя
     6. Добавить кнопку выход, при нажатии на которую сбрасывается информация о пользователе.
     7. Покрыть тестами базовые сценарии входа / выхода, покрыть тестами функционал экрана входа.
-    [Deploy on AWS Amplify]()
-    [Chromatic]()
+    [Deploy on AWS Amplify](https://hw08-reactrouter.d7i4bhza825gv.amplifyapp.com/)
+    [Chromatic](https://www.chromatic.com/builds?appId=6144f739e64036003a369e60&branch=HW08-ReactRouter)
