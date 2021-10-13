@@ -1,11 +1,15 @@
 import React from "react";
-import { render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { Login } from "./Login";
 import userEvent from "@testing-library/user-event";
 
 const mockHistory = { push: jest.fn() };
 jest.mock("react-router-dom", () => ({
   useHistory: () => mockHistory,
+}));
+
+jest.mock("@/api/auth", () => ({
+  login: jest.fn(),
 }));
 
 describe("Test Login", () => {
@@ -20,8 +24,8 @@ describe("Test Login", () => {
     const inputLogin = screen.getByTestId("InputText");
     userEvent.type(inputLogin, "Name");
     const buttonSubmit = screen.getByTestId("InputTextButtonSubmit");
-    userEvent.click(buttonSubmit);
-    waitFor(() => screen, { timeout: 2000 });
+    await fireEvent.submit(buttonSubmit);
+
     expect(onlogin).toBeCalled();
     expect(mockHistory.push).toHaveBeenCalledWith("/game");
   });
