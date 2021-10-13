@@ -8,7 +8,6 @@ export const InputTime: React.FC<unknown> = () => {
   const [timeValue, setTime] = useState(0);
 
   useEffect(() => {
-    console.log("Mount Timer");
     timerID = setInterval(() => tick(), 1000);
     return function clear() {
       clearInterval(Number(timerID));

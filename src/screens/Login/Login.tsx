@@ -38,7 +38,7 @@ export const Login: React.FC<LoginProps> = ({ onSubmitLogin }) => {
       onSubmitLogin(nameUser);
       history.push(`/game`);
     },
-    [nameUser]
+    [nameUser, login]
   );
 
   return (
