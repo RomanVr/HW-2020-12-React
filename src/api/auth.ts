@@ -6,12 +6,12 @@ export const login = async (name: string): Promise<void> => {
 };
 
 export const logout = async (): Promise<void> => {
-  await sleep(100);
+  await sleep(500);
   localStorage.removeItem("login");
 };
 
 export const getUserSession = async (): Promise<string | null> => {
-  await sleep(100);
+  await sleep(500);
   const login = localStorage.getItem("login");
   return login;
 };

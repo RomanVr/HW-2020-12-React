@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { withInput } from "@/HOC/withInput";
 import { InputText } from "@/components";
 import { useHistory } from "react-router-dom";
@@ -31,12 +31,15 @@ export const Login: React.FC<LoginProps> = ({ onSubmitLogin }) => {
   const [nameUser, setNameUser] = useState("");
   const history = useHistory();
 
-  const onSubmit = (ev: React.FormEvent): void => {
-    ev.preventDefault();
-    login(nameUser);
-    onSubmitLogin(nameUser);
-    history.push(`/game`);
-  };
+  const onSubmit = useCallback(
+    async (ev: React.FormEvent) => {
+      ev.preventDefault();
+      await login(nameUser);
+      onSubmitLogin(nameUser);
+      history.push(`/game`);
+    },
+    [nameUser]
+  );
 
   return (
     <form
