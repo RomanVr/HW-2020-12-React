@@ -9,7 +9,7 @@ describe("Test InputTime", () => {
   });
   it("Render input for with value Time", () => {
     act(() => {
-      jest.advanceTimersByTime(1000);
+      jest.advanceTimersByTime(500);
     });
     expect(screen.getByTestId("InputText")).toBeInTheDocument();
   });

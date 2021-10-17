@@ -1,24 +1,21 @@
 import { waitFor } from "@testing-library/react";
-import { isLoggedIn, login, logout } from "./auth";
+import { asyncLocalStorage } from "./auth";
 
-jest.spyOn(window.localStorage.__proto__, "setItem");
-jest.spyOn(window.localStorage.__proto__, "removeItem");
-jest.spyOn(window.localStorage.__proto__, "getItem");
-window.localStorage.__proto__.setItem = jest.fn();
-window.localStorage.__proto__.removeItem = jest.fn();
-window.localStorage.__proto__.getItem = jest.fn();
+const setItemFn = jest.spyOn(window.localStorage.__proto__, "setItem");
+const removeItemFn = jest.spyOn(window.localStorage.__proto__, "removeItem");
+const getItemFn = jest.spyOn(window.localStorage.__proto__, "getItem");
 
 describe("Test auth", () => {
   it("login auth", async () => {
-    await waitFor(() => login("user"), { timeout: 2000 });
-    expect(localStorage.setItem).toBeCalled();
+    await waitFor(() => asyncLocalStorage.login("user"), { timeout: 2000 });
+    expect(setItemFn).toBeCalled();
   });
   it("logout auth", async () => {
-    await waitFor(() => logout(), { timeout: 2000 });
-    expect(localStorage.removeItem).toBeCalled();
+    await waitFor(() => asyncLocalStorage.logout(), { timeout: 2000 });
+    expect(removeItemFn).toBeCalled();
   });
   it("isLoggedIn auth", async () => {
-    await waitFor(() => isLoggedIn(), { timeout: 2000 });
-    expect(localStorage.getItem).toBeCalled();
+    await waitFor(() => asyncLocalStorage.isLoggedIn(), { timeout: 2000 });
+    expect(getItemFn).toBeCalled();
   });
 });

@@ -1,7 +1,7 @@
 import React from "react";
-import { isLoggedIn } from "@/api/auth";
 import { useEffect, useState } from "react";
 import { Redirect } from "react-router-dom";
+import { asyncLocalStorage } from "@/api/auth";
 
 enum CheckState {
   initiated,
@@ -17,7 +17,7 @@ export function authorizedOnlyHoc<P>(
     const [isAuthorized, setIsAuthorized] = useState(CheckState.initiated);
     useEffect(() => {
       (async () => {
-        const isAuthorized = await isLoggedIn();
+        const isAuthorized = await asyncLocalStorage.isLoggedIn();
         setIsAuthorized(isAuthorized ? CheckState.succeed : CheckState.failed);
       })();
     }, []);

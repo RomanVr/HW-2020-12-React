@@ -1,16 +1,15 @@
 import React from "react";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import { Login } from "./Login";
 import userEvent from "@testing-library/user-event";
+import { asyncLocalStorage } from "@/api/auth";
 
 const mockHistory = { push: jest.fn() };
 jest.mock("react-router-dom", () => ({
   useHistory: () => mockHistory,
 }));
 
-jest.mock("@/api/auth", () => ({
-  login: jest.fn(),
-}));
+jest.spyOn(asyncLocalStorage, "login");
 
 describe("Test Login", () => {
   it("Render Login", () => {
@@ -24,7 +23,7 @@ describe("Test Login", () => {
     const inputLogin = screen.getByTestId("InputText");
     userEvent.type(inputLogin, "Name");
     const buttonSubmit = screen.getByTestId("InputTextButtonSubmit");
-    await fireEvent.submit(buttonSubmit);
+    await waitFor(() => userEvent.click(buttonSubmit));
 
     expect(onlogin).toBeCalled();
     expect(mockHistory.push).toHaveBeenCalledWith("/game");

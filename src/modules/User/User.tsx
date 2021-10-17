@@ -1,9 +1,9 @@
 import React from "react";
 import { InputText } from "@/components";
 import { withInput } from "@/HOC/withInput";
-import { logout } from "@/api/auth";
 import { useHistory, useParams } from "react-router-dom";
 import { ContainerFlexCenter } from "@/components/layout/ContainerFlexCenter";
+import { asyncLocalStorage } from "@/api/auth";
 
 const params = {
   type: "button",
@@ -26,7 +26,7 @@ export const User: React.FC<RawUserProps> = ({ onSubmitLogin }) => {
   const { name } = useParams<paramsType>();
 
   const logoutClick = () => {
-    logout();
+    asyncLocalStorage.logout();
     onSubmitLogin("");
     history.push("/");
   };

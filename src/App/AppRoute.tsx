@@ -5,8 +5,8 @@ import { GameScreen } from "@/screens/GameScreen/GameScreen";
 import { Login } from "@/screens/Login/Login";
 import { NoMatchScreen } from "@/screens/NoMatchScreen/NoMatchScreen";
 import { UserScreen } from "@/screens/UserScreen/UserScreen";
-import { getUserSession } from "@/api/auth";
 import { withTextDecor } from "@/HOC/withTextDecor";
+import { asyncLocalStorage } from "@/api/auth";
 
 const stylesParams = {
   style: { textDecoration: "unset" },
@@ -18,7 +18,7 @@ export function AppRoute(): React.ReactElement {
   const [login, setLogin] = useState("");
   useEffect(() => {
     (async () => {
-      const user = (await getUserSession()) as string;
+      const user = (await asyncLocalStorage.getUserSession()) as string;
       setLogin(user);
     })();
   }, []);
@@ -54,15 +54,21 @@ export function AppRoute(): React.ReactElement {
         </ul>
       </nav>
       <Switch>
-        <Route exact path="/" component={NameGame} />
+        <Route exact path="/">
+          <NameGame />
+        </Route>
         <Route path="/login">
           <Login onSubmitLogin={setLogin} />
         </Route>
         <Route path="/user/:name">
           <UserScreen onSubmitLogin={setLogin} />
         </Route>
-        <Route path="/game" component={GameScreen} />
-        <Route path="/*" component={NoMatchScreen} />
+        <Route path="/game">
+          <GameScreen />
+        </Route>
+        <Route path="/*">
+          <NoMatchScreen />
+        </Route>
       </Switch>
     </Router>
   );

@@ -11,7 +11,7 @@ export const findHash = (str: string, startFrom = "0"): string => {
     nonce = inc(nonce);
     hash = generateHash(nonce, str);
   }
-  console.warn(`str: ${str}`);
-  console.warn(`nonce counter: ${nonce}`);
+  // console.warn(`str: ${str}`);
+  // console.warn(`nonce counter: ${nonce}`);
   return hash;
 };
