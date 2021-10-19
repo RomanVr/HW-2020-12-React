@@ -113,3 +113,18 @@ Roman Vorobyev (Роман Воробьев) romakf99@yandex.ru
     7. Покрыть тестами базовые сценарии входа / выхода, покрыть тестами функционал экрана входа.
     [Deploy on AWS Amplify](https://hw08-reactrouter.d7i4bhza825gv.amplifyapp.com/)
     [Chromatic](https://www.chromatic.com/builds?appId=6144f739e64036003a369e60&branch=HW08-ReactRouter)
+9. Задание: Redux middwares and side effects.
+    1. Цель:
+        - Повысить стабильность приложения и реализовать базовый функционал.
+        - Разрботку приложения вести отталкиваясь от архитектуры https://github.com/erikras/ducks-modular-redux
+    2. Создать структуру state-приложения с использованием Redux. Разработку вести от тестирования, redux к компонентам не подключать
+    3. Разработать функционал приложения в Redux.
+    4. Покрыть тестами reducers + actions.
+    5. Практиковаться с thunk, добавить возможность сохранения и загрузки состояния приложения в local storage, а так же выгрузки из него.
+    6. Дополнительное задание.
+        - Написать async flow который сходит в https://swapi.dev/api/people и сохранит данные в стейте Нужна обработка различных состояний запроса и тесты. src/lesson17/homework/asyncFlow.ts
+        - Написать свой thunk middleware и подключить в приложение. src/lesson17/homework/thunk.ts
+        - Написать свой probablity middleware:
+            Если action имеет поле `meta.probability` то пусть он исполнится с этой вероятностью probablity (это число от 0 до 1).
+            // Пример с 50% вероятностью `dispatch({ type: 'ANALYTICS_CLICK', meta: { probability: 0.5 }})
+        src/lesson17/homework/probability.ts
