@@ -70,11 +70,11 @@ export class GameOfLife extends React.Component<unknown, GameOfLifeState> {
     this.handleOnChangeRnd = this.handleOnChangeRnd.bind(this);
     this.getRandomieDataField = this.getRandomieDataField.bind(this);
   }
-
+  // Clear Field
   generateDataField(sizeX: number, sizeY: number): number[][] {
     return new Array(sizeX).fill(null).map(() => new Array(sizeY).fill(0));
   }
-
+  // Click Cell
   handleClickOnCell(x: number, y: number): void {
     const newFieldData = new Array(this.state.sizeX)
       .fill(null)
@@ -82,7 +82,7 @@ export class GameOfLife extends React.Component<unknown, GameOfLifeState> {
     newFieldData[x][y] = this.state.fieldData[x][y] ? 0 : 1;
     this.setState({ fieldData: newFieldData, isFinish: false });
   }
-
+  // Resize field
   setNewSizeFieldData(sizeX: number, sizeY: number): number[][] {
     const newFieldData = this.generateDataField(sizeX, sizeY);
 
@@ -98,7 +98,7 @@ export class GameOfLife extends React.Component<unknown, GameOfLifeState> {
     }
     return newFieldData;
   }
-
+  // Next step
   nextStep(): void {
     this.fieldDataPrev2 = this.fieldDataPrev;
     this.fieldDataPrev = this.state.fieldData;
@@ -164,7 +164,7 @@ export class GameOfLife extends React.Component<unknown, GameOfLifeState> {
       ) - this.state.fieldData[x][y]
     );
   }
-
+  // Fill random field
   getRandomieDataField(): void {
     const stateSizeX: number = this.state.sizeX;
     const stateSizeY: number = this.state.sizeY;
