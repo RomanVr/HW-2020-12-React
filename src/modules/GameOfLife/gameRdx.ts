@@ -1,5 +1,5 @@
 import { Action } from "@/rdx";
-import { Store } from "@/rdx/store";
+import { State } from "@/rdx/store";
 import { Dispatch } from "react";
 
 // Очистить поле, остановить игру, удалить таймер вызова шага в middleware,
@@ -23,7 +23,7 @@ export const CLICK_CELL = "CLICK_CELL";
 export const INC_VELOSITY = "INC_VELOSITY";
 export const DEC_VELOSITY = "DEC_VELOSITY";
 
-type State = {
+type StateLogin = {
   fieldCurrent: number[][];
   fieldDataPrev: number[][];
   fieldDataPrev2: number[][];
@@ -44,9 +44,9 @@ const initialState = {
 };
 
 export default function reducer(
-  state: State = initialState,
+  state: StateLogin = initialState,
   action: Action
-): State {
+): StateLogin {
   switch (action.type) {
     case FILL_RANDOM_FIELD:
       if (!state.finish) {
@@ -184,8 +184,8 @@ export function clearField(
 export function startGame(
   // eslint-disable-next-line no-undef
   setTimer: (timer: NodeJS.Timeout) => number
-): (dispatch: Dispatch<Action>, getState: () => Store) => void {
-  const actionStart = (dispatch: Dispatch<Action>, getState: () => Store) => {
+): (dispatch: Dispatch<Action>, getState: () => State) => void {
+  const actionStart = (dispatch: Dispatch<Action>, getState: () => State) => {
     dispatch({ type: GAME_START });
     const speed = getState().gameData.speed;
     setTimer(

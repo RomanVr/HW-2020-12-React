@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { Redirect } from "react-router-dom";
-import { asyncAuthLocalStorage } from "@/api/auth";
+import { asyncAuthLocalStorage } from "@/api/authLocalStorage/auth";
 
 enum CheckState {
   initiated,

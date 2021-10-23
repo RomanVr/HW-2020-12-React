@@ -1,9 +1,10 @@
-import { applyMiddleware, combineReducers, createStore } from "redux";
+import { Action, applyMiddleware, combineReducers, createStore } from "redux";
 import gameReducer from "@/modules/GameOfLife/gameRdx";
 import loginReducer, { CheckState } from "@/screens/Login/loginRdx";
 import thunk from "redux-thunk";
+import { asyncStoreDAO } from "@/api/storeToLocalStorage/storeDAO";
 
-export type Store = {
+export type State = {
   login: {
     userName: string;
     statusUser: CheckState;
@@ -19,10 +20,45 @@ export type Store = {
   };
 };
 
+const defaultState = {
+  login: {
+    userName: "",
+    statusUser: CheckState.initiated,
+  },
+  gameData: {
+    fieldCurrent: new Array(10).fill(null).map(() => new Array(10).fill(0)),
+    fieldDataPrev: new Array(10).fill(null).map(() => new Array(10).fill(0)),
+    fieldDataPrev2: new Array(10).fill(null).map(() => new Array(10).fill(0)),
+    countStep: 0,
+    start: false,
+    finish: false,
+    speed: 10,
+  },
+};
+
 const reducer = combineReducers({
   login: loginReducer,
   gameData: gameReducer,
 });
 
-const stateDefault = {};
-export const store = createStore(reducer, stateDefault, applyMiddleware(thunk));
+const persistMiddleware =
+  ({ getState }: { [key: string]: any }) =>
+  (next: (arg0: Action) => void) =>
+  (action: Action) => {
+    const result = next(action);
+    asyncStoreDAO.saveState(getState());
+    return result;
+  };
+
+const middleware = [thunk, persistMiddleware];
+let initialState = {};
+function getStateFromLS(state: State) {
+  initialState ? (initialState = state) : (initialState = defaultState);
+}
+asyncStoreDAO.loadState(getStateFromLS);
+
+export const store = createStore(
+  reducer,
+  initialState,
+  applyMiddleware(...middleware)
+);

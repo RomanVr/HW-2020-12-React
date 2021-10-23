@@ -3,7 +3,7 @@ import { InputText } from "@/components";
 import { withInput } from "@/HOC/withInput";
 import { useHistory, useParams } from "react-router-dom";
 import { ContainerFlexCenter } from "@/components/layout/ContainerFlexCenter";
-import { asyncAuthLocalStorage } from "@/api/auth";
+import { asyncAuthLocalStorage } from "@/api/authLocalStorage/auth";
 
 const params = {
   type: "button",

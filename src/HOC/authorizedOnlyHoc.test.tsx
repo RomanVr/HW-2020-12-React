@@ -1,10 +1,10 @@
 import React from "react";
 import { cleanup, render, screen, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
-import { asyncLocalStorage } from "@/api/auth";
+import { asyncAuthLocalStorage } from "@/api/authLocalStorage/auth";
 import { authorizedOnlyHoc } from "./authorizedOnlyHoc";
 
-const isLoggedIn = jest.spyOn(asyncLocalStorage, "isLoggedIn");
+const isLoggedIn = jest.spyOn(asyncAuthLocalStorage, "isLoggedIn");
 
 jest.mock("react-router-dom", () => ({
   Redirect: function Redirect(props: Record<string, unknown>) {

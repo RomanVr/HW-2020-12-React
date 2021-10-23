@@ -2,7 +2,7 @@ import React, { useCallback, useState } from "react";
 import { withInput } from "@/HOC/withInput";
 import { InputText } from "@/components";
 import { useHistory } from "react-router-dom";
-import { asyncAuthLocalStorage } from "@/api/auth";
+import { asyncAuthLocalStorage } from "@/api/authLocalStorage/auth";
 
 const params = {
   labelInput: "Name:",

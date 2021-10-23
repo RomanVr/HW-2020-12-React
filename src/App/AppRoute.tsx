@@ -6,7 +6,7 @@ import { Login } from "@/screens/Login/Login";
 import { NoMatchScreen } from "@/screens/NoMatchScreen/NoMatchScreen";
 import { UserScreen } from "@/screens/UserScreen/UserScreen";
 import { withTextDecor } from "@/HOC/withTextDecor";
-import { asyncLocalStorage } from "@/api/auth";
+import { asyncAuthLocalStorage } from "@/api/authLocalStorage/auth";
 import { Provider } from "react-redux";
 import { store } from "@/rdx/store";
 
@@ -20,7 +20,7 @@ export function AppRoute(): React.ReactElement {
   const [login, setLogin] = useState("");
   useEffect(() => {
     (async () => {
-      const user = (await asyncLocalStorage.getUserSession()) as string;
+      const user = (await asyncAuthLocalStorage.getUserSession()) as string;
       setLogin(user);
     })();
   }, []);

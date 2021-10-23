@@ -2,14 +2,14 @@ import React from "react";
 import { render, screen, waitFor } from "@testing-library/react";
 import { Login } from "./Login";
 import userEvent from "@testing-library/user-event";
-import { asyncLocalStorage } from "@/api/auth";
+import { asyncAuthLocalStorage } from "@/api/authLocalStorage/auth";
 
 const mockHistory = { push: jest.fn() };
 jest.mock("react-router-dom", () => ({
   useHistory: () => mockHistory,
 }));
 
-jest.spyOn(asyncLocalStorage, "login");
+jest.spyOn(asyncAuthLocalStorage, "login");
 
 describe("Test Login", () => {
   it("Render Login", () => {
