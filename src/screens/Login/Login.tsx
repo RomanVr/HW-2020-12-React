@@ -2,7 +2,7 @@ import React, { useCallback, useState } from "react";
 import { withInput } from "@/HOC/withInput";
 import { InputText } from "@/components";
 import { useHistory } from "react-router-dom";
-import { asyncLocalStorage } from "@/api/auth";
+import { asyncAuthLocalStorage } from "@/api/auth";
 
 const params = {
   labelInput: "Name:",
@@ -34,7 +34,7 @@ export const Login: React.FC<LoginProps> = ({ onSubmitLogin }) => {
   const onSubmit = useCallback(
     async (ev: React.FormEvent) => {
       ev.preventDefault();
-      await asyncLocalStorage.login(nameUser);
+      await asyncAuthLocalStorage.login(nameUser);
       onSubmitLogin(nameUser);
       history.push(`/game`);
     },
