@@ -1,4 +1,4 @@
-export const asyncLocalStorage = {
+export const asyncAuthLocalStorage = {
   login: (name: string): Promise<void> =>
     Promise.resolve().then(function () {
       localStorage.setItem("login", name);
@@ -8,5 +8,7 @@ export const asyncLocalStorage = {
   logout: (): Promise<void> =>
     Promise.resolve().then(() => localStorage.removeItem("login")),
   isLoggedIn: (): Promise<boolean> =>
-    Promise.resolve().then(() => Boolean(asyncLocalStorage.getUserSession())),
+    Promise.resolve().then(() =>
+      Boolean(asyncAuthLocalStorage.getUserSession())
+    ),
 };
