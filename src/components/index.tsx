@@ -1,8 +1,6 @@
-import { Cell } from "./Cell/Cell";
-import { Field } from "./Field/Field";
-import { InputText } from "./InputText/InputText";
-import { InputTime } from "./InputTime/InputTime";
-import { NameGame } from "./NameGame/NameGame";
-import { SpanError } from "./SpanError/SpanError";
-
-export { Cell, Field, InputText, InputTime, NameGame, SpanError };
+export { Cell } from "./Cell/Cell";
+export { Field } from "./Field/Field";
+export { InputText } from "./InputText/InputText";
+export { InputTime } from "./InputTime/InputTime";
+export { NameGame } from "./NameGame/NameGame";
+export { SpanError } from "./SpanError/SpanError";
