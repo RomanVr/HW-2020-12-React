@@ -23,7 +23,7 @@ export const CLICK_CELL = "CLICK_CELL";
 export const INC_VELOSITY = "INC_VELOSITY";
 export const DEC_VELOSITY = "DEC_VELOSITY";
 
-type StateLogin = {
+export type StateGame = {
   fieldCurrent: number[][];
   fieldDataPrev: number[][];
   fieldDataPrev2: number[][];
@@ -33,7 +33,7 @@ type StateLogin = {
   speed: number;
 };
 
-const initialState = {
+export const initialState = {
   fieldCurrent: new Array(10).fill(null).map(() => new Array(10).fill(0)),
   fieldDataPrev: new Array(10).fill(null).map(() => new Array(10).fill(0)),
   fieldDataPrev2: new Array(10).fill(null).map(() => new Array(10).fill(0)),
@@ -44,9 +44,9 @@ const initialState = {
 };
 
 export default function reducer(
-  state: StateLogin = initialState,
+  state: StateGame = initialState,
   action: Action
-): StateLogin {
+): StateGame {
   switch (action.type) {
     case FILL_RANDOM_FIELD:
       if (!state.finish) {
@@ -148,7 +148,7 @@ export default function reducer(
       if (!state.finish) {
         return {
           ...state,
-          ...clickOnCell(
+          fieldCurrent: clickOnCell(
             state.fieldCurrent,
             action.payload.x,
             action.payload.y
@@ -183,7 +183,7 @@ export function clearField(
 }
 export function startGame(
   // eslint-disable-next-line no-undef
-  setTimer: (timer: NodeJS.Timeout) => number
+  setTimer: (timer: NodeJS.Timeout) => void
 ): (dispatch: Dispatch<Action>, getState: () => State) => void {
   const actionStart = (dispatch: Dispatch<Action>, getState: () => State) => {
     dispatch({ type: GAME_START });
@@ -214,7 +214,7 @@ export function fillRandomField(rndRate: number): Action {
 }
 export function resizeField(sizeX: number, sizeY: number): Action {
   return {
-    type: FILL_RANDOM_FIELD,
+    type: RESIZE_FIELD,
     payload: { sizeX, sizeY },
   };
 }
@@ -237,7 +237,7 @@ export function decVelosity(): Action {
   return { type: DEC_VELOSITY };
 }
 
-function getRandomieDataField(
+export function getRandomieDataField(
   sizeX: number,
   sizeY: number,
   rndRrate: number
@@ -261,7 +261,6 @@ function getRandomieDataField(
     setElementJ.clear();
     rndCounter = 0;
   }
-
   return newFieldData;
 }
 

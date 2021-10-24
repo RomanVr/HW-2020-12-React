@@ -5,7 +5,7 @@ export enum CheckState {
   succeed,
   failed,
 }
-type State = {
+export type State = {
   userName: string;
   statusUser: CheckState;
 };

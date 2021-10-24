@@ -20,7 +20,7 @@ export type State = {
   };
 };
 
-const defaultState = {
+export const defaultState = {
   login: {
     userName: "",
     statusUser: CheckState.initiated,
@@ -32,7 +32,7 @@ const defaultState = {
     countStep: 0,
     start: false,
     finish: false,
-    speed: 10,
+    speed: 100,
   },
 };
 
@@ -40,6 +40,8 @@ const reducer = combineReducers({
   login: loginReducer,
   gameData: gameReducer,
 });
+
+export default reducer;
 
 const persistMiddleware =
   ({ getState }: { [key: string]: any }) =>
@@ -51,7 +53,9 @@ const persistMiddleware =
   };
 
 const middleware = [thunk, persistMiddleware];
+
 let initialState = {};
+
 function getStateFromLS(state: State) {
   initialState ? (initialState = state) : (initialState = defaultState);
 }
