@@ -1,11 +1,12 @@
 import { Action } from "@/rdx";
+import { AnyAction } from "redux";
 
 export enum CheckState {
   initiated,
   succeed,
   failed,
 }
-export type State = {
+export type StateLogin = {
   userName: string;
   statusUser: CheckState;
 };
@@ -31,8 +32,8 @@ export function logout(): Action {
 
 export default function loginReducer(
   state = initialState,
-  action: Action
-): State {
+  action: AnyAction
+): StateLogin {
   switch (action.type) {
     case LOGIN:
       return {

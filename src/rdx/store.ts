@@ -54,15 +54,15 @@ const persistMiddleware =
 
 const middleware = [thunk, persistMiddleware];
 
-let initialState = {};
+// let initialState = {};
 
-function getStateFromLS(state: State) {
-  initialState ? (initialState = state) : (initialState = defaultState);
-}
-asyncStoreDAO.loadState(getStateFromLS);
+// function getStateFromLS(state: State) {
+//   initialState ? (initialState = state) : (initialState = defaultState);
+// }
+// asyncStoreDAO.loadState(getStateFromLS);
 
 export const store = createStore(
   reducer,
-  initialState,
+  defaultState,
   applyMiddleware(...middleware)
 );

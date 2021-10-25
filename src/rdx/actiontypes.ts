@@ -1,14 +1,6 @@
-import { Dispatch } from "redux";
-import { State } from "./store";
+import { AnyAction } from "redux";
 
-export const ERROR = "ERROR";
-
-export type Action = {
+export interface Action extends AnyAction {
   type: string;
   payload?: any;
-};
-
-export type ActionFunc = (
-  dispatch: Dispatch<Action>,
-  getState: () => State
-) => void;
+}

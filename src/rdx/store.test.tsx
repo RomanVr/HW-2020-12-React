@@ -1,44 +1,53 @@
-import { defaultState, State, store } from "./store";
-import { Store } from "redux";
+import { defaultState, State, store as storeRdx } from "./store";
 import { clearField, pauseGame, startGame } from "@/modules/GameOfLife/gameRdx";
-import { ActionFunc } from "./actiontypes";
+import { ThunkDispatch } from "redux-thunk";
+import { AnyAction } from "redux";
+import { act } from "@testing-library/react";
 
 describe("Test store", () => {
-  let storeRdx: Store;
-
-  beforeEach(() => {
-    storeRdx = store;
-  });
-
   it("default state", () => {
     expect(storeRdx.getState()).toEqual(defaultState);
   });
 
   it("action start", () => {
     const mockSetTimer = jest.fn();
-    storeRdx.dispatch<ActionFunc>(startGame(mockSetTimer));
+    (storeRdx.dispatch as ThunkDispatch<State, unknown, AnyAction>)(
+      startGame(mockSetTimer)
+    );
     expect(mockSetTimer).toBeCalled();
   });
 
   it("action start / pause", () => {
-    let timerStep: NodeJS.Timeout;
-    const setTimer = (timer: any) => {
+    jest.useFakeTimers();
+    // eslint-disable-next-line no-undef
+    let timerStep: NodeJS.Timeout = setTimeout(() => {
+      0;
+    }, 0);
+    // eslint-disable-next-line no-undef
+    const setTimer = (timer: NodeJS.Timeout) => {
       timerStep = timer;
     };
-    storeRdx.dispatch<ActionFunc>(startGame(setTimer));
+    storeRdx.dispatch(startGame(setTimer));
+    act(() => {
+      jest.advanceTimersByTime(500);
+    });
     expect((storeRdx.getState() as State).gameData.start).toBeTruthy();
-    storeRdx.dispatch<ActionFunc>(pauseGame(timerStep));
+    storeRdx.dispatch(pauseGame(timerStep));
     expect((storeRdx.getState() as State).gameData.start).toBeFalsy();
   });
 
   it("action start / clear", () => {
-    let timerStep: NodeJS.Timeout;
-    const setTimer = (timer: any) => {
+    // eslint-disable-next-line no-undef
+    let timerStep: NodeJS.Timeout = setTimeout(() => {
+      0;
+    }, 0);
+    // eslint-disable-next-line no-undef
+    const setTimer = (timer: NodeJS.Timeout) => {
       timerStep = timer;
     };
-    storeRdx.dispatch<ActionFunc>(startGame(setTimer));
+    storeRdx.dispatch(startGame(setTimer));
     expect((storeRdx.getState() as State).gameData.start).toBeTruthy();
-    storeRdx.dispatch<ActionFunc>(clearField(timerStep));
+    storeRdx.dispatch(clearField(timerStep));
     expect((storeRdx.getState() as State).gameData.start).toBeFalsy();
   });
 });

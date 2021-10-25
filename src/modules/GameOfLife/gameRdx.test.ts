@@ -1,4 +1,4 @@
-import { fieldClick, fieldData, fieldResize } from "./dataTest";
+import { fieldClick, fieldData, fieldRandom, fieldResize } from "./dataTest";
 import gameRdx, {
   GAME_START,
   GAME_PAUSE,
@@ -11,6 +11,7 @@ import gameRdx, {
   resizeField,
   clickOnCellAction,
 } from "./gameRdx";
+import * as funcOperation from "./funcOperation";
 
 describe("Test game reducer", () => {
   const initialState = {
@@ -20,6 +21,15 @@ describe("Test game reducer", () => {
     countStep: 0,
     start: false,
     finish: false,
+    speed: 100,
+  };
+  const finishState = {
+    fieldCurrent: fieldData.fieldDataNotFinish.fieldCurrent,
+    fieldDataPrev: fieldData.fieldDataNotFinish.fieldDataPrev,
+    fieldDataPrev2: fieldData.fieldDataNotFinish.fieldDataPrev2,
+    countStep: 0,
+    start: false,
+    finish: true,
     speed: 100,
   };
 
@@ -39,7 +49,9 @@ describe("Test game reducer", () => {
       speed: 100,
     };
     expect(gameRdx(initialState, { type: GAME_START }).start).toBeTruthy();
+    expect(gameRdx(finishState, { type: GAME_START })).toEqual(finishState);
     expect(gameRdx(stateStart, { type: GAME_PAUSE }).start).toBeFalsy();
+    expect(gameRdx(finishState, { type: GAME_PAUSE })).toEqual(finishState);
   });
 
   it("action inc / dec velosity", () => {
@@ -87,32 +99,16 @@ describe("Test game reducer", () => {
       speed: 101,
     };
     expect(gameRdx(stateFinishTwoStep, checkFinish()).finish).toBeTruthy();
+    expect(gameRdx(finishState, checkFinish())).toEqual(finishState);
   });
 
   it("action random field", () => {
-    const fieldRandom = [
-      [0, 1, 0, 0, 1, 0, 0, 1, 0, 0],
-      [0, 0, 1, 0, 0, 1, 0, 1, 0, 0],
-      [0, 0, 0, 1, 0, 0, 1, 0, 0, 1],
-      [0, 1, 0, 1, 0, 0, 1, 0, 0, 0],
-      [0, 0, 1, 0, 1, 0, 0, 0, 1, 0],
-      [0, 0, 1, 0, 0, 0, 1, 0, 0, 1],
-      [1, 0, 0, 0, 0, 0, 1, 0, 0, 1],
-      [0, 0, 0, 0, 1, 1, 0, 0, 1, 0],
-      [0, 0, 1, 0, 0, 0, 1, 0, 1, 0],
-      [0, 0, 1, 0, 0, 1, 0, 1, 0, 0],
-    ];
-    jest.mock("./gameRdx", () => {
-      const originalModule = jest.requireActual("./gameRdx");
-      return {
-        __esModule: true,
-        ...originalModule,
-        getRandomieDataField: jest.fn(() => fieldRandom),
-      };
-    });
+    const spyRandom = jest.spyOn(funcOperation, "getRandomieDataField");
+    spyRandom.mockReturnValue(fieldRandom);
     expect(gameRdx(initialState, fillRandomField(30)).fieldCurrent).toEqual(
       fieldRandom
     );
+    expect(gameRdx(finishState, fillRandomField(30))).toEqual(finishState);
   });
 
   it("action clear field", () => {
@@ -144,17 +140,20 @@ describe("Test game reducer", () => {
     expect(gameRdx(stateNextStep, nextStepAction()).fieldCurrent).toEqual(
       fieldData.fieldDataTwoStep.fieldDataPrev
     );
+    expect(gameRdx(finishState, nextStepAction())).toEqual(finishState);
   });
 
   it("action resize", () => {
     expect(gameRdx(initialState, resizeField(3, 3)).fieldCurrent).toEqual(
       fieldResize
     );
+    expect(gameRdx(finishState, resizeField(3, 3))).toEqual(finishState);
   });
 
   it("action clickCell", () => {
     expect(gameRdx(initialState, clickOnCellAction(0, 0)).fieldCurrent).toEqual(
       fieldClick
     );
+    expect(gameRdx(finishState, clickOnCellAction(0, 0))).toEqual(finishState);
   });
 });
