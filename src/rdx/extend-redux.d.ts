@@ -16,6 +16,7 @@ declare module "redux" {
    * from thunk actions
    */
   function bindActionCreators<
+    // eslint-disable-next-line no-undef
     TActionCreators extends ActionCreatorsMapObject<any>
   >(
     actionCreators: TActionCreators,
@@ -34,6 +35,7 @@ declare module "redux" {
    * Overload to add thunk support to Redux's dispatch() function.
    * Useful for react-redux or any other library which could use this type.
    */
+  // eslint-disable-next-line no-undef
   export interface Dispatch<A extends Action = AnyAction> {
     <TReturnType = any, TState = any, TExtraThunkArg = any>(
       thunkAction: ThunkAction<TReturnType, TState, TExtraThunkArg, A>
