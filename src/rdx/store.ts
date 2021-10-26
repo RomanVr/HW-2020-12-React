@@ -1,4 +1,10 @@
-import { Action, applyMiddleware, combineReducers, createStore } from "redux";
+import {
+  Action,
+  AnyAction,
+  applyMiddleware,
+  combineReducers,
+  createStore,
+} from "redux";
 import gameReducer from "@/modules/GameOfLife/gameRdx";
 import loginReducer, { CheckState } from "@/screens/Login/loginRdx";
 import thunk from "redux-thunk";
@@ -43,23 +49,28 @@ const reducer = combineReducers({
 
 export default reducer;
 
+export const LOAD_STATE = "LOAD_STATE";
+export const loadStateAction = (
+  saveState: (arg0: string) => void
+): AnyAction => ({
+  type: LOAD_STATE,
+  payload: saveState,
+});
+
 const persistMiddleware =
   ({ getState }: { [key: string]: any }) =>
   (next: (arg0: Action) => void) =>
-  (action: Action) => {
+  (action: AnyAction) => {
+    if (action.type === LOAD_STATE) {
+      asyncStoreDAO.loadState(action.payload);
+      return;
+    }
     const result = next(action);
     asyncStoreDAO.saveState(getState());
     return result;
   };
 
 const middleware = [thunk, persistMiddleware];
-
-// let initialState = {};
-
-// function getStateFromLS(state: State) {
-//   initialState ? (initialState = state) : (initialState = defaultState);
-// }
-// asyncStoreDAO.loadState(getStateFromLS);
 
 export const store = createStore(
   reducer,
