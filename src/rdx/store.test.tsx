@@ -1,7 +1,10 @@
-import { defaultState, State, store as storeRdx } from "./store";
+import {
+  defaultState,
+  loadStateAction,
+  State,
+  store as storeRdx,
+} from "./store";
 import { clearField, pauseGame, startGame } from "@/modules/GameOfLife/gameRdx";
-import { ThunkDispatch } from "redux-thunk";
-import { AnyAction } from "redux";
 import { act } from "@testing-library/react";
 
 describe("Test store", () => {
@@ -11,9 +14,7 @@ describe("Test store", () => {
 
   it("action start", () => {
     const mockSetTimer = jest.fn();
-    (storeRdx.dispatch as ThunkDispatch<State, unknown, AnyAction>)(
-      startGame(mockSetTimer)
-    );
+    storeRdx.dispatch(startGame(mockSetTimer));
     expect(mockSetTimer).toBeCalled();
   });
 
@@ -45,5 +46,17 @@ describe("Test store", () => {
     expect((storeRdx.getState() as State).gameData.start).toBeTruthy();
     storeRdx.dispatch(clearField(timerStep));
     expect((storeRdx.getState() as State).gameData.start).toBeFalsy();
+  });
+
+  it("action loadState", () => {
+    jest.useFakeTimers();
+    const getItemFn = jest.spyOn(window.localStorage.__proto__, "getItem");
+    getItemFn.mockReturnValue(JSON.stringify(defaultState));
+    // const consoleMock = jest.fn();
+    storeRdx.dispatch(loadStateAction(console.log));
+    act(() => {
+      jest.advanceTimersByTime(500);
+    });
+    // expect(consoleMock.mock.calls.length).toBe(1);
   });
 });
