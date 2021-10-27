@@ -180,10 +180,9 @@ export default function reducer(
       return state;
   }
 }
-//middleware удалить таймер вызова шага
+
 export function clearField(
-  // eslint-disable-next-line no-undef
-  timerStep: NodeJS.Timeout
+  timerStep: number
 ): ThunkAction<void, State, unknown, AnyAction> {
   const actionClearField = (dispatch: Dispatch<Action>) => {
     dispatch({ type: CLEAR_FIELD });
@@ -192,14 +191,13 @@ export function clearField(
   return actionClearField;
 }
 export function startGame(
-  // eslint-disable-next-line no-undef
-  setTimer: (timer: NodeJS.Timeout) => void
+  setTimer: (timer: number) => void
 ): ThunkAction<void, State, unknown, AnyAction> {
   const actionStart = (dispatch: Dispatch<Action>, getState: () => State) => {
     dispatch({ type: GAME_START });
     const speed = getState().gameData.speed;
     setTimer(
-      setInterval(() => {
+      window.setInterval(() => {
         dispatch(nextStepAction());
       }, speed)
     );
@@ -207,12 +205,11 @@ export function startGame(
   return actionStart;
 }
 export function pauseGame(
-  // eslint-disable-next-line no-undef
-  timerStep: NodeJS.Timeout
+  timerStep: number
 ): ThunkAction<void, State, unknown, AnyAction> {
   const actionPauseGame = (dispatch: Dispatch<Action>) => {
     dispatch({ type: GAME_PAUSE });
-    clearInterval(Number(timerStep));
+    clearInterval(timerStep);
   };
   return actionPauseGame;
 }

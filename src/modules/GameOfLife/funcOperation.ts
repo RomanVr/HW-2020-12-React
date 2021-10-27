@@ -90,8 +90,7 @@ export function getCountAround(
   x: number,
   y: number
 ): number {
-  const coordX: number[] = [3];
-  const coordY: number[] = [3];
+  const [coordX, coordY] = [[3], [3]];
   coordX[2] = x;
   coordY[2] = y;
   const stateSizeX: number = fieldData.length;

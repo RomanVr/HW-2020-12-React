@@ -2,16 +2,15 @@ import React, { useEffect, useState } from "react";
 import { InputText } from "@/components";
 
 export const InputTime: React.FC<unknown> = () => {
-  // eslint-disable-next-line no-undef
-  let timerID: NodeJS.Timeout | undefined;
+  let timerID: number;
 
   const [timeValue, setTime] = useState(0);
 
   useEffect(() => {
-    timerID = setInterval(() => tick(), 1000);
+    timerID = window.setInterval(() => tick(), 1000);
     return function clear() {
       clearInterval(Number(timerID));
-      timerID = undefined;
+      timerID = 0;
     };
   }, [timeValue]);
 

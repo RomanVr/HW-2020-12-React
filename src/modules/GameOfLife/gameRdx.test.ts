@@ -15,9 +15,9 @@ import * as funcOperation from "./funcOperation";
 
 describe("Test game reducer", () => {
   const initialState = {
-    fieldCurrent: new Array(10).fill(null).map(() => new Array(10).fill(0)),
-    fieldDataPrev: new Array(10).fill(null).map(() => new Array(10).fill(0)),
-    fieldDataPrev2: new Array(10).fill(null).map(() => new Array(10).fill(0)),
+    fieldCurrent: fieldData.fieldDefault.fieldCurrent,
+    fieldDataPrev: fieldData.fieldDefault.fieldDataPrev,
+    fieldDataPrev2: fieldData.fieldDefault.fieldDataPrev2,
     countStep: 0,
     start: false,
     finish: false,
@@ -40,9 +40,9 @@ describe("Test game reducer", () => {
 
   it("action start / pause", () => {
     const stateStart = {
-      fieldCurrent: new Array(10).fill(null).map(() => new Array(10).fill(0)),
-      fieldDataPrev: new Array(10).fill(null).map(() => new Array(10).fill(0)),
-      fieldDataPrev2: new Array(10).fill(null).map(() => new Array(10).fill(0)),
+      fieldCurrent: fieldData.fieldDefault.fieldCurrent,
+      fieldDataPrev: fieldData.fieldDefault.fieldDataPrev,
+      fieldDataPrev2: fieldData.fieldDefault.fieldDataPrev2,
       countStep: 0,
       start: true,
       finish: false,
@@ -56,9 +56,9 @@ describe("Test game reducer", () => {
 
   it("action inc / dec velosity", () => {
     const stateIncVel = {
-      fieldCurrent: new Array(10).fill(null).map(() => new Array(10).fill(0)),
-      fieldDataPrev: new Array(10).fill(null).map(() => new Array(10).fill(0)),
-      fieldDataPrev2: new Array(10).fill(null).map(() => new Array(10).fill(0)),
+      fieldCurrent: fieldData.fieldDefault.fieldCurrent,
+      fieldDataPrev: fieldData.fieldDefault.fieldDataPrev,
+      fieldDataPrev2: fieldData.fieldDefault.fieldDataPrev2,
       countStep: 0,
       start: false,
       finish: false,

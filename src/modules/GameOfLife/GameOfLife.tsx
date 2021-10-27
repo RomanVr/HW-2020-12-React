@@ -36,8 +36,7 @@ interface GameOfLifeState {
 }
 
 export class GameOfLife extends React.Component<unknown, GameOfLifeState> {
-  // eslint-disable-next-line no-undef
-  timerStep?: NodeJS.Timeout;
+  timerStep = 0;
   fieldDataPrev: number[][];
   fieldDataPrev2: number[][];
 
@@ -124,7 +123,7 @@ export class GameOfLife extends React.Component<unknown, GameOfLifeState> {
     if (this.isFinish(newFieldData)) {
       if (this.timerStep) {
         clearInterval(Number(this.timerStep));
-        this.timerStep = undefined;
+        this.timerStep = 0;
       }
       this.setState({
         start: false,
@@ -219,7 +218,7 @@ export class GameOfLife extends React.Component<unknown, GameOfLifeState> {
   clearField(): void {
     if (this.timerStep) {
       clearInterval(Number(this.timerStep));
-      this.timerStep = undefined;
+      this.timerStep = 0;
     }
     this.setState({
       start: false,
@@ -235,10 +234,13 @@ export class GameOfLife extends React.Component<unknown, GameOfLifeState> {
     if (this.state.start) {
       newButtonValue = "Start";
       clearInterval(Number(this.timerStep));
-      this.timerStep = undefined;
+      this.timerStep = 0;
     } else {
       newButtonValue = "Stop";
-      this.timerStep = setInterval(() => this.nextStep(), this.state.velosity);
+      this.timerStep = window.setInterval(
+        () => this.nextStep(),
+        this.state.velosity
+      );
     }
     this.setState({
       isFinish: false,
@@ -252,8 +254,8 @@ export class GameOfLife extends React.Component<unknown, GameOfLifeState> {
       this.setState({ velosity: this.state.velosity - 100 });
       if (this.state.start) {
         clearInterval(Number(this.timerStep));
-        this.timerStep = undefined;
-        this.timerStep = setInterval(
+        this.timerStep = 0;
+        this.timerStep = window.setInterval(
           () => this.nextStep(),
           this.state.velosity
         );
@@ -266,8 +268,8 @@ export class GameOfLife extends React.Component<unknown, GameOfLifeState> {
       this.setState({ velosity: this.state.velosity + 100 });
       if (this.state.start) {
         clearInterval(Number(this.timerStep));
-        this.timerStep = undefined;
-        this.timerStep = setInterval(
+        this.timerStep = 0;
+        this.timerStep = window.setInterval(
           () => this.nextStep(),
           this.state.velosity
         );

@@ -19,12 +19,10 @@ describe("Test store", () => {
 
   it("action start / pause", () => {
     jest.useFakeTimers();
-    // eslint-disable-next-line no-undef
-    let timerStep: NodeJS.Timeout = setTimeout(() => {
+    let timerStep: number = window.setTimeout(() => {
       0;
     }, 0);
-    // eslint-disable-next-line no-undef
-    const setTimer = (timer: NodeJS.Timeout) => {
+    const setTimer = (timer: number) => {
       timerStep = timer;
     };
     storeRdx.dispatch(startGame(setTimer));
@@ -37,12 +35,10 @@ describe("Test store", () => {
   });
 
   it("action start / clear", () => {
-    // eslint-disable-next-line no-undef
-    let timerStep: NodeJS.Timeout = setTimeout(() => {
+    let timerStep: number = window.setTimeout(() => {
       0;
     }, 0);
-    // eslint-disable-next-line no-undef
-    const setTimer = (timer: NodeJS.Timeout) => {
+    const setTimer = (timer: number) => {
       timerStep = timer;
     };
     storeRdx.dispatch(startGame(setTimer));
