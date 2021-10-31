@@ -128,3 +128,9 @@ Roman Vorobyev (Роман Воробьев) romakf99@yandex.ru
             Если action имеет поле `meta.probability` то пусть он исполнится с этой вероятностью probablity (это число от 0 до 1).
             // Пример с 50% вероятностью `dispatch({ type: 'ANALYTICS_CLICK', meta: { probability: 0.5 }})
         src/lesson17/homework/probability.ts
+10. Задание: Redux-saga intro
+  1. Цель:
+      - подключить redux, перевести стейт приложения на redux.
+      - добавить тесты для connect.
+      - подключить redux-saga в приложение.
+      - реализовать сохранение state в local storage на saga.
