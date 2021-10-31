@@ -3,6 +3,8 @@ import { withInput } from "@/HOC/withInput";
 import { InputText } from "@/components";
 import { useHistory } from "react-router-dom";
 import { asyncAuthLocalStorage } from "@/api/authLocalStorage/auth";
+import { useDispatch } from "react-redux";
+import { login } from "./loginRdx";
 
 const params = {
   labelInput: "Name:",
@@ -11,7 +13,6 @@ const params = {
   maxLengthInput: 20,
   required: true,
 };
-
 const InputLoginWithInputText = withInput(InputText, params);
 
 const paramsSubmit = {
@@ -20,22 +21,19 @@ const paramsSubmit = {
   nameInput: "ButtonSubmit",
   maxLengthInput: 40,
 };
-
-interface LoginProps {
-  onSubmitLogin: (nameUser: string) => void;
-}
-
 const ButtonSubmitWithInputText = withInput(InputText, paramsSubmit);
 
-export const Login: React.FC<LoginProps> = ({ onSubmitLogin }) => {
+export const Login: React.FC = () => {
   const [nameUser, setNameUser] = useState("");
   const history = useHistory();
+
+  const dispatch = useDispatch();
 
   const onSubmit = useCallback(
     async (ev: React.FormEvent) => {
       ev.preventDefault();
       await asyncAuthLocalStorage.login(nameUser);
-      onSubmitLogin(nameUser);
+      dispatch(login(nameUser));
       history.push(`/game`);
     },
     [nameUser]

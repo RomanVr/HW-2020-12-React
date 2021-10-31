@@ -4,6 +4,8 @@ import { withInput } from "@/HOC/withInput";
 import { useHistory, useParams } from "react-router-dom";
 import { ContainerFlexCenter } from "@/components/layout/ContainerFlexCenter";
 import { asyncAuthLocalStorage } from "@/api/authLocalStorage/auth";
+import { useDispatch } from "react-redux";
+import { logout } from "@/screens/Login/loginRdx";
 
 const params = {
   type: "button",
@@ -17,17 +19,15 @@ interface paramsType {
   name: string;
 }
 
-interface RawUserProps {
-  onSubmitLogin: (nameUser: string) => void;
-}
-
-export const User: React.FC<RawUserProps> = ({ onSubmitLogin }) => {
+export const User: React.FC = () => {
   const history = useHistory();
   const { name } = useParams<paramsType>();
 
+  const dispatch = useDispatch();
+
   const logoutClick = () => {
     asyncAuthLocalStorage.logout();
-    onSubmitLogin("");
+    dispatch(logout());
     history.push("/");
   };
 

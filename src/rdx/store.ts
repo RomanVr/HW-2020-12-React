@@ -1,53 +1,51 @@
 import {
   Action,
   AnyAction,
-  applyMiddleware,
-  combineReducers,
-  createStore,
+  // applyMiddleware,
+  // combineReducers,
 } from "redux";
 import gameReducer from "@/modules/GameOfLife/gameRdx";
-import loginReducer, { CheckState } from "@/screens/Login/loginRdx";
+import userReducer from "@/screens/Login/loginRdx";
 import thunk from "redux-thunk";
 import { asyncStoreDAO } from "@/api/storeToLocalStorage/storeDAO";
+import { configureStore } from "@reduxjs/toolkit";
 
-export type State = {
-  login: {
-    userName: string;
-    statusUser: CheckState;
-  };
-  gameData: {
-    fieldCurrent: number[][];
-    fieldDataPrev: number[][];
-    fieldDataPrev2: number[][];
-    countStep: number;
-    start: boolean;
-    finish: boolean;
-    speed: number;
-  };
-};
+// export type State = {
+//   user: {
+//     userName: string;
+//     statusUser: CheckState;
+//   };
+//   gameData: {
+//     fieldCurrent: number[][];
+//     fieldDataPrev: number[][];
+//     fieldDataPrev2: number[][];
+//     countStep: number;
+//     start: boolean;
+//     finish: boolean;
+//     speed: number;
+//   };
+// };
 
-export const defaultState = {
-  login: {
-    userName: "",
-    statusUser: CheckState.initiated,
-  },
-  gameData: {
-    fieldCurrent: new Array(10).fill(null).map(() => new Array(10).fill(0)),
-    fieldDataPrev: new Array(10).fill(null).map(() => new Array(10).fill(0)),
-    fieldDataPrev2: new Array(10).fill(null).map(() => new Array(10).fill(0)),
-    countStep: 0,
-    start: false,
-    finish: false,
-    speed: 100,
-  },
-};
+// export const defaultState = {
+//   user: {
+//     userName: "",
+//     statusUser: CheckState.initiated,
+//   },
+//   gameData: {
+//     fieldCurrent: new Array(10).fill(null).map(() => new Array(10).fill(0)),
+//     fieldDataPrev: new Array(10).fill(null).map(() => new Array(10).fill(0)),
+//     fieldDataPrev2: new Array(10).fill(null).map(() => new Array(10).fill(0)),
+//     countStep: 0,
+//     start: false,
+//     finish: false,
+//     speed: 100,
+//   },
+// };
 
-const reducer = combineReducers({
-  login: loginReducer,
-  gameData: gameReducer,
-});
-
-export default reducer;
+// const reducer = combineReducers({
+//   user: userReducer,
+//   gameData: gameReducer,
+// });
 
 export const LOAD_STATE = "LOAD_STATE";
 export const loadStateAction = (
@@ -72,8 +70,14 @@ const persistMiddleware =
 
 const middleware = [thunk, persistMiddleware];
 
-export const store = createStore(
-  reducer,
-  defaultState,
-  applyMiddleware(...middleware)
-);
+export const store = configureStore({
+  reducer: {
+    user: userReducer,
+    gameData: gameReducer,
+  },
+  middleware: middleware,
+});
+
+export type RootState = ReturnType<typeof store.getState>;
+
+export type AppDispatch = typeof store.dispatch;
