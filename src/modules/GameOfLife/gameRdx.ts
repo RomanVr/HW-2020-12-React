@@ -1,5 +1,6 @@
 import { Action } from "@/rdx";
-import { State } from "@/rdx/store";
+import { RootState } from "@/rdx/store";
+import { createSlice } from "@reduxjs/toolkit";
 import { Dispatch } from "react";
 import { AnyAction } from "redux";
 import { ThunkAction } from "redux-thunk";
@@ -33,7 +34,7 @@ export const CLICK_CELL = "CLICK_CELL";
 export const INC_VELOSITY = "INC_VELOSITY";
 export const DEC_VELOSITY = "DEC_VELOSITY";
 
-export type StateGame = {
+export type GameState = {
   fieldCurrent: number[][];
   fieldDataPrev: number[][];
   fieldDataPrev2: number[][];
@@ -43,7 +44,7 @@ export type StateGame = {
   speed: number;
 };
 
-export const initialState = {
+export const initialState: GameState = {
   fieldCurrent: new Array(10).fill(null).map(() => new Array(10).fill(0)),
   fieldDataPrev: new Array(10).fill(null).map(() => new Array(10).fill(0)),
   fieldDataPrev2: new Array(10).fill(null).map(() => new Array(10).fill(0)),
@@ -53,147 +54,150 @@ export const initialState = {
   speed: 100,
 };
 
-export default function reducer(
-  state: StateGame = initialState,
-  action: AnyAction
-): StateGame {
-  switch (action.type) {
-    case FILL_RANDOM_FIELD:
+const gameSlice = createSlice({
+  name: "game",
+  initialState,
+  reducers: {
+    clearField: (state) => {
+      state.start = false;
+      state.countStep = 0;
+      state.finish = false;
+      state.fieldCurrent = generateDataField(
+        state.fieldCurrent.length,
+        state.fieldCurrent[0].length
+      );
+      state.fieldDataPrev = generateDataField(
+        state.fieldDataPrev.length,
+        state.fieldDataPrev[0].length
+      );
+      state.fieldDataPrev2 = generateDataField(
+        state.fieldDataPrev2.length,
+        state.fieldDataPrev2[0].length
+      );
+    },
+    startGame: (state) => {
       if (!state.finish) {
-        return {
-          ...state,
-          fieldCurrent: getRandomieDataField(
-            state.fieldCurrent.length,
-            state.fieldCurrent[0].length,
-            action.payload
-          ),
-          fieldDataPrev: generateDataField(
-            state.fieldCurrent.length,
-            state.fieldCurrent[0].length
-          ),
-          fieldDataPrev2: generateDataField(
-            state.fieldCurrent.length,
-            state.fieldCurrent[0].length
-          ),
-        };
+        state.start = true;
       }
-      return state;
-    case RESIZE_FIELD:
+    },
+    pauseGame: (state) => {
       if (!state.finish) {
-        return {
-          ...state,
-          fieldCurrent: setNewSizeFieldData(
-            state.fieldCurrent,
-            action.payload.sizeX,
-            action.payload.sizeY
-          ),
-          fieldDataPrev: setNewSizeFieldData(
-            state.fieldDataPrev,
-            action.payload.sizeX,
-            action.payload.sizeY
-          ),
-          fieldDataPrev2: setNewSizeFieldData(
-            state.fieldDataPrev2,
-            action.payload.sizeX,
-            action.payload.sizeY
-          ),
-        };
+        state.start = false;
       }
-      return state;
-    case CLEAR_FIELD:
-      return {
-        speed: state.speed,
-        start: false,
-        countStep: 0,
-        finish: false,
-        fieldCurrent: generateDataField(
+    },
+    fillRandomField: (state, action) => {
+      if (!state.finish) {
+        state.fieldCurrent = getRandomieDataField(
+          state.fieldCurrent.length,
+          state.fieldCurrent[0].length,
+          action.payload
+        );
+        state.fieldDataPrev = generateDataField(
           state.fieldCurrent.length,
           state.fieldCurrent[0].length
-        ),
-        fieldDataPrev: generateDataField(
-          state.fieldDataPrev.length,
-          state.fieldDataPrev[0].length
-        ),
-        fieldDataPrev2: generateDataField(
-          state.fieldDataPrev2.length,
-          state.fieldDataPrev2[0].length
-        ),
-      };
-    case NEXT_STEP:
-      if (!state.finish) {
-        return {
-          ...state,
-          ...nextStep(state.fieldCurrent, state.fieldDataPrev),
-        };
+        );
+        state.fieldDataPrev2 = generateDataField(
+          state.fieldCurrent.length,
+          state.fieldCurrent[0].length
+        );
       }
-      return state;
-    case GAME_START:
+    },
+    resizeField: (state, action) => {
       if (!state.finish) {
-        return {
-          ...state,
-          start: true,
-        };
+        state.fieldCurrent = setNewSizeFieldData(
+          state.fieldCurrent,
+          action.payload.sizeX,
+          action.payload.sizeY
+        );
+        state.fieldDataPrev = setNewSizeFieldData(
+          state.fieldDataPrev,
+          action.payload.sizeX,
+          action.payload.sizeY
+        );
+        state.fieldDataPrev2 = setNewSizeFieldData(
+          state.fieldDataPrev2,
+          action.payload.sizeX,
+          action.payload.sizeY
+        );
       }
-      return state;
-    case GAME_PAUSE:
+    },
+    nextStepAction: (state) => {
       if (!state.finish) {
-        return {
-          ...state,
-          start: false,
-        };
+        const { fieldCurrent, fieldDataPrev, fieldDataPrev2 } = nextStep(
+          state.fieldCurrent,
+          state.fieldDataPrev
+        );
+        state.fieldCurrent = fieldCurrent;
+        state.fieldDataPrev = fieldDataPrev;
+        state.fieldDataPrev2 = fieldDataPrev2;
       }
-      return state;
-    case GAME_CHECK_FINISH:
+    },
+    checkFinish: (state) => {
       if (
         isFinish(state.fieldCurrent, state.fieldDataPrev, state.fieldDataPrev2)
       ) {
-        return {
-          ...state,
-          finish: true,
-          start: false,
-        };
+        state.finish = true;
+        state.start = false;
       }
-      return state;
-    case CLICK_CELL:
+    },
+    clickOnCellAction: (state, action) => {
       if (!state.finish) {
-        return {
-          ...state,
-          fieldCurrent: clickOnCell(
-            state.fieldCurrent,
-            action.payload.x,
-            action.payload.y
-          ),
-        };
+        state.fieldCurrent = clickOnCell(
+          state.fieldCurrent,
+          action.payload.x,
+          action.payload.y
+        );
       }
-      return state;
-    case INC_VELOSITY:
-      return {
-        ...state,
-        speed: state.speed + 1,
-      };
-    case DEC_VELOSITY:
-      return {
-        ...state,
-        speed: state.speed - 1,
-      };
-    default:
-      return state;
-  }
-}
+    },
+    incVelosity: (state) => {
+      state.speed = state.speed + 1;
+    },
+    decVelosity: (state) => {
+      state.speed = state.speed - 1;
+    },
+  },
+});
 
-export function clearField(
+export default gameSlice.reducer;
+
+export const {
+  clearField,
+  startGame,
+  pauseGame,
+  fillRandomField,
+  resizeField,
+  nextStepAction,
+  checkFinish,
+  clickOnCellAction,
+  incVelosity,
+  decVelosity,
+} = gameSlice.actions;
+
+export const selectField = (state: RootState): number[][] =>
+  state.gameData.fieldCurrent;
+export const selectCountStep = (state: RootState): number =>
+  state.gameData.countStep;
+export const selectStart = (state: RootState): boolean => state.gameData.start;
+export const selectFinish = (state: RootState): boolean =>
+  state.gameData.finish;
+export const selectSpeed = (state: RootState): number => state.gameData.speed;
+
+export function actionclearField(
   timerStep: number
-): ThunkAction<void, State, unknown, AnyAction> {
+): ThunkAction<void, RootState, unknown, AnyAction> {
   const actionClearField = (dispatch: Dispatch<Action>) => {
     dispatch({ type: CLEAR_FIELD });
     clearInterval(Number(timerStep));
   };
   return actionClearField;
 }
-export function startGame(
+export function actionstartGame(
   setTimer: (timer: number) => void
-): ThunkAction<void, State, unknown, AnyAction> {
-  const actionStart = (dispatch: Dispatch<Action>, getState: () => State) => {
+): ThunkAction<void, RootState, unknown, AnyAction> {
+  const actionStart = (
+    dispatch: Dispatch<Action>,
+    getState: () => RootState
+  ) => {
     dispatch({ type: GAME_START });
     const speed = getState().gameData.speed;
     setTimer(
@@ -204,42 +208,42 @@ export function startGame(
   };
   return actionStart;
 }
-export function pauseGame(
+export function actionpauseGame(
   timerStep: number
-): ThunkAction<void, State, unknown, AnyAction> {
+): ThunkAction<void, RootState, unknown, AnyAction> {
   const actionPauseGame = (dispatch: Dispatch<Action>) => {
     dispatch({ type: GAME_PAUSE });
     clearInterval(timerStep);
   };
   return actionPauseGame;
 }
-export function fillRandomField(rndRate: number): Action {
+export function actionfillRandomField(rndRate: number): Action {
   return {
     type: FILL_RANDOM_FIELD,
     payload: rndRate,
   };
 }
-export function resizeField(sizeX: number, sizeY: number): Action {
+export function actionresizeField(sizeX: number, sizeY: number): Action {
   return {
     type: RESIZE_FIELD,
     payload: { sizeX, sizeY },
   };
 }
-export function nextStepAction(): Action {
+export function actionnextStepAction(): Action {
   return { type: NEXT_STEP };
 }
-export function checkFinish(): Action {
+export function actioncheckFinish(): Action {
   return { type: GAME_CHECK_FINISH };
 }
-export function clickOnCellAction(x: number, y: number): Action {
+export function actionclickOnCellAction(x: number, y: number): Action {
   return {
     type: CLICK_CELL,
     payload: { x, y },
   };
 }
-export function incVelosity(): Action {
+export function actionincVelosity(): Action {
   return { type: INC_VELOSITY };
 }
-export function decVelosity(): Action {
+export function actiondecVelosity(): Action {
   return { type: DEC_VELOSITY };
 }
