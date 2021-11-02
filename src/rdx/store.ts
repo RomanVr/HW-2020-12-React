@@ -5,47 +5,26 @@ import {
   // combineReducers,
 } from "redux";
 import gameReducer from "@/modules/GameOfLife/gameRdx";
-import userReducer from "@/screens/Login/loginRdx";
+import userReducer, { CheckState } from "@/screens/Login/loginRdx";
 import thunk from "redux-thunk";
 import { asyncStoreDAO } from "@/api/storeToLocalStorage/storeDAO";
 import { configureStore } from "@reduxjs/toolkit";
 
-// export type State = {
-//   user: {
-//     userName: string;
-//     statusUser: CheckState;
-//   };
-//   gameData: {
-//     fieldCurrent: number[][];
-//     fieldDataPrev: number[][];
-//     fieldDataPrev2: number[][];
-//     countStep: number;
-//     start: boolean;
-//     finish: boolean;
-//     speed: number;
-//   };
-// };
-
-// export const defaultState = {
-//   user: {
-//     userName: "",
-//     statusUser: CheckState.initiated,
-//   },
-//   gameData: {
-//     fieldCurrent: new Array(10).fill(null).map(() => new Array(10).fill(0)),
-//     fieldDataPrev: new Array(10).fill(null).map(() => new Array(10).fill(0)),
-//     fieldDataPrev2: new Array(10).fill(null).map(() => new Array(10).fill(0)),
-//     countStep: 0,
-//     start: false,
-//     finish: false,
-//     speed: 100,
-//   },
-// };
-
-// const reducer = combineReducers({
-//   user: userReducer,
-//   gameData: gameReducer,
-// });
+export const defaultState = {
+  user: {
+    userName: "",
+    statusUser: CheckState.initiated,
+  },
+  gameData: {
+    fieldCurrent: new Array(10).fill(null).map(() => new Array(10).fill(0)),
+    fieldDataPrev: new Array(10).fill(null).map(() => new Array(10).fill(0)),
+    fieldDataPrev2: new Array(10).fill(null).map(() => new Array(10).fill(0)),
+    countStep: 0,
+    start: false,
+    finish: false,
+    speed: 100,
+  },
+};
 
 export const LOAD_STATE = "LOAD_STATE";
 export const loadStateAction = (
@@ -76,6 +55,8 @@ export const store = configureStore({
     gameData: gameReducer,
   },
   middleware: middleware,
+  devTools: true,
+  preloadedState: defaultState,
 });
 
 export type RootState = ReturnType<typeof store.getState>;
