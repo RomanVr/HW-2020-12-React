@@ -1,6 +1,6 @@
 import { Action } from "@/rdx";
-import { RootState } from "@/rdx/store";
-import { createSlice } from "@reduxjs/toolkit";
+import { AppDispatch, RootState } from "@/rdx/store";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Dispatch } from "react";
 import { AnyAction } from "redux";
 import { ThunkAction } from "redux-thunk";
@@ -54,11 +54,29 @@ export const initialState: GameState = {
   speed: 100,
 };
 
+const startGame = createAsyncThunk<
+  void,
+  (arg: number) => void,
+  {
+    dispatch: AppDispatch;
+    state: GameState;
+  }
+>("game/startGame", (setTimer, thunkAPI) => {
+  const { speed } = thunkAPI.getState();
+  setTimer(
+    window.setInterval(
+      () => thunkAPI.dispatch(gameSlice.actions.nextStepAction),
+      speed
+    )
+  );
+});
+
 const gameSlice = createSlice({
   name: "game",
   initialState,
   reducers: {
-    clearField: (state) => {
+    clearField: (state, action: PayloadAction<number>) => {
+      clearInterval(action.payload);
       state.start = false;
       state.countStep = 0;
       state.finish = false;
@@ -75,11 +93,17 @@ const gameSlice = createSlice({
         state.fieldDataPrev2[0].length
       );
     },
-    startGame: (state) => {
-      if (!state.finish) {
-        state.start = true;
-      }
-    },
+    // startGame: (state, action: PayloadAction<(arg: number) => void>) => {
+    //   if (!state.finish) {
+    //     const speed = state.speed;
+    //     action.payload(
+    //       window.setInterval(() => {
+    //         dispatch(nextStepAction());
+    //       }, speed)
+    //     );
+    //     state.start = true;
+    //   }
+    // },
     pauseGame: (state) => {
       if (!state.finish) {
         state.start = false;
@@ -162,7 +186,6 @@ export default gameSlice.reducer;
 
 export const {
   clearField,
-  startGame,
   pauseGame,
   fillRandomField,
   resizeField,
@@ -182,32 +205,8 @@ export const selectFinish = (state: RootState): boolean =>
   state.gameData.finish;
 export const selectSpeed = (state: RootState): number => state.gameData.speed;
 
-export function actionclearField(
-  timerStep: number
-): ThunkAction<void, RootState, unknown, AnyAction> {
-  const actionClearField = (dispatch: Dispatch<Action>) => {
-    dispatch({ type: CLEAR_FIELD });
-    clearInterval(Number(timerStep));
-  };
-  return actionClearField;
-}
-export function actionstartGame(
-  setTimer: (timer: number) => void
-): ThunkAction<void, RootState, unknown, AnyAction> {
-  const actionStart = (
-    dispatch: Dispatch<Action>,
-    getState: () => RootState
-  ) => {
-    dispatch({ type: GAME_START });
-    const speed = getState().gameData.speed;
-    setTimer(
-      window.setInterval(() => {
-        dispatch(nextStepAction());
-      }, speed)
-    );
-  };
-  return actionStart;
-}
+
+
 export function actionpauseGame(
   timerStep: number
 ): ThunkAction<void, RootState, unknown, AnyAction> {
