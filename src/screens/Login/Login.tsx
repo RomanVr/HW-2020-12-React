@@ -1,9 +1,9 @@
 import React, { useCallback, useState } from "react";
+import { useHistory } from "react-router-dom";
 import { withInput } from "@/HOC/withInput";
 import { InputText } from "@/components";
-import { useHistory } from "react-router-dom";
 import { asyncAuthLocalStorage } from "@/api/authLocalStorage/auth";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "@/rdx/hooks";
 import { login } from "./loginRdx";
 
 const params = {
@@ -27,7 +27,7 @@ export const Login: React.FC = () => {
   const [nameUser, setNameUser] = useState("");
   const history = useHistory();
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const onSubmit = useCallback(
     async (ev: React.FormEvent) => {

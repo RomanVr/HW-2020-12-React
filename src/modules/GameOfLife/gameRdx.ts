@@ -1,9 +1,5 @@
-import { Action } from "@/rdx";
 import { AppDispatch, RootState } from "@/rdx/store";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Dispatch } from "react";
-import { AnyAction } from "redux";
-import { ThunkAction } from "redux-thunk";
 import {
   clickOnCell,
   generateDataField,
@@ -12,27 +8,6 @@ import {
   nextStep,
   setNewSizeFieldData,
 } from "./funcOperation";
-
-// Очистить поле, остановить игру, удалить таймер вызова шага в middleware,
-// очистить количество шагов, очистить финиш
-export const CLEAR_FIELD = "CLEAR_FIELD";
-// Если !финиш то: Изменить размер поля, остальное оставить как есть
-export const RESIZE_FIELD = "RESIZE_FIELD";
-// Если !финиш то: Пересчитать состояние поля, увеличить к-во шагов, остальное оставить как есть
-export const NEXT_STEP = "NEXT_STEP";
-// Если !финиш то: Пересчитать состояние поля рандомно, остальное оставить как есть
-export const FILL_RANDOM_FIELD = "FILL_RANDOM_FIELD";
-// Если !финиш то: Начать игру, запустить в таймер пересчет состояния поля в middleware
-export const GAME_START = "GAME_START";
-// Остановить игру, удалить таймер вызова шага в middleware,
-export const GAME_PAUSE = "GAME_PAUSE";
-// Если игра закончена то: записать финиш, остановить игру, удалить таймер вызова шага в middleware
-export const GAME_CHECK_FINISH = "GAME_CHECK_FINISH";
-// Если !финиш то: Изменить состояния ячейки в поле, остальное оставить как есть
-export const CLICK_CELL = "CLICK_CELL";
-// Увеличить / уменьшить скорость
-export const INC_VELOSITY = "INC_VELOSITY";
-export const DEC_VELOSITY = "DEC_VELOSITY";
 
 export type GameState = {
   fieldCurrent: number[][];
@@ -54,7 +29,8 @@ export const initialState: GameState = {
   speed: 100,
 };
 
-const startGame = createAsyncThunk<
+export const startGameActionCreator = createAsyncThunk<
+  // call startGameActionCreator(setTimer)
   void,
   (arg: number) => void,
   {
@@ -65,7 +41,7 @@ const startGame = createAsyncThunk<
   const { speed } = thunkAPI.getState();
   setTimer(
     window.setInterval(
-      () => thunkAPI.dispatch(gameSlice.actions.nextStepAction),
+      () => thunkAPI.dispatch(gameSlice.actions.nextStepAction()),
       speed
     )
   );
@@ -76,7 +52,7 @@ const gameSlice = createSlice({
   initialState,
   reducers: {
     clearField: (state, action: PayloadAction<number>) => {
-      clearInterval(action.payload);
+      window.clearInterval(action.payload);
       state.start = false;
       state.countStep = 0;
       state.finish = false;
@@ -93,17 +69,6 @@ const gameSlice = createSlice({
         state.fieldDataPrev2[0].length
       );
     },
-    // startGame: (state, action: PayloadAction<(arg: number) => void>) => {
-    //   if (!state.finish) {
-    //     const speed = state.speed;
-    //     action.payload(
-    //       window.setInterval(() => {
-    //         dispatch(nextStepAction());
-    //       }, speed)
-    //     );
-    //     state.start = true;
-    //   }
-    // },
     pauseGame: (state) => {
       if (!state.finish) {
         state.start = false;
@@ -204,45 +169,3 @@ export const selectStart = (state: RootState): boolean => state.gameData.start;
 export const selectFinish = (state: RootState): boolean =>
   state.gameData.finish;
 export const selectSpeed = (state: RootState): number => state.gameData.speed;
-
-
-
-export function actionpauseGame(
-  timerStep: number
-): ThunkAction<void, RootState, unknown, AnyAction> {
-  const actionPauseGame = (dispatch: Dispatch<Action>) => {
-    dispatch({ type: GAME_PAUSE });
-    clearInterval(timerStep);
-  };
-  return actionPauseGame;
-}
-export function actionfillRandomField(rndRate: number): Action {
-  return {
-    type: FILL_RANDOM_FIELD,
-    payload: rndRate,
-  };
-}
-export function actionresizeField(sizeX: number, sizeY: number): Action {
-  return {
-    type: RESIZE_FIELD,
-    payload: { sizeX, sizeY },
-  };
-}
-export function actionnextStepAction(): Action {
-  return { type: NEXT_STEP };
-}
-export function actioncheckFinish(): Action {
-  return { type: GAME_CHECK_FINISH };
-}
-export function actionclickOnCellAction(x: number, y: number): Action {
-  return {
-    type: CLICK_CELL,
-    payload: { x, y },
-  };
-}
-export function actionincVelosity(): Action {
-  return { type: INC_VELOSITY };
-}
-export function actiondecVelosity(): Action {
-  return { type: DEC_VELOSITY };
-}

@@ -1,9 +1,4 @@
-import {
-  Action,
-  AnyAction,
-  // applyMiddleware,
-  // combineReducers,
-} from "redux";
+import { Action, AnyAction } from "redux";
 import gameReducer from "@/modules/GameOfLife/gameRdx";
 import userReducer, { CheckState } from "@/screens/Login/loginRdx";
 import thunk from "redux-thunk";
