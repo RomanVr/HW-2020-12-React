@@ -10,6 +10,7 @@ import { UserScreen } from "@/screens/UserScreen/UserScreen";
 import { withTextDecor } from "@/HOC/withTextDecor";
 import { asyncAuthLocalStorage } from "@/api/authLocalStorage/auth";
 import { useAppDispatch, useAppSelector } from "@/rdx/hooks";
+import { loadStateFromLS_ActionCreator } from "@/modules/GameOfLife/gameRdx";
 
 const stylesParams = {
   style: { textDecoration: "unset" },
@@ -25,6 +26,7 @@ export function AppRoute(): React.ReactElement {
     (async () => {
       const user = (await asyncAuthLocalStorage.getUserSession()) as string;
       dispatch(login(user));
+      dispatch(loadStateFromLS_ActionCreator(user));
     })();
   }, []);
 

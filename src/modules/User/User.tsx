@@ -6,6 +6,7 @@ import { ContainerFlexCenter } from "@/components/layout/ContainerFlexCenter";
 import { asyncAuthLocalStorage } from "@/api/authLocalStorage/auth";
 import { useDispatch } from "react-redux";
 import { logout } from "@/screens/Login/loginRdx";
+import { clearField } from "../GameOfLife/gameRdx";
 
 const params = {
   type: "button",
@@ -28,6 +29,7 @@ export const User: React.FC = () => {
   const logoutClick = () => {
     asyncAuthLocalStorage.logout();
     dispatch(logout());
+    dispatch(clearField());
     history.push("/");
   };
 

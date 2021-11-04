@@ -5,6 +5,7 @@ import { InputText } from "@/components";
 import { asyncAuthLocalStorage } from "@/api/authLocalStorage/auth";
 import { useAppDispatch } from "@/rdx/hooks";
 import { login } from "./loginRdx";
+import { loadStateFromLS_ActionCreator } from "@/modules/GameOfLife/gameRdx";
 
 const params = {
   labelInput: "Name:",
@@ -26,7 +27,6 @@ const ButtonSubmitWithInputText = withInput(InputText, paramsSubmit);
 export const Login: React.FC = () => {
   const [nameUser, setNameUser] = useState("");
   const history = useHistory();
-
   const dispatch = useAppDispatch();
 
   const onSubmit = useCallback(
@@ -34,6 +34,7 @@ export const Login: React.FC = () => {
       ev.preventDefault();
       await asyncAuthLocalStorage.login(nameUser);
       dispatch(login(nameUser));
+      dispatch(loadStateFromLS_ActionCreator(nameUser));
       history.push(`/game`);
     },
     [nameUser]

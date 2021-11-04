@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { InputMultiInForm } from "./InputMultiInForm";
 import { InputText, SpanError } from "@/components";
 import { withInput } from "@/HOC/withInput";
+import { size } from "@/rdx/store";
 
 const params = {
   type: "submit",
@@ -21,8 +22,8 @@ const EmptyElement: React.FC = () => <></>;
 export const FormDataGame: React.FC<FormDataGameProps> = ({
   getSizeXY,
 }): React.ReactElement => {
-  const [sizeX, setSizeX] = useState("15");
-  const [sizeY, setSizeY] = useState("20");
+  const [sizeX, setSizeX] = useState(size.x.toString());
+  const [sizeY, setSizeY] = useState(size.y.toString());
   const [errorInfoElem, setErrorInfoElem] = useState(<EmptyElement />);
 
   const handleSubmit = (event: React.FormEvent): void => {
