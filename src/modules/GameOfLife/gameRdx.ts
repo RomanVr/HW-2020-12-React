@@ -26,7 +26,7 @@ export const initialState: GameState = {
   countStep: 0,
   start: false,
   finish: false,
-  speed: 100,
+  speed: 1,
 };
 
 export const startGameActionCreator = createAsyncThunk<
@@ -35,16 +35,21 @@ export const startGameActionCreator = createAsyncThunk<
   (arg: number) => void,
   {
     dispatch: AppDispatch;
-    state: GameState;
+    state: RootState;
   }
 >("game/startGame", (setTimer, thunkAPI) => {
-  const { speed } = thunkAPI.getState();
-  setTimer(
-    window.setInterval(
-      () => thunkAPI.dispatch(gameSlice.actions.nextStepAction()),
-      speed
-    )
-  );
+  const { finish, speed } = thunkAPI.getState().gameData;
+  if (!finish) {
+    const speedToMillisec = Math.floor(1000 / speed);
+    setTimer(
+      window.setInterval(
+        () => thunkAPI.dispatch(gameSlice.actions.nextStepAction()),
+        speedToMillisec
+      )
+    );
+  } else {
+    return thunkAPI.rejectWithValue("");
+  }
 });
 
 const gameSlice = createSlice({
@@ -69,9 +74,10 @@ const gameSlice = createSlice({
         state.fieldDataPrev2[0].length
       );
     },
-    pauseGame: (state) => {
+    pauseGame: (state, action: PayloadAction<number>) => {
+      state.start = false;
       if (!state.finish) {
-        state.start = false;
+        window.clearInterval(action.payload);
       }
     },
     fillRandomField: (state, action) => {
@@ -119,14 +125,16 @@ const gameSlice = createSlice({
         state.fieldCurrent = fieldCurrent;
         state.fieldDataPrev = fieldDataPrev;
         state.fieldDataPrev2 = fieldDataPrev2;
-      }
-    },
-    checkFinish: (state) => {
-      if (
-        isFinish(state.fieldCurrent, state.fieldDataPrev, state.fieldDataPrev2)
-      ) {
-        state.finish = true;
-        state.start = false;
+        state.countStep += 1;
+        if (
+          isFinish(
+            state.fieldCurrent,
+            state.fieldDataPrev,
+            state.fieldDataPrev2
+          )
+        ) {
+          state.finish = true;
+        }
       }
     },
     clickOnCellAction: (state, action) => {
@@ -139,11 +147,16 @@ const gameSlice = createSlice({
       }
     },
     incVelosity: (state) => {
-      state.speed = state.speed + 1;
+      state.speed = state.speed + 0.1;
     },
     decVelosity: (state) => {
-      state.speed = state.speed - 1;
+      state.speed = state.speed - 0.1;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(startGameActionCreator.fulfilled, (state) => {
+      state.start = !state.start;
+    });
   },
 });
 
@@ -155,7 +168,6 @@ export const {
   fillRandomField,
   resizeField,
   nextStepAction,
-  checkFinish,
   clickOnCellAction,
   incVelosity,
   decVelosity,

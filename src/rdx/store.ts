@@ -17,7 +17,7 @@ export const defaultState = {
     countStep: 0,
     start: false,
     finish: false,
-    speed: 100,
+    speed: 1, // per seconds
   },
 };
 

@@ -1,6 +1,6 @@
-import React, { FormEvent } from "react";
+import React, { useState } from "react";
 import { InputMultiInForm } from "./InputMultiInForm";
-import { InputText } from "@/components";
+import { InputText, SpanError } from "@/components";
 import { withInput } from "@/HOC/withInput";
 
 const params = {
@@ -12,84 +12,60 @@ const params = {
 
 const ButtonSubmitWithInputText = withInput(InputText, params);
 
-export interface FormDataGameState {
-  sizeX: string;
-  sizeY: string;
-}
-
 export interface FormDataGameProps {
-  onSubmit: (sizeX: number, sizeY: number) => void;
-  errorInfoElem: React.ReactElement;
+  getSizeXY: (sizeX: number, sizeY: number) => void;
 }
 
-export class FormDataGame extends React.Component<
-  FormDataGameProps,
-  FormDataGameState
-> {
-  constructor(props: FormDataGameProps) {
-    super(props);
-    this.state = {
-      sizeX: "10",
-      sizeY: "10",
-    };
+const EmptyElement: React.FC = () => <></>;
 
-    this.getHandleFormChange = this.getHandleFormChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
+export const FormDataGame: React.FC<FormDataGameProps> = ({
+  getSizeXY,
+}): React.ReactElement => {
+  const [sizeX, setSizeX] = useState("15");
+  const [sizeY, setSizeY] = useState("20");
+  const [errorInfoElem, setErrorInfoElem] = useState(<EmptyElement />);
 
-  handleSubmit(event: React.FormEvent): void {
+  const handleSubmit = (event: React.FormEvent): void => {
     event.preventDefault();
-    const sizeX = Number(this.state.sizeX);
-    const sizeY = Number(this.state.sizeY);
-    this.props.onSubmit(sizeX, sizeY);
-  }
-
-  getHandleFormChange = (
-    valueInput: string,
-    ev: FormEvent<HTMLInputElement> | undefined
-  ): void => {
-    const elemForm = ev?.target as HTMLInputElement;
-    this.setState({
-      [elemForm.getAttribute("name") as keyof FormDataGameState]: valueInput,
-    } as any);
+    if (isNaN(Number(sizeX)) || isNaN(Number(sizeY))) {
+      setErrorInfoElem(<SpanError />);
+      return;
+    }
+    setErrorInfoElem(<EmptyElement />);
+    getSizeXY(Number(sizeX), Number(sizeY));
   };
 
-  render(): React.ReactElement {
-    if (isNaN(Number(this.state.sizeX)) || isNaN(Number(this.state.sizeY))) {
-      throw new Error("Size must be a number!");
-    }
-    return (
-      <>
-        <form onSubmit={this.handleSubmit} style={{ display: "flex" }}>
-          {[
-            {
-              sizeState: this.state.sizeX,
-              onChange: this.getHandleFormChange,
-              placeHolder: "Значение по горизонтали",
-              label: "X: ",
-              nameState: "sizeX",
-            },
-            {
-              sizeState: this.state.sizeY,
-              onChange: this.getHandleFormChange,
-              placeHolder: "Значение по вертикали",
-              label: "Y: ",
-              nameState: "sizeY",
-            },
-          ].map((propsItem) => (
-            <InputMultiInForm
-              key={propsItem.label}
-              sizeState={propsItem.sizeState}
-              onChange={propsItem.onChange}
-              placeHolder={propsItem.placeHolder}
-              label={propsItem.label}
-              nameState={propsItem.nameState}
-            />
-          ))}
-          <ButtonSubmitWithInputText />
-          {this.props.errorInfoElem}
-        </form>
-      </>
-    );
-  }
-}
+  return (
+    <>
+      <form onSubmit={handleSubmit} style={{ display: "flex" }}>
+        {[
+          {
+            sizeState: sizeX,
+            onChange: setSizeX,
+            placeHolder: "Значение по горизонтали",
+            label: "X: ",
+            nameState: "sizeX",
+          },
+          {
+            sizeState: sizeY,
+            onChange: setSizeY,
+            placeHolder: "Значение по вертикали",
+            label: "Y: ",
+            nameState: "sizeY",
+          },
+        ].map((propsItem) => (
+          <InputMultiInForm
+            key={propsItem.label}
+            sizeState={propsItem.sizeState}
+            onChange={propsItem.onChange}
+            placeHolder={propsItem.placeHolder}
+            label={propsItem.label}
+            nameState={propsItem.nameState}
+          />
+        ))}
+        <ButtonSubmitWithInputText />
+        {errorInfoElem}
+      </form>
+    </>
+  );
+};
