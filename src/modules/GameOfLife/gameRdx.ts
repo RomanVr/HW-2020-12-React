@@ -1,5 +1,5 @@
 import { asyncStoreDAO } from "@/api/storeToLocalStorage/storeDAO";
-import { AppDispatch, RootState, size } from "@/rdx/store";
+import { AppDispatch, RootState } from "@/rdx/store";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import {
   clickOnCell,
@@ -20,6 +20,8 @@ export type GameState = {
   speed: number;
   timerStep: number;
 };
+
+export const size = { x: 15, y: 20 };
 
 export const initialState: GameState = {
   fieldCurrent: new Array(size.x)

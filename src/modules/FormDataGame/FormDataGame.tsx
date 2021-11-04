@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { InputMultiInForm } from "./InputMultiInForm";
 import { InputText, SpanError } from "@/components";
 import { withInput } from "@/HOC/withInput";
-import { size } from "@/rdx/store";
+import { size } from "../GameOfLife/gameRdx";
 
 const params = {
   type: "submit",

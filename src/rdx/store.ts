@@ -1,8 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
-import gameReducer from "@/modules/GameOfLife/gameRdx";
+import gameReducer, { size } from "@/modules/GameOfLife/gameRdx";
 import userReducer, { CheckState } from "@/screens/Login/loginRdx";
-
-export const size = { x: 15, y: 20 };
 
 export const defaultState = {
   user: {

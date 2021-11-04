@@ -70,10 +70,15 @@ export const GameOfLife: React.FC = (): React.ReactElement => {
     if (gameFinish) {
       dispatch(pauseGame());
     }
-    return () => {
-      window.clearInterval(gameTimerStep);
-    };
-  }, [gameStep, gameStart]);
+  }, [gameStart, gameFinish]);
+
+  useEffect(
+    () =>
+      function clearTimerStep() {
+        window.clearInterval(gameTimerStep);
+      },
+    []
+  );
 
   function getSizeXY(sizeX: number, sizeY: number): void {
     dispatch(resizeField({ sizeX, sizeY }));
