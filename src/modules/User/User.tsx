@@ -5,8 +5,8 @@ import { useHistory, useParams } from "react-router-dom";
 import { ContainerFlexCenter } from "@/components/layout/ContainerFlexCenter";
 import { asyncAuthLocalStorage } from "@/api/authLocalStorage/auth";
 import { useDispatch } from "react-redux";
-import { logout } from "@/screens/Login/loginRdx";
-import { clearField } from "../GameOfLife/gameRdx";
+import { actions } from "@/screens/Login/loginRdx";
+import { actions as actionsGame } from "../GameOfLife/gameRdx";
 
 const params = {
   type: "button",
@@ -28,8 +28,8 @@ export const User: React.FC = () => {
 
   const logoutClick = () => {
     asyncAuthLocalStorage.logout();
-    dispatch(logout());
-    dispatch(clearField());
+    dispatch(actions.logout());
+    dispatch(actionsGame.clearField());
     history.push("/");
   };
 

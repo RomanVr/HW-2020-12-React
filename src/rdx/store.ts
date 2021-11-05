@@ -1,38 +1,29 @@
 import { configureStore } from "@reduxjs/toolkit";
-import gameReducer, { size } from "@/modules/GameOfLife/gameRdx";
-import userReducer, { CheckState } from "@/screens/Login/loginRdx";
+import createSagaMiddleware from "redux-saga";
+import { fork } from "redux-saga/effects";
 
-export const defaultState = {
-  user: {
-    userName: "",
-    statusUser: CheckState.initiated,
-  },
-  gameData: {
-    fieldCurrent: new Array(size.x)
-      .fill(null)
-      .map(() => new Array(size.y).fill(0)),
-    fieldDataPrev: new Array(size.x)
-      .fill(null)
-      .map(() => new Array(size.y).fill(0)),
-    fieldDataPrev2: new Array(size.x)
-      .fill(null)
-      .map(() => new Array(size.y).fill(0)),
-    countStep: 0,
-    start: false,
-    finish: false,
-    speed: 1, // per seconds
-    timerStep: 0,
-  },
-};
+import gameReducer from "@/modules/GameOfLife/gameRdx";
+import userReducer from "@/screens/Login/loginRdx";
+import { loginSaga } from "@/screens/Login/loginSaga";
+import { gameOfLifeSaga } from "@/modules/GameOfLife/gameOfLifeSaga";
+
+const sagaMiddleware = createSagaMiddleware();
+
+function* rootSaga() {
+  yield fork(loginSaga);
+  yield fork(gameOfLifeSaga);
+}
 
 export const store = configureStore({
   reducer: {
     user: userReducer,
     gameData: gameReducer,
   },
+  middleware: [sagaMiddleware],
   devTools: true,
-  preloadedState: defaultState,
 });
+
+sagaMiddleware.run(rootSaga);
 
 export type RootState = ReturnType<typeof store.getState>;
 

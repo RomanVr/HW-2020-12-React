@@ -6,24 +6,13 @@ import { ContainerFlexGame } from "@/components/layout/ContainerFlexGame";
 import { ContainerFlexCenter } from "@/components/layout/ContainerFlexCenter";
 import { useAppDispatch, useAppSelector } from "@/rdx/hooks";
 import {
-  clearField,
-  clickOnCellAction,
-  decVelosity,
-  fillRandomField,
-  incVelosity,
-  nextStepAction,
-  pauseGame,
-  resizeField,
-  saveStateToLS_ActionCreator,
+  actions,
   selectCountStep,
   selectField,
   selectFinish,
   selectSpeed,
   selectStart,
-  selectTimerStep,
-  startGameActionCreator,
 } from "./gameRdx";
-import { selectUserName } from "@/screens/Login/loginRdx";
 
 const params = {
   readOnly: true,
@@ -58,8 +47,6 @@ export const GameOfLife: React.FC = (): React.ReactElement => {
   const gameField = useAppSelector(selectField);
   const gameStep = useAppSelector(selectCountStep);
   const gameSpeed = useAppSelector(selectSpeed);
-  const userName = useAppSelector(selectUserName);
-  const gameTimerStep = useAppSelector(selectTimerStep);
 
   useEffect(() => {
     if (gameStart) {
@@ -68,20 +55,12 @@ export const GameOfLife: React.FC = (): React.ReactElement => {
       setButtonValue(START);
     }
     if (gameFinish) {
-      dispatch(pauseGame());
+      dispatch(actions.pauseGame());
     }
   }, [gameStart, gameFinish]);
 
-  useEffect(
-    () =>
-      function clearTimerStep() {
-        window.clearInterval(gameTimerStep);
-      },
-    []
-  );
-
   function getSizeXY(sizeX: number, sizeY: number): void {
-    dispatch(resizeField({ sizeX, sizeY }));
+    dispatch(actions.resizeField({ sizeX, sizeY }));
   }
 
   function handleOnChangeRnd(value: string): void {
@@ -93,17 +72,16 @@ export const GameOfLife: React.FC = (): React.ReactElement => {
 
   function onClickStartPause(): void {
     if (gameStart) {
-      dispatch(pauseGame());
+      dispatch(actions.pauseGame());
     } else {
-      dispatch(startGameActionCreator());
+      dispatch(actions.startGame());
     }
   }
 
   function onClickSaveData(): void {
     setSaveDataButton(saveDataButton.buttonPending);
-    dispatch(saveStateToLS_ActionCreator(userName)).then(() => {
-      setSaveDataButton(saveDataButton.buttonNorm);
-    });
+    dispatch({ type: "saveGame" });
+    setSaveDataButton(saveDataButton.buttonNorm);
   }
 
   let inputTimeVar: React.ReactElement = <></>;
@@ -121,7 +99,7 @@ export const GameOfLife: React.FC = (): React.ReactElement => {
         <FormDataGame getSizeXY={getSizeXY} />
         <ButtonValueWithInputText
           onClickInput={() => {
-            dispatch(clearField());
+            dispatch(actions.clearField());
           }}
           valueInput="Clear"
         />
@@ -131,7 +109,7 @@ export const GameOfLife: React.FC = (): React.ReactElement => {
         />
         <ButtonValueWithInputText
           onClickInput={() => {
-            dispatch(fillRandomField(gameRnd));
+            dispatch(actions.fillRandomField(gameRnd));
           }}
           valueInput="Random Fill"
         />
@@ -145,26 +123,26 @@ export const GameOfLife: React.FC = (): React.ReactElement => {
       <Field
         fieldData={gameField}
         handleClickOnCell={(x, y) => {
-          dispatch(clickOnCellAction({ x, y }));
+          dispatch(actions.clickOnCellAction({ x, y }));
         }}
       />
       <ContainerFlexCenter>
         <ButtonValueWithInputText
           onClickInput={() => {
-            dispatch(decVelosity());
+            dispatch(actions.decVelosity());
           }}
           valueInput="Damp"
         />
         <InputReadOnlyWithInputText valueInput={gameSpeed.toPrecision(2)} />
         <ButtonValueWithInputText
           onClickInput={() => {
-            dispatch(incVelosity());
+            dispatch(actions.incVelosity());
           }}
           valueInput="Rase"
         />
         <ButtonValueWithInputText
           onClickInput={() => {
-            dispatch(nextStepAction());
+            dispatch(actions.nextStepAction());
           }}
           valueInput="Step"
         />

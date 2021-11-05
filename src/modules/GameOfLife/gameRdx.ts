@@ -1,6 +1,5 @@
-import { asyncStoreDAO } from "@/api/storeToLocalStorage/storeDAO";
-import { AppDispatch, RootState } from "@/rdx/store";
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
+import { RootState } from "@/rdx/store";
 import {
   clickOnCell,
   generateDataField,
@@ -18,7 +17,6 @@ export type GameState = {
   start: boolean;
   finish: boolean;
   speed: number;
-  timerStep: number;
 };
 
 export const size = { x: 15, y: 20 };
@@ -36,65 +34,23 @@ export const initialState: GameState = {
   countStep: 0,
   start: false,
   finish: false,
-  speed: 1,
-  timerStep: 0,
+  speed: 1, // per seconds
 };
-
-export const startGameActionCreator = createAsyncThunk<
-  // call startGameActionCreator(setTimer)
-  number,
-  undefined,
-  {
-    dispatch: AppDispatch;
-    state: RootState;
-  }
->("game/startGame", (_, thunkAPI) => {
-  const { finish, speed } = thunkAPI.getState().gameData;
-  if (!finish) {
-    const timeToMillisec = Math.floor(1000 / speed);
-    return window.setInterval(
-      () => thunkAPI.dispatch(gameSlice.actions.nextStepAction()),
-      timeToMillisec
-    );
-  } else {
-    return thunkAPI.rejectWithValue("");
-  }
-});
-
-export const saveStateToLS_ActionCreator = createAsyncThunk<
-  void,
-  string,
-  {
-    dispatch: AppDispatch;
-    state: RootState;
-  }
->("game/saveState", async (userName, thunkAPI) => {
-  const { gameData } = thunkAPI.getState();
-  try {
-    return await asyncStoreDAO.saveState(userName, gameData);
-  } catch (e) {
-    return thunkAPI.rejectWithValue(e);
-  }
-});
-
-export const loadStateFromLS_ActionCreator = createAsyncThunk<
-  GameState,
-  string
->("game/loadState", async (userName, thunkAPI) => {
-  try {
-    const stateLoad = await asyncStoreDAO.loadState(userName);
-    return stateLoad;
-  } catch (e) {
-    return thunkAPI.rejectWithValue(e);
-  }
-});
 
 const gameSlice = createSlice({
   name: "game",
   initialState,
   reducers: {
+    loadGame: (state, action) => {
+      state.speed = action.payload.speed;
+      state.countStep = action.payload.countStep;
+      state.finish = action.payload.finish;
+      state.start = action.payload.start;
+      state.fieldCurrent = action.payload.fieldCurrent;
+      state.fieldDataPrev = action.payload.fieldDataPrev;
+      state.fieldDataPrev2 = action.payload.fieldDataPrev2;
+    },
     clearField: (state) => {
-      window.clearInterval(state.timerStep);
       state.start = false;
       state.countStep = 0;
       state.finish = false;
@@ -112,11 +68,13 @@ const gameSlice = createSlice({
         state.fieldDataPrev2[0].length
       );
     },
+    startGame: (state) => {
+      if (!state.finish) {
+        state.start = true;
+      }
+    },
     pauseGame: (state) => {
       state.start = false;
-      if (!state.finish) {
-        window.clearInterval(state.timerStep);
-      }
     },
     fillRandomField: (state, action) => {
       if (!state.finish) {
@@ -191,42 +149,12 @@ const gameSlice = createSlice({
       state.speed = state.speed - 0.5;
     },
   },
-  extraReducers: (builder) => {
-    builder.addCase(startGameActionCreator.fulfilled, (state, action) => {
-      state.start = !state.start;
-      state.timerStep = action.payload;
-    });
-    builder.addCase(
-      loadStateFromLS_ActionCreator.fulfilled,
-      (state, action) => {
-        state.speed = action.payload.speed;
-        state.countStep = action.payload.countStep;
-        state.finish = action.payload.finish;
-        state.start = action.payload.start;
-        state.fieldCurrent = action.payload.fieldCurrent;
-        state.fieldDataPrev = action.payload.fieldDataPrev;
-        state.fieldDataPrev2 = action.payload.fieldDataPrev2;
-      }
-    );
-    builder.addCase(loadStateFromLS_ActionCreator.rejected, (state, action) => {
-      console.log("rejected: ", action.payload);
-    });
-  },
 });
 
 export default gameSlice.reducer;
 export type TypeGameState = ReturnType<typeof gameSlice.reducer>;
 
-export const {
-  clearField,
-  pauseGame,
-  fillRandomField,
-  resizeField,
-  nextStepAction,
-  clickOnCellAction,
-  incVelosity,
-  decVelosity,
-} = gameSlice.actions;
+export const { actions } = gameSlice;
 
 export const selectField = (state: RootState): number[][] =>
   state.gameData.fieldCurrent;
@@ -236,5 +164,3 @@ export const selectStart = (state: RootState): boolean => state.gameData.start;
 export const selectFinish = (state: RootState): boolean =>
   state.gameData.finish;
 export const selectSpeed = (state: RootState): number => state.gameData.speed;
-export const selectTimerStep = (state: RootState): number =>
-  state.gameData.timerStep;

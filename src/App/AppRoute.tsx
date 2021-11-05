@@ -4,13 +4,12 @@ import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
 import { NameGame } from "@/components";
 import { GameScreen } from "@/screens/GameScreen/GameScreen";
 import { Login } from "@/screens/Login/Login";
-import { login, selectUserName } from "@/screens/Login/loginRdx";
+import { selectUserName } from "@/screens/Login/loginRdx";
 import { NoMatchScreen } from "@/screens/NoMatchScreen/NoMatchScreen";
 import { UserScreen } from "@/screens/UserScreen/UserScreen";
 import { withTextDecor } from "@/HOC/withTextDecor";
-import { asyncAuthLocalStorage } from "@/api/authLocalStorage/auth";
-import { useAppDispatch, useAppSelector } from "@/rdx/hooks";
-import { loadStateFromLS_ActionCreator } from "@/modules/GameOfLife/gameRdx";
+import { /*useAppDispatch,*/ useAppSelector } from "@/rdx/hooks";
+// import { loadStateFromLS_ActionCreator } from "@/modules/GameOfLife/gameRdx";
 
 const stylesParams = {
   style: { textDecoration: "unset" },
@@ -20,15 +19,17 @@ const LinkWithDecor = withTextDecor(Link, stylesParams);
 
 export function AppRoute(): React.ReactElement {
   const userLoginName = useAppSelector(selectUserName);
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
 
   useEffect(() => {
-    (async () => {
-      const user = (await asyncAuthLocalStorage.getUserSession()) as string;
-      dispatch(login(user));
-      dispatch(loadStateFromLS_ActionCreator(user));
+    (() => {
+      console.log(`appRoute useEffect userLoginName: ${userLoginName}`);
+      if (userLoginName) {
+        console.log(`appRoute useEffect userLoginName: ${userLoginName}`);
+        // dispatch(loadStateFromLS_ActionCreator(userLoginName));
+      }
     })();
-  }, []);
+  }, [userLoginName]);
 
   return (
     <Router>
