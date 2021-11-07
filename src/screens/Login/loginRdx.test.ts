@@ -1,4 +1,4 @@
-import loginRdx, { CheckState, login, logout } from "./loginRdx";
+import loginRdx, { CheckState, actions } from "./loginRdx";
 
 describe("Test login reducer", () => {
   const initialState = {
@@ -18,7 +18,7 @@ describe("Test login reducer", () => {
       userName: nameUser,
       statusUser: CheckState.succeed,
     };
-    expect(loginRdx(initialState, login(nameUser))).toEqual(stateLogin);
+    expect(loginRdx(initialState, actions.login(nameUser))).toEqual(stateLogin);
   });
 
   it("logout action", () => {
@@ -26,6 +26,6 @@ describe("Test login reducer", () => {
       userName: "",
       statusUser: CheckState.failed,
     };
-    expect(loginRdx(initialState, logout())).toEqual(stateLogout);
+    expect(loginRdx(initialState, actions.logout())).toEqual(stateLogout);
   });
 });

@@ -5,7 +5,7 @@ import { actions } from "./loginRdx";
 
 const userNameMinLength = 4;
 
-function* checkUserSession() {
+export function* checkUserSession() {
   const userSession: string = yield call(asyncAuthLocalStorage.getUserSession);
   if (userSession && userSession.length > userNameMinLength) {
     yield put(actions.login(userSession));
@@ -14,18 +14,18 @@ function* checkUserSession() {
   }
 }
 
-function* clearUserSession() {
+export function* clearUserSession(): Generator {
   yield call(asyncAuthLocalStorage.logout);
 }
 
-function* saveUserSession(action: PayloadAction<string>) {
+export function* saveUserSession(action: PayloadAction<string>): Generator {
   const userName = action.payload;
   if (userName?.length > userNameMinLength) {
     yield call(asyncAuthLocalStorage.login, userName);
   }
 }
 
-export function* loginSaga() {
+export function* loginSaga(): Generator {
   yield fork(checkUserSession);
   yield takeEvery(actions.login.type, saveUserSession);
   yield takeEvery(actions.logout.type, clearUserSession);

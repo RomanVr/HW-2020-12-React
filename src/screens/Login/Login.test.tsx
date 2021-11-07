@@ -11,21 +11,24 @@ jest.mock("react-router-dom", () => ({
 
 jest.spyOn(asyncAuthLocalStorage, "login");
 
+const mockDispatch = jest.fn();
+jest.mock("@/rdx/hooks", () => ({
+  useAppDispatch: () => mockDispatch,
+}));
+
 describe("Test Login", () => {
   it("Render Login", () => {
-    render(<Login onSubmitLogin={jest.fn()} />);
+    render(<Login />);
     expect(screen.getByTestId("FormLogin")).toBeInTheDocument();
   });
   it("Type name test", async () => {
-    const onlogin = jest.fn();
-    render(<Login onSubmitLogin={onlogin} />);
+    render(<Login />);
 
     const inputLogin = screen.getByTestId("InputText");
     userEvent.type(inputLogin, "Name");
     const buttonSubmit = screen.getByTestId("InputTextButtonSubmit");
     await waitFor(() => userEvent.click(buttonSubmit));
 
-    expect(onlogin).toBeCalled();
     expect(mockHistory.push).toHaveBeenCalledWith("/game");
   });
 });

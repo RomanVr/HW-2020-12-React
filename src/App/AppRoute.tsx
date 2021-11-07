@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
 
 import { NameGame } from "@/components";
@@ -8,8 +8,7 @@ import { selectUserName } from "@/screens/Login/loginRdx";
 import { NoMatchScreen } from "@/screens/NoMatchScreen/NoMatchScreen";
 import { UserScreen } from "@/screens/UserScreen/UserScreen";
 import { withTextDecor } from "@/HOC/withTextDecor";
-import { /*useAppDispatch,*/ useAppSelector } from "@/rdx/hooks";
-// import { loadStateFromLS_ActionCreator } from "@/modules/GameOfLife/gameRdx";
+import { useAppSelector } from "@/rdx/hooks";
 
 const stylesParams = {
   style: { textDecoration: "unset" },
@@ -19,17 +18,6 @@ const LinkWithDecor = withTextDecor(Link, stylesParams);
 
 export function AppRoute(): React.ReactElement {
   const userLoginName = useAppSelector(selectUserName);
-  // const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    (() => {
-      console.log(`appRoute useEffect userLoginName: ${userLoginName}`);
-      if (userLoginName) {
-        console.log(`appRoute useEffect userLoginName: ${userLoginName}`);
-        // dispatch(loadStateFromLS_ActionCreator(userLoginName));
-      }
-    })();
-  }, [userLoginName]);
 
   return (
     <Router>

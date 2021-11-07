@@ -2,9 +2,8 @@ import React, { useCallback, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { withInput } from "@/HOC/withInput";
 import { InputText } from "@/components";
-import { actions, selectUserName } from "./loginRdx";
-// import { loadStateFromLS_ActionCreator } from "@/modules/GameOfLife/gameRdx";
-import { useAppDispatch, useAppSelector } from "@/rdx/hooks";
+import { actions } from "./loginRdx";
+import { useAppDispatch } from "@/rdx/hooks";
 
 const params = {
   labelInput: "Name:",
@@ -24,18 +23,14 @@ const paramsSubmit = {
 const ButtonSubmitWithInputText = withInput(InputText, paramsSubmit);
 
 export const Login: React.FC = () => {
-  const loginUserName = useAppSelector(selectUserName);
-  console.log(`Login useAppSelector loginUserName: ${loginUserName}`);
-  const [nameUser, setNameUser] = useState(loginUserName);
+  const [nameUser, setNameUser] = useState("");
   const history = useHistory();
   const dispatch = useAppDispatch();
 
   const onSubmit = useCallback(
     async (ev: React.FormEvent) => {
-      console.log(`Login onSubmit nameUser: ${nameUser}`);
       ev.preventDefault();
       dispatch(actions.login(nameUser));
-      // dispatch(loadStateFromLS_ActionCreator(nameUser));
       history.push(`/game`);
     },
     [nameUser]
