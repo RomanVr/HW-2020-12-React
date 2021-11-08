@@ -1,6 +1,8 @@
 import { expectSaga } from "redux-saga-test-plan";
 import * as matchers from "redux-saga-test-plan/matchers";
 import { select } from "redux-saga/effects";
+import { call } from "redux-saga-test-plan/matchers";
+import { throwError } from "redux-saga-test-plan/providers";
 
 import { actions, initialState } from "./gameRdx";
 import {
@@ -19,7 +21,6 @@ import {
 } from "./gameOfLifeSaga";
 import reducer from "./gameRdx";
 import { asyncStoreDAO } from "@/api/storeToLocalStorage/storeDAO";
-import { throwError } from "redux-saga-test-plan/providers";
 import { store } from "@/rdx/store";
 
 describe("Game Saga test", () => {
@@ -72,5 +73,22 @@ describe("Game Saga test", () => {
       ...userState,
       statusUser: CheckState.failed,
     });
+  });
+  it("check dispatchNextStep", () => {
+    return expectSaga(dispatchNextStep, 1000)
+      .withReducer(reducer)
+      .provide([
+        [select(selector.gameData), { ...initialState, start: true }],
+        [matchers.call.fn(dispatchNextStep), ""],
+        [call(dispatchNextStep, 1000), ""],
+      ])
+      .put(actions.nextStepAction())
+      .run();
+  });
+  it("check dispatchNextStep no start", () => {
+    return expectSaga(dispatchNextStep, 1000)
+      .withReducer(reducer)
+      .provide([[select(selector.gameData), initialState]])
+      .run();
   });
 });

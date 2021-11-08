@@ -9,19 +9,22 @@ jest.mock("react-router-dom", () => ({
   useParams: () => ({ name: "User" }),
 }));
 
+const mockDispatch = jest.fn();
+jest.mock("@/rdx/hooks", () => ({
+  useAppDispatch: () => mockDispatch,
+}));
+
 describe("Test User", () => {
   it("Render User", () => {
-    render(<User onSubmitLogin={jest.fn()} />);
+    render(<User />);
     expect(screen.getByTestId("InputTextButtonLogout")).toBeInTheDocument();
   });
 
   it("user logout", () => {
-    const onLogout = jest.fn();
-    render(<User onSubmitLogin={onLogout} />);
+    render(<User />);
 
     const buttonLogout = screen.getByTestId("InputTextButtonLogout");
     userEvent.click(buttonLogout);
-    expect(onLogout).toBeCalled();
     expect(mockHistory.push).toHaveBeenCalledWith("/");
   });
 });

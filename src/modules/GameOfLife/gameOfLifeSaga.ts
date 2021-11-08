@@ -1,4 +1,15 @@
-import { takeEvery, select, call, put, fork, take } from "redux-saga/effects";
+import {
+  takeEvery,
+  select,
+  call,
+  put,
+  fork,
+  take,
+  PutEffect,
+  CallEffect,
+  SelectEffect,
+  TakeEffect,
+} from "redux-saga/effects";
 
 import { RootState } from "@/rdx/store";
 import { actions, GameState } from "./gameRdx";
@@ -9,11 +20,21 @@ import { asyncStoreDAO } from "@/api/storeToLocalStorage/storeDAO";
 import { PayloadAction } from "@reduxjs/toolkit";
 
 export const selector = {
-  gameData: ({ gameData }: RootState) => gameData,
-  user: ({ user }: RootState) => user,
+  gameData: ({ gameData }: RootState): GameState => gameData,
+  user: ({ user }: RootState): UserState => user,
 };
 
-export function* dispatchNextStep(timeToMillisec: number) {
+export function* dispatchNextStep(timeToMillisec: number): Generator<
+  | SelectEffect
+  | CallEffect
+  | PutEffect<{
+      payload: any;
+      type: string;
+    }>
+  | Promise<() => void>,
+  void,
+  GameState & undefined
+> {
   const gameData: GameState = yield select(selector.gameData);
   if (gameData.start) {
     yield put(actions.nextStepAction());
@@ -22,7 +43,11 @@ export function* dispatchNextStep(timeToMillisec: number) {
   }
 }
 
-export function* startGame() {
+export function* startGame(): Generator<
+  SelectEffect | CallEffect,
+  void,
+  GameState
+> {
   const gameData: GameState = yield select(selector.gameData);
   if (!gameData.finish) {
     const timeToMillisec = Math.floor(1000 / gameData.speed);
@@ -30,20 +55,32 @@ export function* startGame() {
   }
 }
 
-export function* perssistGame() {
+export function* perssistGame(): Generator<
+  SelectEffect | CallEffect | TakeEffect,
+  void,
+  PayloadAction<string>
+> {
   const action: PayloadAction<string> = yield take(actionLogin.login.type);
-  console.log(`perssistGame action: ${JSON.stringify(action)}`);
-  yield* loadGame(action);
+  yield call(loadGame, action);
 }
 
-export function* loadGame({ payload: userName }: PayloadAction<string>) {
+export function* loadGame({
+  payload: userName,
+}: PayloadAction<string>): Generator<
+  | CallEffect<GameState>
+  | PutEffect<{
+      payload: any;
+      type: string;
+    }>,
+  void,
+  GameState
+> {
   if (userName) {
     try {
       const stateLoad: GameState = yield call(
         asyncStoreDAO.loadState,
         userName
       );
-      console.log(`loadGame stateLoad: ${stateLoad}`);
       yield put(actions.loadGame(stateLoad));
     } catch (e) {
       console.log(`error load: ${e}`);
@@ -51,7 +88,11 @@ export function* loadGame({ payload: userName }: PayloadAction<string>) {
   }
 }
 
-export function* saveGame() {
+export function* saveGame(): Generator<
+  SelectEffect | CallEffect,
+  void,
+  GameState & UserState
+> {
   const gameData: GameState = yield select(selector.gameData);
   const user: UserState = yield select(selector.user);
   if (user.userName) {
