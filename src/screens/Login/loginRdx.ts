@@ -11,7 +11,7 @@ export type UserState = {
   statusUser: CheckState;
 };
 
-const initialState: UserState = {
+export const initialState: UserState = {
   userName: "",
   statusUser: CheckState.initiated,
 };

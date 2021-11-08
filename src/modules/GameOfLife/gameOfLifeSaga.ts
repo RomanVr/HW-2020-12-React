@@ -8,12 +8,12 @@ import { UserState } from "@/screens/Login/loginRdx";
 import { asyncStoreDAO } from "@/api/storeToLocalStorage/storeDAO";
 import { PayloadAction } from "@reduxjs/toolkit";
 
-const selector = {
+export const selector = {
   gameData: ({ gameData }: RootState) => gameData,
   user: ({ user }: RootState) => user,
 };
 
-function* dispatchNextStep(timeToMillisec: number) {
+export function* dispatchNextStep(timeToMillisec: number) {
   const gameData: GameState = yield select(selector.gameData);
   if (gameData.start) {
     yield put(actions.nextStepAction());
@@ -22,7 +22,7 @@ function* dispatchNextStep(timeToMillisec: number) {
   }
 }
 
-function* startGame() {
+export function* startGame() {
   const gameData: GameState = yield select(selector.gameData);
   if (!gameData.finish) {
     const timeToMillisec = Math.floor(1000 / gameData.speed);
@@ -39,7 +39,10 @@ export function* perssistGame() {
 export function* loadGame({ payload: userName }: PayloadAction<string>) {
   if (userName) {
     try {
-      const stateLoad: GameState = yield asyncStoreDAO.loadState(userName);
+      const stateLoad: GameState = yield call(
+        asyncStoreDAO.loadState,
+        userName
+      );
       console.log(`loadGame stateLoad: ${stateLoad}`);
       yield put(actions.loadGame(stateLoad));
     } catch (e) {
@@ -48,11 +51,11 @@ export function* loadGame({ payload: userName }: PayloadAction<string>) {
   }
 }
 
-function* saveGame() {
+export function* saveGame() {
   const gameData: GameState = yield select(selector.gameData);
   const user: UserState = yield select(selector.user);
   if (user.userName) {
-    yield asyncStoreDAO.saveState(user.userName, gameData);
+    yield call(asyncStoreDAO.saveState, user.userName, gameData);
   }
 }
 
