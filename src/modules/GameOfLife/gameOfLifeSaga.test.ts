@@ -9,7 +9,7 @@ import {
   actions as actionsLogin,
   CheckState,
   initialState as userState,
-} from "@/screens/Login/loginRdx";
+} from "../../screens/Login/loginRdx";
 import {
   dispatchNextStep,
   gameOfLifeSaga,

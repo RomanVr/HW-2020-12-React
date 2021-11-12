@@ -13,9 +13,11 @@ import {
 
 import { RootState } from "@/rdx/store";
 import { actions, GameState } from "./gameRdx";
-import { actions as actionLogin } from "@/screens/Login/loginRdx";
 import { sleep } from "@/utils/sleep";
-import { UserState } from "@/screens/Login/loginRdx";
+import {
+  UserState,
+  actions as actionLogin,
+} from "../../screens/Login/loginRdx";
 import { asyncStoreDAO } from "@/api/storeToLocalStorage/storeDAO";
 import { PayloadAction } from "@reduxjs/toolkit";
 

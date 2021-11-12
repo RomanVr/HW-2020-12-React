@@ -7,3 +7,6 @@ coverage
 db.*
 storybook-static
 .vscode
+
+# stryker temp files
+.stryker-tmp
