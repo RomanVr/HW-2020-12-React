@@ -19,4 +19,13 @@ describe("Test Random fill field", () => {
     );
     expect(checkField).toBeFalsy();
   });
+
+  it("test finish", () => {
+    const checkField = isFinish(
+      fieldData.fieldDataTwoStep.fieldCurrent,
+      fieldData.fieldDataTwoStep.fieldDataPrev,
+      fieldData.fieldDataTwoStep.fieldDataPrev2
+    );
+    expect(checkField).toBeFalsy();
+  });
 });

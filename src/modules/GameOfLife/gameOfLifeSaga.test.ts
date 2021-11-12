@@ -27,13 +27,20 @@ describe("Game Saga test", () => {
   it("check game saga", () => {
     return expectSaga(gameOfLifeSaga).fork(perssistGame).run();
   });
-
   it("check load game success", () => {
     const actionlogin = { type: "user/login", payload: "user" };
     return expectSaga(loadGame, actionlogin)
       .withReducer(reducer)
       .provide([[matchers.call.fn(asyncStoreDAO.loadState), initialState]])
       .put(actions.loadGame(initialState))
+      .hasFinalState({ ...initialState })
+      .run();
+  });
+  it("check load game no user", () => {
+    const actionlogin = { type: "user/login", payload: "" };
+    return expectSaga(loadGame, actionlogin)
+      .withReducer(reducer)
+      .provide([[matchers.call.fn(asyncStoreDAO.loadState), initialState]])
       .hasFinalState({ ...initialState })
       .run();
   });
@@ -55,11 +62,27 @@ describe("Game Saga test", () => {
       ])
       .run();
   });
+  it("check save game no user", () => {
+    return expectSaga(saveGame)
+      .withReducer(reducer)
+      .provide([
+        [select(selector.user), { userName: "" }],
+        [select(selector.gameData), initialState],
+        [matchers.call.fn(asyncStoreDAO.saveState), ""],
+      ])
+      .run();
+  });
   it("check start game", () => {
     return expectSaga(startGame)
       .withReducer(reducer)
       .provide([[select(selector.gameData), initialState]])
       .call(dispatchNextStep, 1000)
+      .run();
+  });
+  it("check start game no start", () => {
+    return expectSaga(startGame)
+      .withReducer(reducer)
+      .provide([[select(selector.gameData), { ...initialState, finish: true }]])
       .run();
   });
   it("check perssistGame", () => {
@@ -75,12 +98,12 @@ describe("Game Saga test", () => {
     });
   });
   it("check dispatchNextStep", () => {
-    return expectSaga(dispatchNextStep, 1000)
+    return expectSaga(dispatchNextStep, 100)
       .withReducer(reducer)
       .provide([
         [select(selector.gameData), { ...initialState, start: true }],
         [matchers.call.fn(dispatchNextStep), ""],
-        [call(dispatchNextStep, 1000), ""],
+        [call(dispatchNextStep, 100), ""],
       ])
       .put(actions.nextStepAction())
       .run();
@@ -88,7 +111,7 @@ describe("Game Saga test", () => {
   it("check dispatchNextStep no start", () => {
     return expectSaga(dispatchNextStep, 1000)
       .withReducer(reducer)
-      .provide([[select(selector.gameData), initialState]])
+      .provide([[select(selector.gameData), { ...initialState, start: false }]])
       .run();
   });
 });
