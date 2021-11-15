@@ -5,14 +5,15 @@ module.exports = {
   mode: "development",
   entry: "./src/index.tsx",
   output: {
-    filename: "main.js",
-    path: path.join(__dirname, "out"),
+    filename: "./main.js",
+    path: path.join(__dirname, "/out"),
   },
   devtool: "eval-source-map",
   resolve: {
-    extensions: [".js", ".jsx", ".ts", ".tsx"],
+    extensions: [".js", ".jsx", ".ts", ".tsx", ".json"],
     alias: {
       "@": path.resolve(__dirname, "src"),
+      components: path.resolve(__dirname, "src/components"),
     },
   },
   module: {

@@ -1,18 +1,25 @@
 {
   "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/*"],
+      "components/*": ["src/components/*"],
+    },
     "target": "es5",
     "module": "commonjs",
-    "baseUrl": "./",
-        "paths": {
-          "@/*": [
-            "src/*"
-          ]
-        },
+    "downlevelIteration": true,
+    "noImplicitAny": false,
     "allowJs": true,
     "jsx": "react",
     "sourceMap": true,
     "strict": true,
     "esModuleInterop": true
   },
-  "include": ["src/**/*"]
+  "include": [
+    "src/**/*",
+    "internals/jestSetup.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
