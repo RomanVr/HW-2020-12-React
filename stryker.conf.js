@@ -3,13 +3,13 @@
  */
 module.exports = {
   packageManager: "npm",
-  reporters: ["html", "clear-text", "progress"],
+  reporters: ["html", "clear-text", "progress", "dashboard"],
   testRunner: "jest",
-  coverageAnalysis: "perTest",
+  coverageAnalysis: "off",
   mutate: [
     "src/**/*.ts?(x)",
     "!src/**/*@(.test|.spec|Spec|stories|styled).ts?(x)",
   ],
   tsconfigFile: "tsconfig.json",
-  buildCommand: "npm run build",
+  // buildCommand: "npm run build",
 };
