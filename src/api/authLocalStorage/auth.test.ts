@@ -1,21 +1,23 @@
-import { waitFor } from "@testing-library/react";
 import { asyncAuthLocalStorage } from "./auth";
 
 const setItemFn = jest.spyOn(window.localStorage.__proto__, "setItem");
 const removeItemFn = jest.spyOn(window.localStorage.__proto__, "removeItem");
 const getItemFn = jest.spyOn(window.localStorage.__proto__, "getItem");
 
+const loginKey = "login";
+const usenName = "user";
+
 describe("Test auth", () => {
   it("login auth", async () => {
-    await waitFor(() => asyncAuthLocalStorage.login("user"), { timeout: 2000 });
-    expect(setItemFn).toBeCalled();
+    await asyncAuthLocalStorage.login(usenName);
+    expect(setItemFn).toBeCalledWith(loginKey, usenName);
   });
   it("logout auth", async () => {
-    await waitFor(() => asyncAuthLocalStorage.logout(), { timeout: 2000 });
-    expect(removeItemFn).toBeCalled();
+    await asyncAuthLocalStorage.logout();
+    expect(removeItemFn).toBeCalledWith(loginKey);
   });
   it("isLoggedIn auth", async () => {
-    await waitFor(() => asyncAuthLocalStorage.isLoggedIn(), { timeout: 2000 });
-    expect(getItemFn).toBeCalled();
+    await asyncAuthLocalStorage.isLoggedIn();
+    expect(getItemFn).toBeCalledWith(loginKey);
   });
 });

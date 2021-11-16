@@ -1,26 +1,26 @@
 import { initialState } from "@/modules/GameOfLife/gameRdx";
-import { waitFor } from "@testing-library/react";
 import { asyncStoreDAO } from "./storeDAO";
-
 const setItemFn = jest.spyOn(window.localStorage.__proto__, "setItem");
 const getItemFn = jest.spyOn(window.localStorage.__proto__, "getItem");
 
 describe("Test StoreDAO", () => {
   const userName = "userName";
   it("saveState", async () => {
-    await waitFor(() => asyncStoreDAO.saveState(userName, initialState), {
-      timeout: 2000,
-    });
+    await asyncStoreDAO.saveState(userName, initialState);
     expect(setItemFn).toBeCalled();
   });
-  it("loadState", async () => {
-    await waitFor(() => asyncStoreDAO.loadState(userName), { timeout: 2000 });
-    expect(getItemFn).toBeCalled();
+
+  it("loadState error", async () => {
+    getItemFn.mockReturnValueOnce(null);
+    await expect(asyncStoreDAO.loadState(userName)).rejects.toEqual("No data!");
+    expect(getItemFn).toBeCalledWith(userName);
   });
 
   it("loadState default", async () => {
-    getItemFn.mockReturnValue(JSON.stringify(initialState));
-    await waitFor(() => asyncStoreDAO.loadState(userName), { timeout: 2000 });
-    expect(getItemFn).toBeCalled();
+    getItemFn.mockReturnValueOnce(JSON.stringify(initialState));
+    await expect(asyncStoreDAO.loadState(userName)).resolves.toEqual(
+      initialState
+    );
+    expect(getItemFn).toBeCalledWith(userName);
   });
 });
