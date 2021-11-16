@@ -26,6 +26,6 @@ describe("Test Random fill field", () => {
       fieldData.fieldDataTwoStep.fieldDataPrev,
       fieldData.fieldDataTwoStep.fieldDataPrev2
     );
-    expect(checkField).toBeFalsy();
+    expect(checkField).toBeTruthy();
   });
 });
