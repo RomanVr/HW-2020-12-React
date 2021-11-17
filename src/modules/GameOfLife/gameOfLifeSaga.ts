@@ -57,7 +57,7 @@ export function* startGame(): Generator<
   }
 }
 
-export function* perssistGame(): Generator<
+export function* persistGame(): Generator<
   SelectEffect | CallEffect | TakeEffect,
   void,
   PayloadAction<string>
@@ -103,7 +103,7 @@ export function* saveGame(): Generator<
 }
 
 export function* gameOfLifeSaga(): Generator {
-  yield fork(perssistGame);
+  yield fork(persistGame);
   yield takeEvery(actions.startGame.type, startGame);
   yield takeEvery(actionLogin.login.type, loadGame);
   yield takeEvery("saveGame", saveGame);

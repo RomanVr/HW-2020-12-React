@@ -14,7 +14,7 @@ import {
   dispatchNextStep,
   gameOfLifeSaga,
   loadGame,
-  perssistGame,
+  persistGame,
   saveGame,
   selector,
   startGame,
@@ -25,15 +25,19 @@ import { store } from "@/rdx/store";
 
 describe("Game Saga test", () => {
   it("check game saga", () => {
-    return expectSaga(gameOfLifeSaga).fork(perssistGame).run();
+    return expectSaga(gameOfLifeSaga).fork(persistGame).run();
   });
   it("check load game success", () => {
     const actionlogin = { type: "user/login", payload: "user" };
     return expectSaga(loadGame, actionlogin)
       .withReducer(reducer)
-      .provide([[matchers.call.fn(asyncStoreDAO.loadState), initialState]])
-      .put(actions.loadGame(initialState))
-      .hasFinalState({ ...initialState })
+      .provide([
+        [
+          matchers.call.fn(asyncStoreDAO.loadState),
+          { ...initialState, speed: 5 },
+        ],
+      ])
+      .hasFinalState({ ...initialState, speed: 5 })
       .run();
   });
   it("check load game no user", () => {
@@ -86,7 +90,7 @@ describe("Game Saga test", () => {
       .run();
   });
   it("check perssistGame", () => {
-    return expectSaga(perssistGame)
+    return expectSaga(persistGame)
       .dispatch(actionsLogin.login("userName"))
       .run();
   });
