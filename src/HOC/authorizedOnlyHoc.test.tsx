@@ -8,7 +8,7 @@ const isLoggedIn = jest.spyOn(asyncAuthLocalStorage, "isLoggedIn");
 
 jest.mock("react-router-dom", () => ({
   Redirect: function Redirect(props: Record<string, unknown>) {
-    return <div data-testid="redirect">Redirect: {JSON.stringify(props)}</div>;
+    return <div data-testid="redirect">Redirect:{JSON.stringify(props)}</div>;
   },
 }));
 
@@ -36,8 +36,8 @@ describe("authorizedOnlyHoc", () => {
     `);
 
     await waitFor(() => screen.getByRole("heading", { name: "Bob" }));
-
     expect(screen.getByRole("heading")).toHaveTextContent("Bob");
+    expect(WrappedComponent.displayName).toBe("ComponentwithAuthorized");
   });
 
   it("renders placeholder during request and redirect on failure", async () => {
@@ -60,7 +60,7 @@ describe("authorizedOnlyHoc", () => {
         <div
           data-testid="redirect"
         >
-          Redirect: 
+          Redirect:
           {"to":"/login"}
         </div>
       </div>

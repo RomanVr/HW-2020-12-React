@@ -11,8 +11,16 @@ describe("FormDataGame testing", () => {
   });
 
   it("renders FormDataGame", () => {
-    expect(screen.getByTestId("InputTextsizeX")).toBeInTheDocument();
+    expect(screen.getByTestId("InputTextsizeX").getAttribute("type")).toBe(
+      "text"
+    );
+    expect(screen.getByRole("textbox", { name: "X:" })).toBeInTheDocument();
     expect(screen.getByTestId("InputTextButtonSubmit")).toBeInTheDocument();
+    expect(screen.getByDisplayValue("Ok")).toBeInTheDocument();
+    expect(screen.getByTestId("InputTextsizeY").getAttribute("type")).toBe(
+      "text"
+    );
+    expect(screen.getByRole("textbox", { name: "Y:" })).toBeInTheDocument();
   });
 
   it("Type in the input", () => {
