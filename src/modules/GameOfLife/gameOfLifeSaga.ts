@@ -30,7 +30,7 @@ export function* dispatchNextStep(timeToMillisec: number): Generator<
   | SelectEffect
   | CallEffect
   | PutEffect<{
-      payload: any;
+      payload: undefined;
       type: string;
     }>
   | Promise<() => void>,
@@ -71,7 +71,7 @@ export function* loadGame({
 }: PayloadAction<string>): Generator<
   | CallEffect<GameState>
   | PutEffect<{
-      payload: any;
+      payload: PayloadAction<string>;
       type: string;
     }>,
   void,

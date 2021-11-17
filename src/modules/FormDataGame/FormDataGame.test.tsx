@@ -21,6 +21,12 @@ describe("FormDataGame testing", () => {
       "text"
     );
     expect(screen.getByRole("textbox", { name: "Y:" })).toBeInTheDocument();
+    expect(
+      screen.getByPlaceholderText("Значение по горизонтали")
+    ).toBeInTheDocument();
+    expect(
+      screen.getByPlaceholderText("Значение по вертикали")
+    ).toBeInTheDocument();
   });
 
   it("Type in the input", () => {

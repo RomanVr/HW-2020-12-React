@@ -29,15 +29,12 @@ describe("Game Saga test", () => {
   });
   it("check load game success", () => {
     const actionlogin = { type: "user/login", payload: "user" };
+    const stateLoad = { ...initialState, speed: 5 };
     return expectSaga(loadGame, actionlogin)
       .withReducer(reducer)
-      .provide([
-        [
-          matchers.call.fn(asyncStoreDAO.loadState),
-          { ...initialState, speed: 5 },
-        ],
-      ])
-      .hasFinalState({ ...initialState, speed: 5 })
+      .provide([[matchers.call.fn(asyncStoreDAO.loadState), stateLoad]])
+      .put(actions.loadGame(stateLoad))
+      .hasFinalState(stateLoad)
       .run();
   });
   it("check load game no user", () => {
