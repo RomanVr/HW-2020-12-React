@@ -17,18 +17,27 @@ jest.mock("@/rdx/hooks", () => ({
 }));
 
 describe("Test Login", () => {
-  it("Render Login", () => {
+  beforeEach(() => {
     render(<Login />);
+  });
+  it("Render Login", () => {
     expect(screen.getByTestId("FormLogin")).toBeInTheDocument();
   });
   it("Type name test", async () => {
-    render(<Login />);
-
     const inputLogin = screen.getByTestId("InputText");
     userEvent.type(inputLogin, "Name");
     const buttonSubmit = screen.getByTestId("InputTextButtonSubmit");
     await waitFor(() => userEvent.click(buttonSubmit));
 
     expect(mockHistory.push).toHaveBeenCalledWith("/game");
+  });
+  it("test attributes", () => {
+    expect(screen.getByRole("textbox", { name: "Name:" })).toBeInTheDocument();
+    expect(screen.getByPlaceholderText("Enter your Name")).toBeInTheDocument();
+    expect(screen.getByTestId("InputText").getAttribute("required")).toEqual(
+      ""
+    );
+    expect(screen.getByTestId("InputText").getAttribute("value")).toEqual("");
+    expect(screen.getByDisplayValue("Sing In")).toBeInTheDocument();
   });
 });

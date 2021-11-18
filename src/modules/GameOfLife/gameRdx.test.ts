@@ -1,17 +1,17 @@
 import { fieldClick, fieldData, fieldRandom, fieldResize } from "./dataTest";
-import gameRdx, { actions } from "./gameRdx";
+import gameRdx, {
+  actions,
+  initialState,
+  selectCountStep,
+  selectField,
+  selectFinish,
+  selectSpeed,
+  selectStart,
+} from "./gameRdx";
 import * as funcOperation from "./funcOperation";
+import { store } from "@/rdx/store";
 
 describe("Test game reducer", () => {
-  const initialState = {
-    fieldCurrent: fieldData.fieldDefault.fieldCurrent,
-    fieldDataPrev: fieldData.fieldDefault.fieldDataPrev,
-    fieldDataPrev2: fieldData.fieldDefault.fieldDataPrev2,
-    countStep: 0,
-    start: false,
-    finish: false,
-    speed: 1,
-  };
   const finishState = {
     fieldCurrent: fieldData.fieldDataNotFinish.fieldCurrent,
     fieldDataPrev: fieldData.fieldDataNotFinish.fieldDataPrev,
@@ -53,8 +53,12 @@ describe("Test game reducer", () => {
       finish: false,
       speed: 1.5,
     };
-    expect(gameRdx(initialState, actions.incVelosity())).toEqual(stateIncVel);
-    expect(gameRdx(stateIncVel, actions.decVelosity)).toEqual(initialState);
+    expect(gameRdx(initialState, actions.incVelosity()).speed).toEqual(
+      stateIncVel.speed
+    );
+    expect(gameRdx(stateIncVel, actions.decVelosity).speed).toEqual(
+      initialState.speed
+    );
   });
 
   it("action check finish", () => {
@@ -134,10 +138,13 @@ describe("Test game reducer", () => {
       finish: false,
       speed: 101,
     };
-    expect(
-      gameRdx(stateNextStep, actions.nextStepAction()).fieldCurrent
-    ).toEqual(fieldData.fieldDataTwoStep.fieldDataPrev);
-    expect(gameRdx(finishState, actions.nextStepAction())).toEqual(finishState);
+
+    const stateStep1 = gameRdx(stateNextStep, actions.nextStepAction());
+    expect(stateStep1.fieldCurrent).toEqual(
+      fieldData.fieldDataTwoStep.fieldDataPrev
+    );
+    expect(stateStep1.finish).toBeFalsy();
+    expect(gameRdx(stateStep1, actions.nextStepAction()).finish).toBeTruthy();
   });
 
   it("action resize", () => {
@@ -158,5 +165,13 @@ describe("Test game reducer", () => {
     expect(
       gameRdx(finishState, actions.clickOnCellAction({ x: 0, y: 0 }))
     ).toEqual(finishState);
+  });
+  it("tests actions", () => {
+    const stateRoot = store.getState();
+    expect(selectField(stateRoot)).toEqual(initialState.fieldCurrent);
+    expect(selectCountStep(stateRoot)).toEqual(initialState.countStep);
+    expect(selectStart(stateRoot)).toEqual(initialState.start);
+    expect(selectFinish(stateRoot)).toEqual(initialState.finish);
+    expect(selectSpeed(stateRoot)).toEqual(initialState.speed);
   });
 });
