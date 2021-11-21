@@ -12,7 +12,7 @@ const DivItem = styled.div`
 `;
 
 interface ContainerFlexEndProps {
-  children?: React.ReactElement[];
+  children?: React.ReactNode;
 }
 
 export const ContainerFlexEnd: React.FC<ContainerFlexEndProps> = ({

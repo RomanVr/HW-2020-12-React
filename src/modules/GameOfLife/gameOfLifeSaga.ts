@@ -16,7 +16,8 @@ import { actions, GameState } from "./gameRdx";
 import { sleep } from "@/utils/sleep";
 import {
   UserState,
-  actions as actionLogin,
+  actions as actionsLogin,
+  CheckState,
 } from "../../screens/Login/loginRdx";
 import { asyncStoreDAO } from "@/api/storeToLocalStorage/storeDAO";
 import { PayloadAction } from "@reduxjs/toolkit";
@@ -62,16 +63,17 @@ export function* persistGame(): Generator<
   void,
   PayloadAction<string>
 > {
-  const action: PayloadAction<string> = yield take(actionLogin.login.type);
-  yield call(loadGame, action);
+  const nameUser: PayloadAction<string> = yield take(actionsLogin.login.type);
+  yield call(loadGame, nameUser);
 }
 
 export function* loadGame({
   payload: userName,
 }: PayloadAction<string>): Generator<
+  | PutEffect<{ payload: CheckState; type: string }>
   | CallEffect<GameState>
   | PutEffect<{
-      payload: PayloadAction<string>;
+      payload: string;
       type: string;
     }>,
   void,
@@ -85,7 +87,7 @@ export function* loadGame({
       );
       yield put(actions.loadGame(stateLoad));
     } catch (e) {
-      console.log(`error load: ${e}`);
+      yield put(actionsLogin.loadData(CheckState["no data!"]));
     }
   }
 }
@@ -105,6 +107,6 @@ export function* saveGame(): Generator<
 export function* gameOfLifeSaga(): Generator {
   yield fork(persistGame);
   yield takeEvery(actions.startGame.type, startGame);
-  yield takeEvery(actionLogin.login.type, loadGame);
+  yield takeEvery(actionsLogin.login.type, loadGame);
   yield takeEvery("saveGame", saveGame);
 }
