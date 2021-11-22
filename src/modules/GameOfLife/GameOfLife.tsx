@@ -60,6 +60,7 @@ export const GameOfLife: React.FC = (): React.ReactElement => {
   }, [gameStart, gameFinish]);
 
   function getSizeXY(sizeX: number, sizeY: number): void {
+    console.log(`call getSizeXY ${sizeX} : ${sizeY}`);
     dispatch(actions.resizeField({ sizeX, sizeY }));
   }
 
@@ -84,6 +85,10 @@ export const GameOfLife: React.FC = (): React.ReactElement => {
     setSaveDataButton(saveDataButton.buttonNorm);
   }
 
+  function toPrecision(value: number, pr = 2): string {
+    return (Math.round(value * Math.pow(10, pr)) / Math.pow(10, pr)).toString();
+  }
+
   let inputTimeVar: React.ReactElement = <></>;
   if (gameStart) {
     inputTimeVar = <InputTime />;
@@ -93,7 +98,7 @@ export const GameOfLife: React.FC = (): React.ReactElement => {
     inputFinish = <InputReadOnlyWithInputText valueInput="Finish!!!" />;
   }
   return (
-    <ContainerFlexGame dataTestId="GameofLife">
+    <ContainerFlexGame dataTestId="GameOfLife">
       <NameGame />
       <ContainerFlexCenter>
         <FormDataGame getSizeXY={getSizeXY} />
@@ -133,7 +138,7 @@ export const GameOfLife: React.FC = (): React.ReactElement => {
           }}
           valueInput="Damp"
         />
-        <InputReadOnlyWithInputText valueInput={gameSpeed.toPrecision(2)} />
+        <InputReadOnlyWithInputText valueInput={toPrecision(gameSpeed)} />
         <ButtonValueWithInputText
           onClickInput={() => {
             dispatch(actions.incVelosity());

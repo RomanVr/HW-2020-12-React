@@ -30,6 +30,17 @@ describe("Test login reducer", () => {
     expect(loginRdx(initialState, actions.logout())).toEqual(stateLogout);
   });
 
+  it("load data", () => {
+    const dataload = CheckState["no data!"];
+    const stateData = {
+      userName: "",
+      statusUser: dataload,
+    };
+    expect(loginRdx(initialState, actions.loadData(dataload))).toEqual(
+      stateData
+    );
+  });
+
   it("test select user name", () => {
     const stateRoot = store.getState();
     expect(selectUserName(stateRoot)).toEqual(initialState.userName);
