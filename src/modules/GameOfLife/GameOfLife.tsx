@@ -25,7 +25,8 @@ const paramsButton = {
 };
 
 const InputReadOnlyWithInputText = withInput(InputText, params);
-const InputWithInputText = withInput(InputText);
+const InputWithInputTextRnd = withInput(InputText, { nameInput: "Rnd" });
+
 const ButtonValueWithInputText = withInput(InputText, paramsButton);
 
 const START = "Start";
@@ -48,6 +49,10 @@ export const GameOfLife: React.FC = (): React.ReactElement => {
   const gameStep = useAppSelector(selectCountStep);
   const gameSpeed = useAppSelector(selectSpeed);
 
+  // console.log(
+  //   `gameStart: ${gameStart}\ngameFinish: ${gameFinish}\ngameField: ${gameField}\ngameStep: ${gameStep}\ngameSpeed: ${gameSpeed}`
+  // );
+
   useEffect(() => {
     if (gameStart) {
       setButtonValue(STOP);
@@ -60,7 +65,6 @@ export const GameOfLife: React.FC = (): React.ReactElement => {
   }, [gameStart, gameFinish]);
 
   function getSizeXY(sizeX: number, sizeY: number): void {
-    console.log(`call getSizeXY ${sizeX} : ${sizeY}`);
     dispatch(actions.resizeField({ sizeX, sizeY }));
   }
 
@@ -108,7 +112,7 @@ export const GameOfLife: React.FC = (): React.ReactElement => {
           }}
           valueInput="Clear"
         />
-        <InputWithInputText
+        <InputWithInputTextRnd
           valueInput={String(gameRnd)}
           onChangeInput={handleOnChangeRnd}
         />
