@@ -4,7 +4,6 @@ import { withInput } from "@/HOC/withInput";
 import { InputTime, Field, NameGame, InputText } from "@/components";
 import { ContainerFlexGame } from "@/components/layout/ContainerFlexGame";
 import { ContainerFlexCenter } from "@/components/layout/ContainerFlexCenter";
-import { useAppDispatch, useAppSelector } from "@/rdx/hooks";
 import {
   actions,
   selectCountStep,
@@ -13,6 +12,7 @@ import {
   selectSpeed,
   selectStart,
 } from "./gameRdx";
+import { useDispatch, useSelector } from "react-redux";
 
 const params = {
   readOnly: true,
@@ -41,13 +41,13 @@ export const GameOfLife: React.FC = (): React.ReactElement => {
   const [gameRnd, setRnd] = useState(30);
   const [buttonValue, setButtonValue] = useState(START);
   const [saveData, setSaveDataButton] = useState(saveDataButton.buttonNorm);
-  const dispatch = useAppDispatch();
+  const dispatch = useDispatch();
 
-  const gameStart = useAppSelector(selectStart);
-  const gameFinish = useAppSelector(selectFinish);
-  const gameField = useAppSelector(selectField);
-  const gameStep = useAppSelector(selectCountStep);
-  const gameSpeed = useAppSelector(selectSpeed);
+  const gameStart = useSelector(selectStart);
+  const gameFinish = useSelector(selectFinish);
+  const gameField = useSelector(selectField);
+  const gameStep = useSelector(selectCountStep);
+  const gameSpeed = useSelector(selectSpeed);
 
   // console.log(
   //   `gameStart: ${gameStart}\ngameFinish: ${gameFinish}\ngameField: ${gameField}\ngameStep: ${gameStep}\ngameSpeed: ${gameSpeed}`
