@@ -1,4 +1,5 @@
-import loginRdx, { CheckState, actions } from "./loginRdx";
+import { store } from "@/rdx/store";
+import loginRdx, { CheckState, actions, selectUserName } from "./loginRdx";
 
 describe("Test login reducer", () => {
   const initialState = {
@@ -27,5 +28,21 @@ describe("Test login reducer", () => {
       statusUser: CheckState.failed,
     };
     expect(loginRdx(initialState, actions.logout())).toEqual(stateLogout);
+  });
+
+  it("load data", () => {
+    const dataload = CheckState["no data!"];
+    const stateData = {
+      userName: "",
+      statusUser: dataload,
+    };
+    expect(loginRdx(initialState, actions.loadData(dataload))).toEqual(
+      stateData
+    );
+  });
+
+  it("test select user name", () => {
+    const stateRoot = store.getState();
+    expect(selectUserName(stateRoot)).toEqual(initialState.userName);
   });
 });

@@ -1,7 +1,0 @@
-dist
-out
-node_modules
-public
-coverage
-__tests__/__fixtures__
-storybook-static

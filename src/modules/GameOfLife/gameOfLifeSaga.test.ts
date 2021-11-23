@@ -2,19 +2,18 @@ import { expectSaga } from "redux-saga-test-plan";
 import * as matchers from "redux-saga-test-plan/matchers";
 import { select } from "redux-saga/effects";
 import { call } from "redux-saga-test-plan/matchers";
-import { throwError } from "redux-saga-test-plan/providers";
 
 import { actions, initialState } from "./gameRdx";
 import {
   actions as actionsLogin,
   CheckState,
   initialState as userState,
-} from "@/screens/Login/loginRdx";
+} from "../../screens/Login/loginRdx";
 import {
   dispatchNextStep,
   gameOfLifeSaga,
   loadGame,
-  perssistGame,
+  persistGame,
   saveGame,
   selector,
   startGame,
@@ -25,41 +24,43 @@ import { store } from "@/rdx/store";
 
 describe("Game Saga test", () => {
   it("check game saga", () => {
-    return expectSaga(gameOfLifeSaga).fork(perssistGame).run();
+    return expectSaga(gameOfLifeSaga).fork(persistGame).run();
   });
   it("check load game success", () => {
     const actionlogin = { type: "user/login", payload: "user" };
+    const stateLoad = { ...initialState, speed: 5 };
     return expectSaga(loadGame, actionlogin)
       .withReducer(reducer)
-      .provide([[matchers.call.fn(asyncStoreDAO.loadState), initialState]])
-      .put(actions.loadGame(initialState))
-      .hasFinalState({ ...initialState })
+      .provide([[matchers.call.fn(asyncStoreDAO.loadState), stateLoad]])
+      .put(actions.loadGame(stateLoad))
+      .hasFinalState(stateLoad)
       .run();
   });
   it("check load game no user", () => {
     const actionlogin = { type: "user/login", payload: "" };
     return expectSaga(loadGame, actionlogin)
       .withReducer(reducer)
-      .provide([[matchers.call.fn(asyncStoreDAO.loadState), initialState]])
-      .hasFinalState({ ...initialState })
+      .hasFinalState(initialState)
       .run();
   });
   it("check load game no data", () => {
     const actionlogin = { type: "user/login", payload: "user" };
-    const error = new Error("Error!");
     return expectSaga(loadGame, actionlogin)
       .withReducer(reducer)
-      .provide([[matchers.call.fn(asyncStoreDAO.loadState), throwError(error)]])
+      .provide([[matchers.call.fn(asyncStoreDAO.loadState), null]])
+      .put(actionsLogin.loadData(CheckState["no data!"]))
       .run();
   });
   it("check save game", () => {
+    const userName = "userName";
     return expectSaga(saveGame)
       .withReducer(reducer)
       .provide([
-        [select(selector.user), { userName: "userName" }],
+        [select(selector.user), { userName }],
         [select(selector.gameData), initialState],
-        [matchers.call.fn(asyncStoreDAO.saveState), ""],
+        // [matchers.call.fn(asyncStoreDAO.saveState), ""],
       ])
+      .call(asyncStoreDAO.saveState, userName, initialState)
       .run();
   });
   it("check save game no user", () => {
@@ -68,26 +69,29 @@ describe("Game Saga test", () => {
       .provide([
         [select(selector.user), { userName: "" }],
         [select(selector.gameData), initialState],
-        [matchers.call.fn(asyncStoreDAO.saveState), ""],
       ])
       .run();
   });
   it("check start game", () => {
     return expectSaga(startGame)
       .withReducer(reducer)
-      .provide([[select(selector.gameData), initialState]])
-      .call(dispatchNextStep, 1000)
+      .provide([[select(selector.gameData), { ...initialState, speed: 2 }]])
+      .call(dispatchNextStep, 500)
       .run();
   });
   it("check start game no start", () => {
+    const finshState = { ...initialState, finish: true };
     return expectSaga(startGame)
-      .withReducer(reducer)
-      .provide([[select(selector.gameData), { ...initialState, finish: true }]])
+      .withReducer(reducer, finshState)
+      .provide([[select(selector.gameData), finshState]])
+      .hasFinalState(finshState)
       .run();
   });
   it("check perssistGame", () => {
-    return expectSaga(perssistGame)
-      .dispatch(actionsLogin.login("userName"))
+    const nameUser = "userName";
+    return expectSaga(persistGame)
+      .dispatch(actionsLogin.login(nameUser))
+      .call(loadGame, actionsLogin.login(nameUser))
       .run();
   });
   it("check selector", () => {
@@ -111,7 +115,8 @@ describe("Game Saga test", () => {
   it("check dispatchNextStep no start", () => {
     return expectSaga(dispatchNextStep, 1000)
       .withReducer(reducer)
-      .provide([[select(selector.gameData), { ...initialState, start: false }]])
+      .provide([[select(selector.gameData), { ...initialState }]])
+      .hasFinalState(initialState)
       .run();
   });
 });

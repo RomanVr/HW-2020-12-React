@@ -18,6 +18,10 @@ describe("Test User", () => {
   it("Render User", () => {
     render(<User />);
     expect(screen.getByTestId("InputTextButtonLogout")).toBeInTheDocument();
+    expect(screen.getByDisplayValue("Logout")).toBeInTheDocument();
+    expect(
+      screen.getByTestId("InputTextButtonLogout").getAttribute("type")
+    ).toBe("button");
   });
 
   it("user logout", () => {

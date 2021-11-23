@@ -8,6 +8,10 @@ export function withTextDecor<P>(
     <WrappedComponent {...props} {...styleParams} />
   );
 
-  WithTextDecor.displayName = `${WrappedComponent?.displayName}withTextDecor`;
+  WithTextDecor.displayName = `${
+    WrappedComponent.displayName
+      ? WrappedComponent.displayName
+      : WrappedComponent.name
+  }withTextDecor`;
   return WithTextDecor;
 }

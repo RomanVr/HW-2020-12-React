@@ -24,11 +24,13 @@ export const InputMultiInForm: React.FC<InputMultiInFormProps> = ({
   onChange,
   label,
   nameState,
+  placeHolder,
 }) => (
   <InputSizeWithInputText
     valueInput={sizeState}
     onChangeInput={onChange}
     labelInput={label}
     nameInput={nameState}
+    placeholderInput={placeHolder}
   />
 );

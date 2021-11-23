@@ -121,8 +121,8 @@ export function isFinish(
   for (let i = 0; i < fieldData.length; i += 1) {
     for (let j = 0; j < fieldData[i].length; j += 1) {
       if (
-        fieldDataPrev[i][j] != fieldData[i][j] &&
-        fieldDataPrev2[i][j] != fieldData[i][j]
+        fieldData[i][j] != fieldDataPrev[i][j] &&
+        fieldData[i][j] != fieldDataPrev2[i][j]
       ) {
         return false;
       }

@@ -32,7 +32,11 @@ export function authorizedOnlyHoc<P>(
     return <WrappedComponent {...props} />;
   };
 
-  WithAuthorized.displayName = `${WrappedComponent?.displayName}withAuthorized`;
+  WithAuthorized.displayName = `${
+    WrappedComponent.displayName
+      ? WrappedComponent.displayName
+      : WrappedComponent.name
+  }withAuthorized`;
 
   return WithAuthorized;
 }

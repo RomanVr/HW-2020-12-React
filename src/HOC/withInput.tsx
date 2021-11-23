@@ -9,6 +9,6 @@ export const withInput = (
     <Component {...params} {...props} />
   );
 
-  WithInput.displayName = `${Component.displayName}withInput`;
+  WithInput.displayName = `${Component.name}withInput`;
   return WithInput;
 };

@@ -4,7 +4,6 @@ import { withInput } from "@/HOC/withInput";
 import { InputTime, Field, NameGame, InputText } from "@/components";
 import { ContainerFlexGame } from "@/components/layout/ContainerFlexGame";
 import { ContainerFlexCenter } from "@/components/layout/ContainerFlexCenter";
-import { useAppDispatch, useAppSelector } from "@/rdx/hooks";
 import {
   actions,
   selectCountStep,
@@ -13,6 +12,7 @@ import {
   selectSpeed,
   selectStart,
 } from "./gameRdx";
+import { useDispatch, useSelector } from "react-redux";
 
 const params = {
   readOnly: true,
@@ -25,7 +25,12 @@ const paramsButton = {
 };
 
 const InputReadOnlyWithInputText = withInput(InputText, params);
-const InputWithInputText = withInput(InputText);
+const InputWithInputTextSpeed = withInput(InputText, {
+  ...params,
+  nameInput: "Speed",
+});
+const InputWithInputTextRnd = withInput(InputText, { nameInput: "Rnd" });
+
 const ButtonValueWithInputText = withInput(InputText, paramsButton);
 
 const START = "Start";
@@ -40,13 +45,13 @@ export const GameOfLife: React.FC = (): React.ReactElement => {
   const [gameRnd, setRnd] = useState(30);
   const [buttonValue, setButtonValue] = useState(START);
   const [saveData, setSaveDataButton] = useState(saveDataButton.buttonNorm);
-  const dispatch = useAppDispatch();
+  const dispatch = useDispatch();
 
-  const gameStart = useAppSelector(selectStart);
-  const gameFinish = useAppSelector(selectFinish);
-  const gameField = useAppSelector(selectField);
-  const gameStep = useAppSelector(selectCountStep);
-  const gameSpeed = useAppSelector(selectSpeed);
+  const gameStart = useSelector(selectStart);
+  const gameFinish = useSelector(selectFinish);
+  const gameField = useSelector(selectField);
+  const gameStep = useSelector(selectCountStep);
+  const gameSpeed = useSelector(selectSpeed);
 
   useEffect(() => {
     if (gameStart) {
@@ -84,6 +89,10 @@ export const GameOfLife: React.FC = (): React.ReactElement => {
     setSaveDataButton(saveDataButton.buttonNorm);
   }
 
+  function toPrecision(value: number, pr = 2): string {
+    return (Math.round(value * Math.pow(10, pr)) / Math.pow(10, pr)).toString();
+  }
+
   let inputTimeVar: React.ReactElement = <></>;
   if (gameStart) {
     inputTimeVar = <InputTime />;
@@ -93,7 +102,7 @@ export const GameOfLife: React.FC = (): React.ReactElement => {
     inputFinish = <InputReadOnlyWithInputText valueInput="Finish!!!" />;
   }
   return (
-    <ContainerFlexGame dataTestId="GameofLife">
+    <ContainerFlexGame dataTestId="GameOfLife">
       <NameGame />
       <ContainerFlexCenter>
         <FormDataGame getSizeXY={getSizeXY} />
@@ -103,7 +112,7 @@ export const GameOfLife: React.FC = (): React.ReactElement => {
           }}
           valueInput="Clear"
         />
-        <InputWithInputText
+        <InputWithInputTextRnd
           valueInput={String(gameRnd)}
           onChangeInput={handleOnChangeRnd}
         />
@@ -133,7 +142,7 @@ export const GameOfLife: React.FC = (): React.ReactElement => {
           }}
           valueInput="Damp"
         />
-        <InputReadOnlyWithInputText valueInput={gameSpeed.toPrecision(2)} />
+        <InputWithInputTextSpeed valueInput={toPrecision(gameSpeed)} />
         <ButtonValueWithInputText
           onClickInput={() => {
             dispatch(actions.incVelosity());

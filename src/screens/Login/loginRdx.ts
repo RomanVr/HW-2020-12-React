@@ -5,6 +5,7 @@ export enum CheckState {
   initiated,
   succeed,
   failed,
+  "no data!",
 }
 export type UserState = {
   userName: string;
@@ -27,6 +28,9 @@ const userSlice = createSlice({
     logout: (state) => {
       state.userName = "";
       state.statusUser = CheckState.failed;
+    },
+    loadData: (state, action: PayloadAction<CheckState>) => {
+      state.statusUser = action.payload;
     },
   },
 });

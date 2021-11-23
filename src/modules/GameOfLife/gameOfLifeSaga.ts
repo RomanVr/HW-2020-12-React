@@ -13,9 +13,12 @@ import {
 
 import { RootState } from "@/rdx/store";
 import { actions, GameState } from "./gameRdx";
-import { actions as actionLogin } from "@/screens/Login/loginRdx";
 import { sleep } from "@/utils/sleep";
-import { UserState } from "@/screens/Login/loginRdx";
+import {
+  UserState,
+  actions as actionsLogin,
+  CheckState,
+} from "../../screens/Login/loginRdx";
 import { asyncStoreDAO } from "@/api/storeToLocalStorage/storeDAO";
 import { PayloadAction } from "@reduxjs/toolkit";
 
@@ -28,7 +31,7 @@ export function* dispatchNextStep(timeToMillisec: number): Generator<
   | SelectEffect
   | CallEffect
   | PutEffect<{
-      payload: any;
+      payload: undefined;
       type: string;
     }>
   | Promise<() => void>,
@@ -55,21 +58,22 @@ export function* startGame(): Generator<
   }
 }
 
-export function* perssistGame(): Generator<
+export function* persistGame(): Generator<
   SelectEffect | CallEffect | TakeEffect,
   void,
   PayloadAction<string>
 > {
-  const action: PayloadAction<string> = yield take(actionLogin.login.type);
-  yield call(loadGame, action);
+  const nameUser: PayloadAction<string> = yield take(actionsLogin.login.type);
+  yield call(loadGame, nameUser);
 }
 
 export function* loadGame({
   payload: userName,
 }: PayloadAction<string>): Generator<
+  | PutEffect<{ payload: CheckState; type: string }>
   | CallEffect<GameState>
   | PutEffect<{
-      payload: any;
+      payload: string;
       type: string;
     }>,
   void,
@@ -83,7 +87,7 @@ export function* loadGame({
       );
       yield put(actions.loadGame(stateLoad));
     } catch (e) {
-      console.log(`error load: ${e}`);
+      yield put(actionsLogin.loadData(CheckState["no data!"]));
     }
   }
 }
@@ -101,8 +105,8 @@ export function* saveGame(): Generator<
 }
 
 export function* gameOfLifeSaga(): Generator {
-  yield fork(perssistGame);
+  yield fork(persistGame);
   yield takeEvery(actions.startGame.type, startGame);
-  yield takeEvery(actionLogin.login.type, loadGame);
+  yield takeEvery(actionsLogin.login.type, loadGame);
   yield takeEvery("saveGame", saveGame);
 }
