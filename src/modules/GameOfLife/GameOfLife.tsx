@@ -25,6 +25,10 @@ const paramsButton = {
 };
 
 const InputReadOnlyWithInputText = withInput(InputText, params);
+const InputWithInputTextSpeed = withInput(InputText, {
+  ...params,
+  nameInput: "Speed",
+});
 const InputWithInputTextRnd = withInput(InputText, { nameInput: "Rnd" });
 
 const ButtonValueWithInputText = withInput(InputText, paramsButton);
@@ -48,10 +52,6 @@ export const GameOfLife: React.FC = (): React.ReactElement => {
   const gameField = useSelector(selectField);
   const gameStep = useSelector(selectCountStep);
   const gameSpeed = useSelector(selectSpeed);
-
-  // console.log(
-  //   `gameStart: ${gameStart}\ngameFinish: ${gameFinish}\ngameField: ${gameField}\ngameStep: ${gameStep}\ngameSpeed: ${gameSpeed}`
-  // );
 
   useEffect(() => {
     if (gameStart) {
@@ -142,7 +142,7 @@ export const GameOfLife: React.FC = (): React.ReactElement => {
           }}
           valueInput="Damp"
         />
-        <InputReadOnlyWithInputText valueInput={toPrecision(gameSpeed)} />
+        <InputWithInputTextSpeed valueInput={toPrecision(gameSpeed)} />
         <ButtonValueWithInputText
           onClickInput={() => {
             dispatch(actions.incVelosity());

@@ -50,6 +50,12 @@ describe("Test GameOfLife", () => {
       expect(screen.queryAllByTestId("items-field-item").length).toBe(
         itemCellCount
       );
+
+      expect(screen.queryByDisplayValue("Finish!!!")).not.toBeInTheDocument();
+
+      const inputSpeed = screen.getByTestId("InputText");
+      expect(inputSpeed.getAttribute("type")).toEqual("text");
+      expect(inputSpeed.getAttribute("readonly")).toEqual("");
     });
     it("test click to resize field", () => {
       const buttonForm = screen.getByTestId("InputTextButtonSubmit");
@@ -69,6 +75,18 @@ describe("Test GameOfLife", () => {
       expect(screen.getByDisplayValue(rnd)).toBeInTheDocument();
       userEvent.click(buttonRnd);
       expect(actionFillRandomField).toBeCalledWith(Number(rnd));
+    });
+
+    it("test input to rdn out range", async () => {
+      const inputRnd = screen.getByTestId("InputTextRnd");
+      userEvent.clear(inputRnd);
+
+      const rnd = "100";
+      userEvent.type(inputRnd, rnd);
+      expect(screen.queryByDisplayValue(rnd)).not.toBeInTheDocument();
+      const rnd2 = "-1";
+      userEvent.type(inputRnd, rnd2);
+      expect(screen.queryByDisplayValue(rnd2)).not.toBeInTheDocument();
     });
 
     it("test click to cell", () => {
@@ -91,6 +109,8 @@ describe("Test GameOfLife", () => {
 
     it("test click to inc", () => {
       const buttonInc = screen.getByDisplayValue("Rase");
+      const inputSpeed = screen.getByTestId("InputTextSpeed");
+      expect(inputSpeed.getAttribute("value")).toEqual("1");
       userEvent.click(buttonInc);
       expect(actionIncVelosity).toBeCalledWith();
     });
@@ -127,6 +147,21 @@ describe("Test GameOfLife", () => {
       expect(buttonStop).toBeInTheDocument();
       userEvent.click(buttonStop);
       expect(actionPauseGame).toBeCalledWith();
+    });
+  });
+
+  describe("test after finish", () => {
+    const gameData = { ...mockState.gameData, start: true, finish: true };
+    beforeAll(() => {
+      selectorSpy.mockImplementation((callback) => callback({ gameData }));
+    });
+    afterAll(() => {
+      selectorSpy.mockClear();
+    });
+
+    it("test finish", async () => {
+      const inputFinish = screen.getByDisplayValue("Finish!!!");
+      expect(inputFinish).toBeInTheDocument();
     });
   });
 });
